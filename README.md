@@ -9,5 +9,3 @@ the canonical place to understand the current state of the Cor project.
 
 [You can file issues](https://github.com/Ovid/Cor/issues) to address your
 particular concerns and get feedback.
-
-* [Grammar](https://github.com/Ovid/Cor/wiki/Cor-Grammar)
