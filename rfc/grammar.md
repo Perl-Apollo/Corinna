@@ -61,8 +61,3 @@ PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
-
-
-```
-has $created :handles(...) = DateTime->now;
-```
