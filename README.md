@@ -7,7 +7,7 @@ This is to track the RFC for the Corinna OOP proposal.
 * [Overview](rfc/overview.md)
 * [Grammar](rfc/grammar.md)
 * [Classes](rfc/classes.md)
-* [Class-construction](rfc/class-construction.md)
+* [Class Construction](rfc/class-construction.md)
 * [Attributes](rfc/attributes.md)
 * [Methods](rfc/methods.md)
 * [Roles](rfc/roles.md)
