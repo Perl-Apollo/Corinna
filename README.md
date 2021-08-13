@@ -1,5 +1,20 @@
 # Corinna
 
+## RFC
+
+This is to track the RFC for the Corinna OOP proposal.
+
+* [Overview](rfc/overview.md)
+* [Grammar](rfc/grammar.md)
+* [Classes](rfc/classes.md)
+* [Class-construction](rfc/class-construction.md)
+* [Attributes](rfc/attributes.md)
+* [Methods](rfc/methods.md)
+* [Roles](rfc/roles.md)
+* [Phasers](rfc/phasers.md)
+
+## This Repository
+
 This repository is not for code. Instead, it’s to have a central place to
 discuss the Corinna proposal to bring modern OO to the core of the Perl
 language. 
@@ -11,7 +26,7 @@ project.
 [You can file issues](https://github.com/Ovid/Cor/issues) to address your
 particular concerns and get feedback.
 
-# MVP
+## MVP
 
 This work is to drive us to v0.1.0—not v1.0.0—the “minimum viable product.” The
 intent is to get the subset of features we really need into the language, make
