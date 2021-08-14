@@ -1,5 +1,14 @@
 # Open Questions
 
+## Corinna v Other objects
+
+What would be the easiest way to distinguish between Corinna and other kinds
+of objects? I think having a base class of `Object` solves this.
+
+Thus, anyone could simply ask if `$thing isa Object` and find out of it's
+Corinna or not. This would be very useful if they want to use the MOP and
+discover it doesn't work on a regular blessed reference.
+
 ## Multiple Variables Types In A Slot
 
 Can slots have more than one kind of variable?
@@ -42,3 +51,20 @@ override method move($x,$y) {...}
 
 Should methods generated via slot attributes be allowed to override parents?
 If so, how do we signal this?
+
+## `can`, `does`, and `isa`
+
+It has been suggested that we offer new versions of `can`, `does`, and `isa`.
+They would not take arguments.
+
+* `can`: returns all methods the current class can do (including inherited)
+* `does`: returns all roles the current class does
+* `isa`: returns the iteheritance list 
+
+Because these methods currently do not take arguments, this might be extending
+them instead of modifiying them. However, this would still be modifying
+current behavior. Or we could put this in an `Object`  base class for Corinna.
+However, this would mean the external behaviors would be different for Corinna
+and other objects.
+
+I think this is probaby out of scope for Corinna.
