@@ -32,7 +32,7 @@ Also, roles get an ADJUST phaser now
 #   (stops the new( this => 1, this => 2 ) error)
 my @args = ... get list passed to new()
   unless ( !( @args % 2 ) ) {
-    croak("even sized list required");
+    croak("even-sized list required");
 }
 
 # 2. And that the keys are not references
