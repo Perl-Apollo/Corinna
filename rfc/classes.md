@@ -135,7 +135,7 @@ class Customer isa Person v0.1.0 {
 
     overrides method name () {
         my $name = $self->next::method;
-        $name .= " ($customer_id)";
+        $name .= " (#$customer_id)";
         return $name;
     }
 }
@@ -155,7 +155,7 @@ Let's look at the method a bit more closely.
 ```
 01:    overrides method name () {
 02:        my $name = $self->next::method;
-03:        $name .= " ($customer_id)";
+03:        $name .= " (#$customer_id)";
 04:        return $name;
 05:    }
 ```
@@ -241,7 +241,7 @@ class Employee::Hourly isa Employee {
 }
 ```
 
-Attempting to instantiate a fatal class is an error.
+Attempting to instantiate an abstract class is a fatal error.
 
 ## Subroutines versus Methods
 
