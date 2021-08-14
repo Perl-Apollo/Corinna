@@ -63,9 +63,9 @@ foreach my $class (@reverse_mro) {
             if ( my $other_class = $constructor_args{$name} ) {
                 # XXX Warning! This may be a bad thing
                 # If you don't happen to notice that some parent class has done
-                # `has $cutoff :new = 42;`
+                # `has $cutoff :param = 42;`
                 # then you might accidentally write:
-                # `has $cutoff :new = DateTime->now->add(days => 7);`
+                # `has $cutoff :param = DateTime->now->add(days => 7);`
                 # instead, we probably need some way of signaling this to the
                 # programmer. A compile-time error would be good.
                 push @duplicate_constructor_args 
@@ -84,7 +84,7 @@ if (my $error = join '  ' => @duplicate_constructor_args) {
 #    allocated to a slot, throw an exception
 # this works because by the time we get to the final class, all keys
 # should be accounted for. Stops the issue of Class->new(feild => 4) when
-# the attribute is `has $field :new = 3;`
+# the attribute is `has $field :param = 3;`
 my @bad_keys;
 foreach my $key ( keys %arg_for ) {
     push @bad_keys => $key unless exists $constructor_args{$key};

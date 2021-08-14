@@ -1,5 +1,33 @@
 # Corinna Classes
 
+## Quick Notes
+
+Corinna classes are single-inheritance, data is declared with `has` or
+`common`, and methods start with the `method` keyword. All methods require
+signatures, even methods who take no arguments.
+
+Methods are not subroutines.
+
+Corinna classes cannot inherit from non-Corinna classes, but the special
+`handles(*)` syntax allows this to be simulated. See 
+["Delegate All Unknown Methods"](attributes.md#delegate-all-unknown-methods) for more information.
+
+```perl
+class DateTime::Improved {
+    use DateTime;
+    has $args :params; 
+    has $datetime :handles(*);
+
+    ADJUST {
+        $datetime = DateTime->new(...);
+    }
+
+    # more code here
+}
+```
+
+## Discussion
+
 As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.

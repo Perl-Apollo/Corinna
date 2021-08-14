@@ -11,7 +11,7 @@ This keyword does nothing but let the class access that instance data. It has
 absolutely no other behavior. In Moo/se, the `has` function provides *tons* of
 different behavior, some of which later turned out to be a bad idea, such as
 `lazy_build`, which adds a several methods you may not need and possibly
-didn't realize you were asking for).
+didn't realize you were asking for.
 
 In Corinna, additional behavior is defined via slot _attributes_ and these
 have been carefully designed to be as composable as possible. It's very
@@ -53,7 +53,7 @@ caches exist at any time. The `:reader` says "create a read-only method named
 
 The second slot holds an instance of `Hash::Ordered` and the
 `handles(qw/exists delete/)` says "delegate these to methods to the object
-contained in `$cache`.
+contained in `$cache`".
 
 The third slot uses `:param` to say "you may pass this as a parameter to
 the contructor", however, the `= 20` tells us that this will be the default if
@@ -64,27 +64,33 @@ The fourth slot should, at this point, be self-explanatory.
 
 ## Slot Creation
 
-Slot creation is declaring `has` or `common`, the slot variable, and an
+Slot creation done by declaring `has` or `common`, the slot variable, and an
 optional default value.
 
 ```perl
-has $answer    = 42;                   # instance data, defaults to 42
+has $answer = 42;                      # instance data, defaults to 42
 has %results_for;                      # instance data, no default
 common @colors = qw(red green blue);   # class data, default to qw(red green blue)
 ```
 
 For scalar slots (and only for scalar slots), you can add attributes after the
-declaration and before the optional default, if any. The attributes we support
-for the MVP are as follows.
+declaration and before the optional default, if any.
+
+We do not (yet) support attributes for array or hash slots because these
+automatically flatten into lists and it's not clear what the semantics
+of readers and writers would be, now how you would pass them in the
+constructor.
 
 Note that all slots are completely encapsulated, but if they're exposed to the
 outside world via `:reader`, `:writer`, or some other parameter, their _name_
-default to the variable name, minus the leading punctuation. This will become
+defaults to the variable name, minus the leading punctuation. This will become
 more clear as you read about the individual attributes.
 
 If slot name generation would cause another method to be overwritten, this is
 a compile-time error (unless we can later think of an easy syntax for
 specifying an override).
+
+The attributes we support for the MVP are as follows.
 
 ### `:param(optional_identifier)`
 
@@ -100,16 +106,18 @@ Note that `:param` and `common` are mutually exclusive.  You cannot pass class
 data in constructors. This is one of the few conflicts in object creation.
 
 ```perl
-class SomeClass {
-    has $id            :param;
-    has $name          :param = undef;
+class Soldier {
+    has $id            :param;             # required in constructor
+    has $name          :param = undef;     # optional in constructor
+    has $rank          :param = 'private'; # optional in constructor, defaults to 'private'
     has $serial_number :param('sn');
 }
 
 # usage
-my $thing = SomeClass->new(
+my $thing = Soldier->new(
     is   => $required,
-    name => $optional, # this k/v pair can be omitted entirely
+    name => $optional_name, # this k/v pair can be omitted entirely
+    rank => $optional_rank,
     sn   => $some_value,
 );
 ```
@@ -135,7 +143,7 @@ class SomeClass {
 
 my $thing = SomeClass->new(...)
 say $thing->id;
-say $thing>->serial;
+say $thing->serial;
 say $thing->name;   # no such method error
 ```
 
@@ -156,13 +164,13 @@ class SomeClass {
 
 my $thing = SomeClass->new(...);
 $thing->set_id($new_id);
-$thing>->serial_number($new_serial);
+$thing->serial_number($new_serial);
 say $thing->serial_number;
 $thing->id($new_id);                    # no such method error
 ```
 ### `:predicate(optional_identifier)`
 
-Generates a `has_$name` predicate method let you know if the slot value has
+Generates a `has_$name` predicate method to let you know if the slot value has
 been _defined_. Of course, you may change the name.
 
 ```perl
@@ -182,16 +190,16 @@ if ( $thing->has_name )       { ... }
 
 By default, the name of a slot is the name of the variable minus the
 punctuation. However, this name might be unsuitable for public exposure, or
-may conflict with a parene class's methods. Use `name(optional_identifier)` to
+may conflict with a parent class's methods. Use `name(optional_identifier)` to
 set a new name for the slot. Of course, you can always use
 `optional_identifier` with the _other_ attributes to change their names
 individually.
 
 ```perl
-has $id :name('ident')            # name is now "ident"
-        :reader                   # ->ident()
-        :writer                   # ->set_ident($value)
-        :predicate(is_registered) # ->is_registered
+has $id :name('ident')              # name is now "ident"
+        :reader                     # ->ident()
+        :writer                     # ->set_ident($value)
+        :predicate(is_registered);  # ->is_registered
 ```
 
 ### `:handles(%@*)`
@@ -227,7 +235,8 @@ held by `$cache`.
 
 Use this to rename the delegated methods. The keys are the new names and the
 values are the delegated object's original method names. In the following
-example, we are renaming `exists` to `has_key`, but retaining the other value.
+example, we are renaming `exists` to `has_key`, but retaining the other method
+name.
 
 ```
 use Hash::Ordered;

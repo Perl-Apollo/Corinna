@@ -154,7 +154,7 @@ class Cache::LRU v0.1.0 {
 
     common $num_caches :reader                     = 0;
     has    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;
-    has    $max_size   :new  :reader               = 20;
+    has    $max_size   :param  :reader             = 20;
     has    $created    :reader                     = time;
 
     ADJUST { # called after new()
