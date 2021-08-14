@@ -90,6 +90,21 @@ If slot name generation would cause another method to be overwritten, this is
 a compile-time error (unless we can later think of an easy syntax for
 specifying an override).
 
+## Slot Initialization
+
+Note that all slots are initialized from top to bottom. So you can do
+this:
+
+```perl
+has $x :param = 42;
+has $answer = $x;
+```
+
+`common` attributes with defaults will be initialized at compile time, while
+all instance attributes will be initialized at object construction.
+
+## Slot Attributes
+
 The attributes we support for the MVP are as follows.
 
 ### `:param(optional_identifier)`
