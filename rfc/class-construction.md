@@ -1,10 +1,10 @@
 # Corinna Class Construction
 
-For object contstruction, we'll give you a list, but then we'll have
-pseudocode to make the construction process explicit.
+For object construction, we provide a list of needed steps, but then we'll
+have pseudocode to make the construction process explicit.
 
 Note: there are a number of references to MRO order, but we'll likely
-be single inheritance for V1. Thus, MRO order is parent to child and
+be single inheritance for the MVP. Thus, MRO order is parent to child and
 reverse MRO is child to parent.
 
 Anything which can be removed from this will make object construction
@@ -25,7 +25,7 @@ Also, roles get an ADJUST phaser now
 5. For the internal NEW phaser, assign all values to their correct slots in
    reverse mro order
 6. Call all ADJUST phasers in reverse MRO order (no need to validate here because
-   everything should be checked at this point
+   everything should be checked at this point)
 
 ```perl
 # 1. Check that the even-sized list of args to new() are not duplicated
@@ -109,7 +109,7 @@ my $self = bless \@slot_values => $class;
 
 # Call all ADJUST phasers
 # 6. Call all ADJUST phasers in reverse MRO order (no need to validate here because
-#    everything should be checked at this point
+#    everything should be checked at this point)
 foreach my $class (@reverse_mro) {
     my @roles = roles_from_class($class);
     foreach my $thing ( $class, @roles ) {
