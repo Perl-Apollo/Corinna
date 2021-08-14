@@ -2,7 +2,7 @@
 
 ## RFC
 
-This is to track the RFC for the Corinna OOP proposal.
+This is to track the RFC for the Corinna MVP OOP proposal.
 
 * [Overview](rfc/overview.md)
 * [Grammar](rfc/grammar.md)
@@ -12,6 +12,23 @@ This is to track the RFC for the Corinna OOP proposal.
 * [Methods](rfc/methods.md)
 * [Roles](rfc/roles.md)
 * [Phasers](rfc/phasers.md)
+
+## Not a Tutorial
+
+This is not a tutorial on OO programming. That could easily fill a book. It's
+assumed you're already very familiar with Perl's built-in OO. It's very useful
+if you're also familiar with Moo/se.
+
+## Principle of Parsimony
+
+Many things in the proposal are _deliberately_ restrictive, such as Corinna
+only allowing single inheritance. This is to allow Corinna to be cautious in
+not promising too much. If we later find this too restrictive, we can allow
+multiple inheritance. However, if we start with multiple inheritance and
+discover we don't need or want multiple inheritance, we would break existing
+code by taking it away.
+
+Any proposals to change the RFC must consider the principle of parsimony.
 
 ## This Repository
 
