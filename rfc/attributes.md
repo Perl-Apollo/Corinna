@@ -103,6 +103,12 @@ has $answer = $x;
 `common` attributes with defaults will be initialized at compile time, while
 all instance attributes will be initialized at object construction.
 
+## Slot Destruction
+
+When an instance goes out of scope, instance slots will be destroyed in
+reverse order of declaration. When a class goes out of scope (currently only
+in global destruction), the same is true for class slots.
+
 ## Slot Attributes
 
 The attributes we support for the MVP are as follows.

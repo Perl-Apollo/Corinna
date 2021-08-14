@@ -221,6 +221,28 @@ class Customer isa Person does RoleStringify, RoleJSON v1.2.3 {
 
 Role semantics will be covered more thoroughly in [roles](roles.md).
 
+## Abstract Classes
+
+Abstract classes are classes which are designed to be subclassed and not
+instantiated directly. They are declared by prefixing `abstract` to the
+definition:
+
+```perl
+abstract class Employee {
+    ...
+}
+
+class Employee::Manager isa Employee {
+    ...
+}
+
+class Employee::Hourly isa Employee {
+    ...
+}
+```
+
+Attempting to instantiate a fatal class is an error.
+
 ## Subroutines versus Methods
 
 In Corinna, methods and subs are not the same thing. Here's a silly example.

@@ -57,6 +57,23 @@ overrides method name () {
 Note that instance methods can only override instance methods and class
 methods can only override class methods.
 
+## Abstract Methods
+
+Abstract methods are declared as forward declarations. That is, methods
+without a method body.
+
+```perl
+method foo();
+common method bar ();
+```
+
+They have two uses. Any class with an abstract method must declare itself as
+abstract. Failure to do so would be a compile-time failure.
+
+Abstract methods declared in [roles](roles.md) are "required" methods that
+must be implemented by the consuming class or by other roles consumed at the
+same time.
+
 # Private Methods
 
 Private methods are declared with the `private` keyword:
