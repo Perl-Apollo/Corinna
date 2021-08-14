@@ -17,6 +17,11 @@ class Person {
         return defined $title ? "$title $name" : $name;
     }
 }
+```
+
+And here's how you would use this class.
+
+```perl
 my $villain = Person->new( title => 'Dr.', name => 'Zacharary Smith' );
 my $boy     = Person->new( name => 'Will Robinson' );
 
@@ -60,7 +65,11 @@ class Person {
         return defined $title ? "$title $name" : $name;
     }
 }
+```
 
+And using it.
+
+```perl
 say Person->num_people;     # 0
 my $villain = Person->new( title => 'Dr.', name => 'Zacharary Smith' );
 say $villain->name;         # Dr. Zacharary Smith
@@ -102,7 +111,11 @@ class Customer isa Person v0.1.0 {
         return $name;
     }
 }
+```
 
+Usage:
+
+```perl
 say Customer->num_people; # 0 (inherited)
 my $customer = Customer->new( name => 'Ford Prefect', customer_id => 42 );
 say Customer->num_people; # 1
@@ -137,14 +150,18 @@ Next is the `next::method` part. Usually we see that as part of the C3 mro. It's
 
 ## Roles
 
-Corinna allows roles to be consumed via `does`.
+Corinna allows roles to be consumed via `does`. Here's a simple role.
 
 ```perl
 role RoleStringify {
     use overload '""' => 'to_string';
     requires to_string();
 }
+```
 
+And a class consuming it.
+
+```perl
 class Customer isa Person does RoleStringify {
     has $name  :param;              # must be passed to customer (:param)
     has $title :param = undef;      # optionally passed to constructor (:param, but with default)
@@ -154,6 +171,11 @@ class Customer isa Person does RoleStringify {
     }
     method to_string() { return $self->name }
 }
+```
+
+Usage.
+
+```perl
 my $customer = Customer->new( name => 'Ford Prefect', customer_id => 42 );
 say $customer;      # Ford Prefect (#42)
 ```
@@ -195,7 +217,11 @@ class Iterator::Number {
         }
     }
 }
+```
 
+Usage.
+
+```perl
 my $iter = Iterator::Number->new;
 $iter->push($_) for 1,2,3;
 say $iter->sum; # 6
