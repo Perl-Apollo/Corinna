@@ -8,7 +8,7 @@ Here's a vaugely more interesting class. `has` declares a slot (data) and the
 `/:\w+/` attributes provide additional behavior. See
 [attributes](attributes.md) for more information.
 
-```
+```perl
 class Person {
     has $name  :param;              # must be passed to customer (:param)
     has $title :param = undef;      # optionally passed to constructor (:param, but with default)
@@ -35,7 +35,7 @@ Note that the `$name` and `$title` attributes are completely encapsulated. If
 you want to expose them to the outside world, you would use the `:reader` and
 `:writer` attributes.
 
-```
+```perl
 common method from_name ($name) {    # 'common method' is a class method
     $class->new( name => $name );    # all methods have $class injected.
 }
@@ -43,7 +43,7 @@ common method from_name ($name) {    # 'common method' is a class method
 
 Let's make the class more interesting.
 
-```
+```perl
 class Person {
     use DateTime;
     has $name  :param;                    # must be passed to customer (:param)
@@ -107,7 +107,7 @@ say $customer->name;      # Ford Prefect (#42)
 
 Let's look at the method a bit more closely.
 
-```perl
+```
 01:    overrides method name () {
 02:        my $name = $self->next::method;
 03:        $name .= " ($customer_id)";
@@ -164,6 +164,3 @@ say $iter->sum; # 6
 In Corinna, methods and subroutines are not the same thing. If we did _not_
 have a `sum` method in the above code, attempting to call `$iter->sum` (or
 `$self->sum` internally) would generate a 'method not found' error.
-
-
-
