@@ -68,3 +68,23 @@ However, this would mean the external behaviors would be different for Corinna
 and other objects.
 
 I think this is probaby out of scope for Corinna.
+
+## Inline POD?
+
+Because we need a postfix block, many people will be disappointed that we
+won't have inline POD quite as neat as what we had:
+
+```perl
+class Foo {
+
+=head1 METHODS
+
+=head2 C<bar>
+
+This method does something
+
+=cut
+
+    method bar() { ... }
+}
+```
