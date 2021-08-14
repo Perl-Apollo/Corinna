@@ -1,12 +1,12 @@
 # Corinna Classes
 
-As per [the grammar](rfc/grammar.md), the smallest possible class is `class A
+As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
 
 Here's a vaugely more interesting class. `has` declares a slot (data) and the
 `/:\w+/` attributes provide additional behavior. See
-[attributes](rfc/attributes.md) for more information.
+[attributes](attributes.md) for more information.
 
 ```
 class Person {
@@ -26,7 +26,7 @@ say $boy->name;       # Will Robinson
 
 In the above, we have a `Person` class with a required name and an optional
 title. The constructor is `new` and accepts an even-sized list of key/value
-pairs. Perl the [class construction specification](rfc/class-construction.md),
+pairs. Perl the [class construction specification](class-construction.md),
 duplicate keys to the constructor are not allowed. Nor is a hash reference. If
 you wish to provide an an alternate set of arguments to the constructor, write
 an alternate constructor (the behavior replaces Moo/se `BUILDARGS).
