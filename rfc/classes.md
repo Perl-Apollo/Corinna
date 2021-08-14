@@ -4,7 +4,7 @@ As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
 
-Here's a vaugely more interesting class. `has` declares a slot (data) and the
+Here's a somewhat more interesting class. `has` declares a slot (data) and the
 `/:\w+/` attributes provide additional behavior. See
 [attributes](attributes.md) for more information.
 
@@ -24,21 +24,23 @@ say $villian->name;   # Dr. Zacharary Smith
 say $boy->name;       # Will Robinson
 ```
 
-In the above, we have a `Person` class with a required name and an optional
+In the above, that the `$name` and `$title` attributes are completely
+encapsulated. If you want to expose them to the outside world, you would use
+the `:reader` and `:writer` attributes.
+
+We have a `Person` class with a required name and an optional
 title. The constructor is `new` and accepts an even-sized list of key/value
-pairs. Perl the [class construction specification](class-construction.md),
+pairs. Per the [class construction specification](class-construction.md),
 duplicate keys to the constructor are not allowed. Nor is a hash reference. If
 you wish to provide an an alternate set of arguments to the constructor, write
-an alternate constructor (the behavior replaces Moo/se `BUILDARGS).
-
-Note that the `$name` and `$title` attributes are completely encapsulated. If
-you want to expose them to the outside world, you would use the `:reader` and
-`:writer` attributes.
+an alternate constructor (the behavior replaces Moo/se `BUILDARGS`).
 
 ```perl
 common method from_name ($name) {    # 'common method' is a class method
     $class->new( name => $name );    # all methods have $class injected.
 }
+my $boy = Person->from_name('Will Robinson');
+say $boy->name; # Will Robinson
 ```
 
 Let's make the class more interesting.
@@ -130,6 +132,42 @@ it's not shown in this example.
 
 Next is the `next::method` part. Usually we see that as part of the C3 mro. It's here because of the
 [SUPER-bug in Perl](http://modernperlbooks.com/mt/2009/09/when-super-isnt.html).
+
+## Roles
+
+Corinna allows roles to be consumed via `does`.
+
+```perl
+role RoleStringify {
+    use overload '""' => 'to_string';
+    requires to_string();
+}
+
+class Customer isa Person does RoleStringify {
+    has $name  :param;              # must be passed to customer (:param)
+    has $title :param = undef;      # optionally passed to constructor (:param, but with default)
+
+    method name () {                # instance method
+        return defined $title ? "$title $name" : $name;
+    }
+    method to_string() { return $self->name }
+}
+my $customer = Customer->new( name => 'Ford Prefect', customer_id => 42 );
+say $customer;      # Ford Prefect (#42)
+```
+
+Note that in the above example, we have overloading being transferred from the
+role to the consuming class.
+
+Multiple roles may be consumed.
+
+```perl
+class Customer isa Person does RoleStringify, RoleJSON v1.2.3 {
+    ...
+}
+```
+
+Role semantics will be covered more thoroughly in [roles](roles.md).
 
 ## Subroutines versus Methods
 
