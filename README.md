@@ -40,9 +40,9 @@ This repository is not for code. Instead, it’s to have a central place to
 discuss the Corinna proposal to bring modern OO to the core of the Perl
 language. 
 
-You’re probably looking for the [Wiki](https://github.com/Ovid/Cor/wiki) as it
-is intended as the canonical place to understand the current state of this
-project.
+You may be looking for the [Wiki](https://github.com/Ovid/Cor/wiki) as that
+has much historical discussion of this project. However, the documents in the
+`rfc/` folder will be considered the canonical ones.
 
 [You can file issues](https://github.com/Ovid/Cor/issues) to address your
 particular concerns and get feedback.
