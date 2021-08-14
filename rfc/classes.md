@@ -76,6 +76,8 @@ undef $boy;
 say Person->num_people;     # 0
 ```
 
+`ADJUST` and `DESTRUCT` are [phasers](phasers.md).
+
 ## Versions
 
 Versions require a leaving `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
