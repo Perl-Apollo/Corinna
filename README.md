@@ -13,6 +13,10 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 * [Roles](rfc/roles.md)
 * [Phasers](rfc/phasers.md)
 
+**Important**: All of the above represent works in progress. Please do not
+consider this the final RFC. We're writing down the shell of the RFC and will
+fine-tune. Anything in the Wiki should be considered "rough drafts."
+
 ## Not a Tutorial
 
 This is not a tutorial on OO programming. That could easily fill a book. It's
