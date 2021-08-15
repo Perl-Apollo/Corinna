@@ -117,7 +117,7 @@ say Person->num_people;     # 0
 
 ## Versions
 
-Versions require a leaving `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
+Versions require a leading `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
 
 ```perl
 class MyClass v0.1.3 {
