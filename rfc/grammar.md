@@ -1,3 +1,8 @@
+Prev: [Overview](overview.md)  
+Next: [Classes](classes.md)
+
+---
+
 # Grammar
 
 To make this more manageable and not define a grammar for all of Perl, we will break the grammar out into separate components for simplicity.
@@ -61,3 +66,8 @@ PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
+
+---
+
+Prev: [Overview](overview.md)  
+Next: [Classes](classes.md)
