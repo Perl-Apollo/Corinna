@@ -1,3 +1,8 @@
+Prev: [Class Construction](class-construction.md)  
+Next: [Methods](methods.md)
+
+---
+
 # Corinna Attributes
 
 For Corinna, declaring instance data is done with `has`.
@@ -293,3 +298,7 @@ class DateTime::Improved {
 }
 ```
 
+---
+
+Prev: [Class Construction](class-construction.md)  
+Next: [Methods](methods.md)
