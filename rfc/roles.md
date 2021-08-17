@@ -1,3 +1,8 @@
+Prev: [Methods](methods.md)  
+Next: [Phasers](phasers.md)
+
+---
+
 # Corinna Roles
 
 ## Background
@@ -142,3 +147,8 @@ called before parent `DESTRUCT` phasers.
 **Important**: for a given level of the inheritance hierarchy, if more than
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
+
+---
+
+Prev: [Methods](methods.md)  
+Next: [Phasers](phasers.md)
