@@ -1,3 +1,8 @@
+Prev: [Grammar](grammar.md)  
+Next: [Class Construction](class-construction.md)
+
+---
+
 # Corinna Classes
 
 ## Quick Notes
@@ -280,3 +285,8 @@ say $iter->sum; # 6
 In Corinna, methods and subroutines are not the same thing. If we did _not_
 have a `sum` method in the above code, attempting to call `$iter->sum` (or
 `$self->sum` internally) would generate a 'method not found' error.
+
+---
+
+Prev: [Grammar](grammar.md)  
+Next: [Class Construction](class-construction.md)
