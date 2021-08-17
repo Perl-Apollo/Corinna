@@ -1,3 +1,8 @@
+Prev: [Classes](classes.md)  
+Next: [Attributes](attributes.md)
+
+---
+
 # Corinna Class Construction
 
 For object construction, we provide a list of needed steps, but then we'll
@@ -153,3 +158,8 @@ MOP::Class {
     }
 }
 ```
+
+---
+
+Prev: [Classes](classes.md)  
+Next: [Attributes](attributes.md)
