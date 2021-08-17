@@ -1,3 +1,7 @@
+Prev: [Roles](roles.md)
+
+---
+
 # Phaser Semantics
 
 At the present time, some final details of phasers are still being decided.
@@ -45,3 +49,7 @@ called before parent `DESTRUCT` phasers.
 **Important**: for a given level of the inheritance hierarchy, if more than
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
+
+---
+
+Prev: [Roles](roles.md)
