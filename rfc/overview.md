@@ -1,3 +1,8 @@
+Prev: [README](/README.md)  
+Next: [Grammar](grammar.md)
+
+---
+
 # Overview
 
 ---
@@ -284,3 +289,7 @@ Particular thanks to Damian Conway who spotted many issues with the earlier draf
 Copyright (C) 2021, Curtis "Ovid" Poe
 
 This document and code and documentation within it may be used, redistributed and/or modified under the same terms as Perl itself.
+
+---
+Prev: [README](/README.md)  
+Next: [Grammar](grammar.md)
