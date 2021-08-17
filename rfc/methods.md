@@ -1,3 +1,8 @@
+Prev: [Attributes](attributes.md)  
+Next: [Roles](roles.md)
+
+---
+
 # Corinna Methods
 
 Corinna offers class methods and instance methods. You must specify if they
@@ -149,3 +154,8 @@ Some::Class->role_method;
 
 The above prints `Some::Class` even though the role author may have been
 expecting `Some::Role`. So private methods are a huge win here.
+
+---
+
+Prev: [Attributes](attributes.md)  
+Next: [Roles](roles.md)
