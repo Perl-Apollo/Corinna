@@ -39,7 +39,7 @@ HANDLES         ::= 'handles' '('
                                  |  '*'                              # this slot handles all unknown methods, but inheritance takes precedence
                               ')'
 DELEGATION      ::= IDENTIFIER | PAIR                                # A method or a map (to:from) this slot handles
-PAIR            ::= IDENTIFIER:IDENTIFIER                           
+PAIR            ::= IDENTIFIER ':' IDENTIFIER                           
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
