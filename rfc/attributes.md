@@ -35,11 +35,11 @@ ATTRIBUTE       ::= 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER?
                  |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES
 ATTRIBUTES      ::= { ATTRIBUTE }
 HANDLES         ::= 'handles' '('
-                                    IDENTIFIER { ',' IDENTIFIER }    # list of methods this slot handles
-                                 |  PAIR { ',' PAIR }                # map of methods (to, from) this slot handles
-                                 | '*'                               # this slot handles all unknown methods, but inheritance takes precedence
+                                    DELEGATION { ',' DELEGATION }    # this slot handles methods by delegating to its value (an object)
+                                 |  '*'                              # this slot handles all unknown methods, but inheritance takes precedence
                               ')'
-PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
+DELEGATION      ::= IDENTIFIER | PAIR                                # A method or a map (to:from) this slot handles
+PAIR            ::= IDENTIFIER:IDENTIFIER                           
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
@@ -231,10 +231,10 @@ has $id :name('ident')              # name is now "ident"
 ### `:handles(%@*)`
 
 This attribute is used to delegate methods to the object contained in this
-slot. You may pass it a list of identifiers, an even-sized list of key/value
-pairs (no hashref), or the special `*` token.
+slot. You may pass it either a list of identifiers and identifier:identifier
+mappings, or the special `*` token.
 
-#### List of Identifiers
+#### List of Identifiers and Identifier:Identifier Mappings
 
 A list of identifiers says "these methods will be handled by this object.
 
@@ -257,22 +257,19 @@ has $cache :handles(qw/exists delete/) = Hash::Ordered->new;
 The above will delegate `->exists($key)` and `->delete($key)` to the object
 held by `$cache`.
 
-### Even-sized List of Key/Value Pairs
-
-Use this to rename the delegated methods. The keys are the new names and the
-values are the delegated object's original method names. In the following
-example, we are renaming `exists` to `has_key`, but retaining the other method
-name.
+You can rename delegated methods by providing identifiers for the 
+method the attribute will handle and for the delegated object's original 
+method name, separated by a colon.  In the following example, we are 
+renaming `exists` to `has_key`, but retaining the other method name.
 
 ```
 use Hash::Ordered;
 has $cache :handles(
-    has_key => 'exists',
-    delete  => 'delete',
+    has_key:exists, delete
 ) = Hash::Ordered->new;
 ```
 
-### Delegate All Unknown Methods
+#### Delegate All Unknown Methods
 
 As a special workaround for not being able to inherit from non-Corinna
 objects, we have a special `handles(*)` syntax. This means that unless
