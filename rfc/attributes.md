@@ -240,7 +240,7 @@ A list of identifiers says "these methods will be handled by this object.
 
 ```perl
 use DateTime;
-common $datetime :handles(qw/now today/) = 'DateTime';
+common $datetime :handles(now, today) = 'DateTime';
 ```
 
 Now, when you call `->now` or `->today` on the object, those will be
@@ -251,7 +251,7 @@ A more common case is to delegate to an instance.
 
 ```
 use Hash::Ordered;
-has $cache :handles(qw/exists delete/) = Hash::Ordered->new;
+has $cache :handles(exists, delete) = Hash::Ordered->new;
 ```
 
 The above will delegate `->exists($key)` and `->delete($key)` to the object
