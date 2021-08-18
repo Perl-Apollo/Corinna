@@ -266,23 +266,7 @@ There are numerous things we could do in the future.
 
 # Contributors
 
-The following people, listed in alphabetical order, have all contributed to the design of Corinna. My apologies to anyone left out.
-
-Particular thanks to Damian Conway who spotted many issues with the earlier drafts and offered detailed suggestions on alternative approaches.
-
-* Al Newkirk (alnk)
-* Chris Prather (perigrin)
-* Dagfinn Ilmari Mannsåker (ilmari)
-* Damian Conway (dconway)
-* Darren Duncan (duncand)
-* Graham Knop (haarg)
-* Dan Book (Grinnz)
-* Joel Berger (jberger)
-* Jonathan Worthington (jnthn)
-* Matt S Trout (mst)
-* Paul Evans (LeoNerd)
-* Sawyer X
-* Stevan Little (stvn)
+The [list of contributors is on the wiki](https://github.com/Ovid/Cor/wiki/Contributors).
 
 # Copyright
 
