@@ -5,52 +5,33 @@ Next: [Methods](methods.md)
 
 # Corinna Attributes
 
-For Corinna, declaring instance data is done with `has`.
+For Corinna, declaring instance data is done with `slot`.
 
 ```
-has $x;
-has $name;
+slot $x;
+slot $name;
 ```
 
 This keyword does nothing but let the class access that instance data. It has
-absolutely no other behavior. In Moo/se, the `has` function provides *tons* of
-different behavior, some of which later turned out to be a bad idea, such as
-`lazy_build`, which adds a several methods you may not need and possibly
-didn't realize you were asking for.
+absolutely no other behavior. In Moo/se, the `slot` function is named `has`
+and provides *tons* of different behavior, some of which later turned out to
+be a bad idea, such as `lazy_build`, which adds a several methods you may not
+need and possibly didn't realize you were asking for.
 
 In Corinna, additional behavior is defined via slot _attributes_ and these
 have been carefully designed to be as composable as possible. It's very
 difficult to create any combination of "illegal" attributes.
 
-The minimal MVP grammar for slots and attributes looks like this.
-
-```
-SLOT            ::= INSTANCE | SHARED
-SHARED          ::= 'common' 'has'? SLOT_DEFINITION
-INSTANCE        ::= 'has'    SLOT_DEFINITION
-SLOT_DEFINITION ::=   SCALAR           ATTRIBUTES? DEFAULT?
-                    | { ARRAY | HASH }             DEFAULT?
-DEFAULT         ::= PERL_EXPRESSION
-ATTRIBUTE       ::= 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER?
-                 |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES
-ATTRIBUTES      ::= { ATTRIBUTE }
-HANDLES         ::= 'handles' '('
-                                    DELEGATION { ',' DELEGATION }    # this slot handles methods by delegating to its value (an object)
-                                 |  '*'                              # this slot handles all unknown methods, but inheritance takes precedence
-                              ')'
-DELEGATION      ::= IDENTIFIER | PAIR                                # A method or a map (to:from) this slot handles
-PAIR            ::= IDENTIFIER ':' IDENTIFIER                           
-MODIFIER        ::= '(' IDENTIFIER ')'
-IDENTIFIER      ::= [:alpha:] {[:alnum:]}
-```
+The minimal MVP grammar for slots and attributes can be found
+[here](grammar.md#slot-grammar).
 
 To visualize that, let's look at the slots and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
 1. `common $num_caches :reader                     = 0;`
-2. `has    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;`
-3. `has    $max_size   :param  :reader             = 20;`
-4. `has    $created    :reader                     = time;`
+2. `slot    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;`
+3. `slot    $max_size   :param  :reader             = 20;`
+4. `slot    $created    :reader                     = time;`
 
 The first slot declares class data and will be used to track now many
 caches exist at any time. The `:reader` says "create a read-only method named
@@ -69,12 +50,12 @@ The fourth slot should, at this point, be self-explanatory.
 
 ## Slot Creation
 
-Slot creation done by declaring `has` or `common`, the slot variable, and an
+Slot creation done by declaring `slot` or `common`, the slot variable, and an
 optional default value.
 
 ```perl
-has $answer = 42;                      # instance data, defaults to 42
-has %results_for;                      # instance data, no default
+slot $answer = 42;                      # instance data, defaults to 42
+slot %results_for;                      # instance data, no default
 common @colors = qw(red green blue);   # class data, default to qw(red green blue)
 ```
 
@@ -101,8 +82,8 @@ Note that all slots are initialized from top to bottom. So you can do
 this:
 
 ```perl
-has $x :param = 42;
-has $answer = $x;
+slot $x :param = 42;
+slot $answer = $x;
 ```
 
 `common` attributes with defaults will be initialized at compile time, while
@@ -133,10 +114,10 @@ data in constructors. This is one of the few conflicts in object creation.
 
 ```perl
 class Soldier {
-    has $id            :param;             # required in constructor
-    has $name          :param = undef;     # optional in constructor
-    has $rank          :param = 'private'; # optional in constructor, defaults to 'private'
-    has $serial_number :param('sn');
+    slot $id            :param;             # required in constructor
+    slot $name          :param = undef;     # optional in constructor
+    slot $rank          :param = 'private'; # optional in constructor, defaults to 'private'
+    slot $serial_number :param('sn');
 }
 
 # usage
@@ -162,9 +143,9 @@ optional name, if desired.
 
 ```perl
 class SomeClass {
-    has $id            :param :reader;
-    has $name          :param = undef;
-    has $serial_number :param('sn') :reader('serial');
+    slot $id            :param :reader;
+    slot $name          :param = undef;
+    slot $serial_number :param('sn') :reader('serial');
 }
 
 my $thing = SomeClass->new(...)
@@ -183,9 +164,9 @@ case to allow `->method` for reading and `->method($new_value)` for writing:
 
 ```perl
 class SomeClass {
-    has $id            :param :writer;
-    has $name          :param = undef;
-    has $serial_number :reader :writer('serial');
+    slot $id            :param :writer;
+    slot $name          :param = undef;
+    slot $serial_number :reader :writer('serial');
 }
 
 my $thing = SomeClass->new(...);
@@ -201,9 +182,9 @@ been _defined_. Of course, you may change the name.
 
 ```perl
 class SomeClass {
-    has $id            :predicate(is_initialized) :param = undef;
-    has $name          :predicate :param = undef;
-    has $serial_number;
+    slot $id            :predicate(is_initialized) :param = undef;
+    slot $name          :predicate :param = undef;
+    slot $serial_number;
 }
 
 my $thing = SomeClass->new(...);
@@ -222,10 +203,10 @@ set a new name for the slot. Of course, you can always use
 individually.
 
 ```perl
-has $id :name('ident')              # name is now "ident"
-        :reader                     # ->ident()
-        :writer                     # ->set_ident($value)
-        :predicate(is_registered);  # ->is_registered
+slot $id :name('ident')              # name is now "ident"
+         :reader                     # ->ident()
+         :writer                     # ->set_ident($value)
+         :predicate(is_registered);  # ->is_registered
 ```
 
 ### `:handles(%@*)`
@@ -251,7 +232,7 @@ A more common case is to delegate to an instance.
 
 ```
 use Hash::Ordered;
-has $cache :handles(exists, delete) = Hash::Ordered->new;
+slot $cache :handles(exists, delete) = Hash::Ordered->new;
 ```
 
 The above will delegate `->exists($key)` and `->delete($key)` to the object
@@ -264,7 +245,7 @@ renaming `exists` to `has_key`, but retaining the other method name.
 
 ```
 use Hash::Ordered;
-has $cache :handles(
+slot $cache :handles(
     has_key:exists, delete
 ) = Hash::Ordered->new;
 ```
@@ -283,8 +264,8 @@ For example, here's how you would fake inheriting from `DateTime`.
 ```perl
 class DateTime::Improved {
     use DateTime;
-    has $args :params;
-    has $datetime :handles(*);
+    slot $args :params;
+    slot $datetime :handles(*);
 
     ADJUST {
         my @datetimes_args = ...;

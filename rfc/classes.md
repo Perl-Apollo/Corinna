@@ -7,7 +7,7 @@ Next: [Class Construction](class-construction.md)
 
 ## Quick Notes
 
-Corinna classes are single-inheritance, data is declared with `has` or
+Corinna classes are single-inheritance, data is declared with `slot` or
 `common`, and methods start with the `method` keyword. All methods require
 signatures, even methods who take no arguments.
 
@@ -20,8 +20,8 @@ Corinna classes cannot inherit from non-Corinna classes, but the special
 ```perl
 class DateTime::Improved {
     use DateTime;
-    has $args :params; 
-    has $datetime :handles(*);
+    slot $args :params; 
+    slot $datetime :handles(*);
 
     ADJUST {
         $datetime = DateTime->new(...);
@@ -37,14 +37,14 @@ As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
 
-Here's a somewhat more interesting class. `has` declares a slot (data) and the
+Here's a somewhat more interesting class. `slot` declares a slot (data) and the
 `/:\w+/` attributes provide additional behavior. See
 [attributes](attributes.md) for more information.
 
 ```perl
 class Person {
-    has $name  :param;              # must be passed to customer (:param)
-    has $title :param = undef;      # optionally passed to constructor (:param, but with default)
+    slot $name  :param;              # must be passed to customer (:param)
+    slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
     method name () {                # instance method
         return defined $title ? "$title $name" : $name;
@@ -86,13 +86,13 @@ Let's make the class more interesting.
 ```perl
 class Person {
     use DateTime;
-    has $name  :param;                    # must be passed to customer (:param)
-    has $title :param = undef;            # optionally passed to constructor (:param, but with default)
-    has $created      = DateTime->now;    # cannot be passed to constructor (no :param)
-    common has $num_people :reader = 0;   # class attribute, defaults to 0 (common, with reader method)
+    slot $name  :param;                    # must be passed to customer (:param)
+    slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
+    slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
+    common slot $num_people :reader = 0;   # class attribute, defaults to 0 (common, with reader method)
 
-    ADJUST   { $num_people++ }            # called after new(), but before returned to consumer (BUILD)
-    DESTRUCT { $num_people-- }            # destructor
+    ADJUST   { $num_people++ }             # called after new(), but before returned to consumer (BUILD)
+    DESTRUCT { $num_people-- }             # destructor
 
     method name () {
         return defined $title ? "$title $name" : $name;
@@ -136,7 +136,7 @@ Corinna supports single inheritance via the `isa` keyword.
 
 ```perl
 class Customer isa Person v0.1.0 {
-    has $customer_id :param;
+    slot $customer_id :param;
 
     overrides method name () {
         my $name = $self->next::method;
@@ -196,8 +196,8 @@ And a class consuming it.
 
 ```perl
 class Customer isa Person does RoleStringify {
-    has $name  :param;              # must be passed to customer (:param)
-    has $title :param = undef;      # optionally passed to constructor (:param, but with default)
+    slot $name  :param;              # must be passed to customer (:param)
+    slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
     method name () {                # instance method
         return defined $title ? "$title $name" : $name;
@@ -255,8 +255,8 @@ In Corinna, methods and subs are not the same thing. Here's a silly example.
 ```perl
 class Iterator::Number {
     use List::Util 'sum';
-    has $i = 0;
-    has @numbers;   # no attributes allowed on non-scalars
+    slot $i = 0;
+    slot @numbers;   # no attributes allowed on non-scalars
 
     method push ($num)    { push @numbers => $num    }
     method pop            { pop  @numbers            }

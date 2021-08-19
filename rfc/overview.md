@@ -69,47 +69,20 @@ Stevan Little's [Moxie](https://metacpan.org/pod/Moxie) is of great interest, bu
 
 The specification would be daunting for the RFC. It's largely based on [our MVC description](https://github.com/Ovid/Cor/wiki/Corinna-Overview) and the [Object::Pad](https://metacpan.org/pod/Object::Pad) test suite.
 
-The primary grammar looks like:
+There a few signficant things worth noting, First, Corinna is only single inheritance. Code reuse of OO behavior is done via compositing roles or delegation. Corinna offers native support for delegation:
 
 ```
-Corinna     ::= CLASS | ROLE
-CLASS       ::= DESCRIPTOR? 'class' NAMESPACE
-                DECLARATION BLOCK
-DESCRIPTOR  ::= 'abstract'
-ROLE        ::= 'role' NAMESPACE
-                DECLARATION BLOCK
-NAMESPACE   ::= IDENTIFIER { '::' IDENTIFIER } VERSION? 
-DECLARATION ::= { PARENT | ROLES } | { ROLES | PARENT }
-PARENT      ::= 'isa' NAMESPACE
-ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
-IDENTIFIER  ::= [:alpha:] {[:alnum:]}
-VERSION     ::= 'v' DIGIT {DIGIT} '.' DIGIT {DIGIT} '.' DIGIT {DIGIT}
-DIGIT       ::= [0-9]
-BLOCK       ::= # Perl +/- Extras
+slot $created :handles(*) = DateTime->now;
 ```
 
-The method grammar (skipping some bits to avoid defining a grammar for Perl):
-
-```
-METHOD     ::= MODIFIERS 'method' SIGNATURE '{' (perl code) '}'
-SIGNATURE  ::= METHODNAME '(' current sub argument structure + extra work from Dave Mitchell ')'
-METHODNAME ::= [a-zA-Z_]\w*
-MODIFIERS  ::= MODIFIER { MODIFIER }
-MODIFIER   ::= 'has' | 'private' | 'overrides' | 'abstract' | 'common' 
-```
-
-There are a few things worth noting, First, there is only single inheritance. Code reuse of OO behavior is done via compositing roles or delegation. Corinna offers native support for delegation:
-
-```
-has $created :handles(...) = DateTime->now;
-```
+[The full grammar of the Corinna MVC can be found here](grammar.md).
 
 # Backwards Compatibility
 
-Currently, Corinna's syntax is generally backwards-compatible because the code does not parse on older Perls that `use strict`. This is helped tremendously by requiring a postfix block syntax which encapsulates the changes, rather than the standard `class Foo is Bar; has ...` syntax.
+Currently, Corinna's syntax is generally backwards-compatible because the code does not parse on older Perls that `use strict`. This is helped tremendously by requiring a postfix block syntax which encapsulates the changes, rather than the standard `class Foo is Bar; slot ...` syntax.
 
 ```
-$ perl -Mstrict -Mwarnings -E 'class Foo { has $x; }'
+$ perl -Mstrict -Mwarnings -E 'class Foo { slot $x; }'
 Global symbol "$x" requires explicit package name (did you forget to declare "my $x"?) at -e line 1.
 syntax error at -e line 1, near "; }"
 Execution of -e aborted due to compilation errors.
@@ -118,8 +91,8 @@ Execution of -e aborted due to compilation errors.
 Various incantations all cause the same failures. If `strict` is not used, you will get runtime failures with strange error messages due to indirect object syntax:
 
 ```
-$ perl -e 'class Foo { has $x }'
-Can't call method "has" on an undefined value at -e line 1.
+$ perl -e 'class Foo { slot $x }'
+Can't call method "slot" on an undefined value at -e line 1.
 ```
 
 In an unlikely case, you use `strict` but you have an empty class or role body, you will also get errors due to indirect object syntax because Perl will think the block delimiters, `{ ... }` are a hashref and not a block.
@@ -158,9 +131,9 @@ class Cache::LRU v0.1.0 {
     use Carp 'croak';
 
     common $num_caches :reader                     = 0;
-    has    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;
-    has    $max_size   :param  :reader             = 20;
-    has    $created    :reader                     = time;
+    slot    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;
+    slot    $max_size   :param  :reader             = 20;
+    slot    $created    :reader                     = time;
 
     ADJUST { # called after new()
         $num_caches++;
@@ -202,7 +175,7 @@ Paul "LeoNerd" Evans has been using [Object::Pad](https://metacpan.org/pod/Objec
 In Moo/se and alternatives, calling `$self->{feild}` is often a silent failure leading to mysterious bugs. Calling `$self->feild` is a runtime failure. In Corinna, accessing an non-existent `$feild` is a compile-time failure:
 
 ```perl
-has $field;
+slot $field;
 
 method foo () {
     say $feild; # compile-time failure, baby!
@@ -221,7 +194,7 @@ Because Corinna is largely declarative and requires writing less code, almost by
 
 ## Cleaner Interfaces
 
-In Moo/se, it's hard to create attributes in such a way that you don't publicly expose them in some way. This means that they become part of your contract and if you need to change them later, too bad. In Corinna, we expose _no_ attributes by default. You have to explicitly do that. This is because, unlike Moo/se's `has`, the `has` in Corinna declares the slot and nothing else.
+In Moo/se, it's hard to create attributes in such a way that you don't publicly expose them in some way. This means that they become part of your contract and if you need to change them later, too bad. In Corinna, we expose _no_ attributes by default. You have to explicitly do that. This is because, unlike Moo/se's `has`, the `slot` in Corinna declares the slot and nothing else.
 
 ## No MRO Pain
 
