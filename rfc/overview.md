@@ -131,9 +131,9 @@ class Cache::LRU v0.1.0 {
     use Carp 'croak';
 
     common $num_caches :reader                     = 0;
-    slot    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;
-    slot    $max_size   :param  :reader             = 20;
-    slot    $created    :reader                     = time;
+    slot    $cache     :handles(qw/exists delete/) = Hash::Ordered->new;
+    slot    $max_size  :param  :reader             = 20;
+    slot    $created   :reader                     = time;
 
     ADJUST { # called after new()
         $num_caches++;
