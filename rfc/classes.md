@@ -89,7 +89,7 @@ class Person {
     slot $name  :param;                    # must be passed to customer (:param)
     slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
     slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
-    common slot $num_people :reader = 0;   # class attribute, defaults to 0 (common, with reader method)
+    common slot $num_people :reader = 0;   # class data, defaults to 0 (common, with reader method)
 
     ADJUST   { $num_people++ }             # called after new(), but before returned to consumer (BUILD)
     DESTRUCT { $num_people-- }             # destructor
