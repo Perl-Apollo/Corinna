@@ -50,7 +50,7 @@ For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding varia
 
 ```
 SLOT            ::= INSTANCE | SHARED
-SHARED          ::= 'common' 'HAS'? SLOT_DEFINITION
+SHARED          ::= 'common' 'slot'? SLOT_DEFINITION
 INSTANCE        ::= 'slot'    SLOT_DEFINITION
 SLOT_DEFINITION ::=   SCALAR           ATTRIBUTES? DEFAULT?  
                     | { ARRAY | HASH }             DEFAULT? 
