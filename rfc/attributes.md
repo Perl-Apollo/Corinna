@@ -176,7 +176,7 @@ say $thing->name;   # no such method error
 ### `:writer(optional_identifier)`
 
 By default, all slots are private to the class. You may optionally expose
-a slot for writing by providing a `:reader` attribute. You may specify an optional
+a slot for writing by providing a `:writer` attribute. You may specify an optional
 name, if desired. Note that a `:writer` has `set_` prepended to the name. If you explicity
 set the name of the writer to the name of the slot, there will be a special
 case to allow `->method` for reading and `->method($new_value)` for writing:
