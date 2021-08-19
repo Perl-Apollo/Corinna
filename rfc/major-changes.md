@@ -1,3 +1,7 @@
+[README](/README.md)  
+
+---
+
 # Major Changes
 
 Due to the fast-moving nature of this project, we won't note every little
