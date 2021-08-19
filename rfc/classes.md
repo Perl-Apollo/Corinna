@@ -46,7 +46,7 @@ class Person {
     slot $name  :param;              # must be passed to customer (:param)
     slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
-    method name () {                # instance method
+    method name () {                 # instance method
         return defined $title ? "$title $name" : $name;
     }
 }
@@ -62,7 +62,7 @@ say $villian->name;   # Dr. Zacharary Smith
 say $boy->name;       # Will Robinson
 ```
 
-In the above, that the `$name` and `$title` attributes are completely
+In the above, that the `$name` and `$title` slots are completely
 encapsulated. If you want to expose them to the outside world, you would use
 the `:reader` and `:writer` attributes.
 
