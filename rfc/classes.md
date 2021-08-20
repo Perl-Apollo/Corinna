@@ -43,7 +43,7 @@ Here's a somewhat more interesting class. `slot` declares a slot (data) and the
 
 ```perl
 class Person {
-    slot $name  :param;              # must be passed to customer (:param)
+    slot $name  :param;              # must be passed to constructor (:param)
     slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
     method name () {                 # instance method
