@@ -55,6 +55,6 @@ Names are in alphabetical order.
 > Corinna is how Perl should look like and how we should write it. Expressive,
 > minimal and exact, clean, and powerful.
 
-## [Stevan Little, a.k.a. "Damnit, Stevan"](), creator of Moose
+## [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
 
 > I am glad Ovid is working on this, better him than me 😛
