@@ -1,6 +1,6 @@
 As Corinna has gotten closer to submitting an RFC to P5P, people have been
 asking about the people who developed or influenced Corinna. This list is not
-exhaustive.
+exhaustive and changes are to be expected.
 
 Names are in alphabetical order.
 
