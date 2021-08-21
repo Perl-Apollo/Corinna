@@ -48,7 +48,8 @@ called before parent `DESTRUCT` phasers.
 
 **Important**: for a given level of the inheritance hierarchy, if more than
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
-are called is not guaranteed.
+are called is not guaranteed. This is deliberate to prevent people from
+assuming they can rely on role consumption order.
 
 ---
 
