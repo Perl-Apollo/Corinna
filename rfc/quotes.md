@@ -31,11 +31,6 @@ Names are in alphabetical order.
 > Perl object framework could look like without those limits, informed by the
 > decades of object-oriented applications within and without.
 
-## [Graham Knop, a.k.a. haarg](https://metacpan.org/author/HAARG), Perl 5 Porter, Maintainer of Moo
-
-> Moo/se is the object system perl could have. We're trying to create the
-> object system perl should have.
-
 ## [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo
 
 > The Corinna process is highly promising, and I'm very much enjoying the fact
