@@ -3,7 +3,7 @@ Next: [Class Construction](class-construction.md)
 
 ---
 
-# Classes
+# Section 3: Classes
 
 ## Quick Notes
 

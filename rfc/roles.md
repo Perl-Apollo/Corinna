@@ -3,7 +3,7 @@ Next: [Phasers](phasers.md)
 
 ---
 
-# Roles
+# Section 7: Roles
 
 ## Background
 

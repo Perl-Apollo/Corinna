@@ -3,7 +3,7 @@ Next: [Roles](roles.md)
 
 ---
 
-# Methods
+# Section 6: Methods
 
 Corinna offers class methods and instance methods. You must specify if they
 override a parent method.

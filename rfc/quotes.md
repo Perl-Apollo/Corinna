@@ -3,7 +3,7 @@ Next: [README](/README.md)
 
 ---
 
-# Quotes
+# Section 10: Quotes
 
 As Corinna has gotten closer to submitting an RFC to P5P, people have been
 asking about the people who developed or influenced Corinna. This list is not

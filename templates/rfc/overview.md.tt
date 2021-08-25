@@ -1,7 +1,3 @@
-# [% rfc.name %]
-
----
-
 Pursuant to [the new RFC process Perl is experimenting with](https://github.com/Perl/RFCs), we will create an RFC for Corinna.
 
 This is an incomplete WIP that will be worked on as we have time. It is VERY alpha.

@@ -3,7 +3,7 @@ Next: [Quotes](quotes.md)
 
 ---
 
-# Questions
+# Section 9: Questions
 
 ## Corinna v Other objects
 

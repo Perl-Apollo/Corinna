@@ -3,7 +3,7 @@ Next: [Questions](questions.md)
 
 ---
 
-# Phasers
+# Section 8: Phasers
 
 At the present time, some final details of phasers are still being decided.
 For Corinna, we have two new phasers, `ADJUST` and `DESTRUCT`.

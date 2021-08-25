@@ -1,5 +1,3 @@
-# [% rfc.name %]
-
 Corinna offers class methods and instance methods. You must specify if they
 override a parent method.
 

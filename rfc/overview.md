@@ -3,9 +3,7 @@ Next: [Grammar](grammar.md)
 
 ---
 
-# Overview
-
----
+# Section 1: Overview
 
 Pursuant to [the new RFC process Perl is experimenting with](https://github.com/Perl/RFCs), we will create an RFC for Corinna.
 

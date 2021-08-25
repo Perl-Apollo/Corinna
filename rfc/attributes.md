@@ -3,7 +3,7 @@ Next: [Methods](methods.md)
 
 ---
 
-# Attributes
+# Section 5: Attributes
 
 For Corinna, declaring instance data is done with `slot`.
 

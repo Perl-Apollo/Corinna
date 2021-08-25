@@ -25,17 +25,15 @@ sub write_rfcs {
     my $rfcs    = $config->{rfcs};
     my $default = { name => 'README', basename => '/README.md' };
     foreach my $i ( 0 .. $#$rfcs ) {
-        my $prev   = $i > 0 ? $rfcs->[ $i - 1 ] : $default;
-        my $rfc    = $rfcs->[$i];
-        my $next   = $rfcs->[ $i + 1 ] || $default;
+        my $prev = $i > 0 ? $rfcs->[ $i - 1 ] : $default;
+        my $rfc  = $rfcs->[$i];
+        my $next = $rfcs->[ $i + 1 ] || $default;
+
         my $source = $rfc->{source};
-        my $index  = $rfc->{index};
-        my $name   = $rfc->{name};
         my $file   = $rfc->{file};
         my $tts    = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
-            name          => $name,
         );
         my $template = get_rfc_template($source);
         $tts->process(
@@ -59,6 +57,8 @@ Prev: [[% prev.name %]]([% prev.basename %])
 Next: [[% next.name %]]([% next.basename %])
 
 ---
+
+# Section [% rfc.index %]: [% rfc.name %]
 
 $template
 

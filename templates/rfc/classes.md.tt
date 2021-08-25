@@ -1,5 +1,3 @@
-# [% rfc.name %]
-
 ## Quick Notes
 
 Corinna classes are single-inheritance, data is declared with `slot` or

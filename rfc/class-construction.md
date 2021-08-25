@@ -3,7 +3,7 @@ Next: [Attributes](attributes.md)
 
 ---
 
-# Class Construction
+# Section 4: Class Construction
 
 For object construction, we provide a list of needed steps, but then we'll
 have pseudocode to make the construction process explicit.

@@ -3,7 +3,7 @@ Next: [Classes](classes.md)
 
 ---
 
-# Grammar
+# Section 2: Grammar
 
 To make this more manageable and not define a grammar for all of Perl, we will break the grammar out into separate components for simplicity.
 

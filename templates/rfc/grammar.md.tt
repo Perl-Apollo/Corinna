@@ -1,5 +1,3 @@
-# [% rfc.name %]
-
 To make this more manageable and not define a grammar for all of Perl, we will break the grammar out into separate components for simplicity.
 
 ## Class and Role Grammar
