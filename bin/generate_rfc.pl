@@ -3,16 +3,11 @@
 use lib 'lib';
 use strict;
 use warnings;
-use Data::Dumper;
 use Carp 'croak';
 use File::Basename 'basename';
 use File::Spec::Functions qw(catfile catdir);
 use Config::Tiny::Ordered;
 use Template::Tiny::Strict;
-
-local $Data::Dumper::Indent   = 0;
-local $Data::Dumper::Terse    = 1;
-local $Data::Dumper::Sortkeys = 1;
 
 my $config = Config::Tiny::Ordered->read('config/rfcs');
 rewrite_config($config);
@@ -29,8 +24,8 @@ sub write_rfcs {
         my $rfc  = $rfcs->[$i];
         my $next = $rfcs->[ $i + 1 ] || $default;
 
-        my $file   = $rfc->{file};
-        my $tts    = Template::Tiny::Strict->new(
+        my $file = $rfc->{file};
+        my $tts  = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
         );
@@ -49,7 +44,7 @@ sub write_rfcs {
 }
 
 sub get_rfc_template {
-    my $rfc   = shift;
+    my $rfc      = shift;
     my $template = renumbered_headings($rfc);
     return <<"END";
 Prev: [[% prev.name %]]([% prev.basename %])   
@@ -69,19 +64,19 @@ END
 }
 
 sub renumbered_headings {
-    my $rfc = shift;
-    my $template = slurp($rfc->{source});
+    my $rfc       = shift;
+    my $template  = slurp( $rfc->{source} );
     my $rewritten = '';
-    my @lines = split /\n/ => $template;
+    my @lines     = split /\n/ => $template;
 
     my %levels = map { $_ => 0 } 1 .. 4;
 
     my $last_level = 1;
 
     my $in_code = 0;
-    LINE: foreach my $line (@lines) {
+  LINE: foreach my $line (@lines) {
         if ( $line =~ /^```/ ) {
-            if ( !$in_code) {
+            if ( !$in_code ) {
                 $in_code = 1;
             }
             else {
@@ -94,11 +89,13 @@ sub renumbered_headings {
             my $title  = $2;
             my $level  = length $hashes;
             if ( $last_level == $level ) {
+
                 # ## 1.2
                 # ## 1.3
                 $levels{$level}++;
             }
             elsif ( $last_level < $level ) {
+
                 # #
                 # ##
                 $levels{$level} = 1;
@@ -107,15 +104,16 @@ sub renumbered_headings {
                 # ##
                 # #
                 $levels{1}++;
-                for my $i (2..$level) {
+                for my $i ( 2 .. $level ) {
                     $levels{$i} = 1;
                 }
             }
             $last_level = $level;
-            if ($levels{1} ==0) {
+            if ( $levels{1} == 0 ) {
                 croak("$rfc->{source} didn't start with a level 1 header");
             }
-            my $section_num = join '.' => $rfc->{index}, map { $levels{$_} }  1..$level;
+            my $section_num = join '.' => $rfc->{index},
+              map { $levels{$_} } 1 .. $level;
             $rewritten .= "$hashes $section_num $title";
         }
         else {
@@ -150,7 +148,6 @@ sub rewrite_config {
       or die "No readme found in [main] for config";
     assert_template_name( $readme_template, $main{template_dir} );
     $main{readme_template} = catfile( $main{template_dir}, $readme_template );
-    $main{readme} =~ s/\.tt$//;
 
     $config->{main} = \%main;
     my $index = 1;
@@ -161,7 +158,6 @@ sub rewrite_config {
         $rfc->{name} = delete $rfc->{key};
         $rfc->{source} =
           catfile( $main{template_dir}, $main{rfc_dir}, $filename );
-        $filename =~ s/\.tt$//;
         $rfc->{file}     = catfile( $main{rfc_dir}, $filename );
         $rfc->{basename} = $filename;
         $rfc->{index}    = $index;
@@ -171,8 +167,8 @@ sub rewrite_config {
 
 sub assert_template_name {
     my ( $filename, @dirs ) = @_;
-    unless ( $filename =~ /\.md\.tt$/ ) {
-        croak("Template filename must end in '.md\.tt': $filename");
+    unless ( $filename =~ /\.md$/ ) {
+        croak("Template filename must end in '.md': $filename");
     }
     my $location = catfile( @dirs, $filename );
     unless ( -e $location ) {
