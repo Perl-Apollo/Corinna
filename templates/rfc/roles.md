@@ -1,11 +1,5 @@
-Prev: [Methods](methods.md)   
-Next: [Phasers](phasers.md)
+# Background
 
----
-
-# Section 7: Roles
-
-# 7.1 Background
 Roles in Corinna are based on the [Traits, composable units of
 behavior](http://scg.unibe.ch/archive/papers/Scha02bTraits.pdf)
 paper, we particularly find interest in [Traits: the formal
@@ -16,7 +10,8 @@ commutative (`a+b=b+a`) and associative (`(a+b)+c=a+(b+c)`). While we cannot
 perfectly guarantee this in the face of method modifiers, we will see to
 return to this model.
 
-# 7.2 Overview
+# Overview
+
 Roles are designed to share small sets of behaviors which address
 cross-cutting concerns. Roles may consume other roles, but they may not
 inherit from classes, nor may they be inherited from.
@@ -71,7 +66,8 @@ Roles may _not_ access the slots or methods of the class the
 role is consumed into unless those have already been exposed in the public
 interface.
 
-# 7.3 Example
+# Example
+
 It is entirely possible, for example, to want to have an identical mechanism
 to provide unique, repeatable UUIDs to different classes. It might look like
 this:
@@ -128,10 +124,12 @@ role C, there is no conflict because it is the same method.
 
 However, if `SomeClass` defined a `c()` method, there will be a conflict.
 
-# 7.4 Aliasing and Excluding
+# Aliasing and Excluding
+
 For the MVP, we will not be providing aliasing and excluding of methods.
 
-# 7.5 `ADJUST` and `DESTRUCT`
+# `ADJUST` and `DESTRUCT`
+
 Both the `ADJUST` and `DESTRUCT` [phasers](phasers.md) will be allowed in
 roles. Class `ADJUST` phasers are called before its roles `ADJUST` phasers
 which are called before child `ADJUST` phasers and its roles phaswers.
@@ -142,9 +140,3 @@ called before parent `DESTRUCT` phasers.
 **Important**: for a given level of the inheritance hierarchy, if more than
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
-
-
----
-
-Prev: [Methods](methods.md)   
-Next: [Phasers](phasers.md)

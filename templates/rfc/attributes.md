@@ -1,11 +1,5 @@
-Prev: [Class Construction](class-construction.md)   
-Next: [Methods](methods.md)
+# Overview 
 
----
-
-# Section 5: Attributes
-
-# 5.1 Overview 
 For Corinna, declaring instance data is done with `slot`.
 
 ```
@@ -49,7 +43,8 @@ the contructor.
 
 The fourth slot should, at this point, be self-explanatory.
 
-# 5.2 Slot Creation
+# Slot Creation
+
 Slot creation done by declaring `slot` or `common`, the slot variable, and an
 optional default value.
 
@@ -76,7 +71,8 @@ If slot name generation would cause another method to be overwritten, this is
 a compile-time error (unless we can later think of an easy syntax for
 specifying an override).
 
-## 5.2.1 Slot Initialization
+## Slot Initialization
+
 Note that all slots are initialized from top to bottom. So you can do
 this:
 
@@ -88,15 +84,18 @@ slot $answer = $x;
 `common` attributes with defaults will be initialized at compile time, while
 all instance attributes will be initialized at object construction.
 
-## 5.2.2 Slot Destruction
+## Slot Destruction
+
 When an instance goes out of scope, instance slots will be destroyed in
 reverse order of declaration. When a class goes out of scope (currently only
 in global destruction), the same is true for class slots.
 
-## 5.2.3 Slot Attributes
+## Slot Attributes
+
 The attributes we support for the MVP are as follows.
 
-### 5.2.3.1 `:param(optional_identifier)`
+### `:param(optional_identifier)`
+
 This value for this slot _may_ be passed in the constructor. If there is no
 default via `= ...` on the slot definition, this value _must_ be passed to the
 constructor. If you wish for it to be optional, but not have a default value,
@@ -131,7 +130,8 @@ error.
 Because slot names generate fatal errors if they would redefine another
 method, parent and child classes must have distinct constructor arguments.
 
-### 5.2.3.2 `:reader(optional_identifier)`
+### `:reader(optional_identifier)`
+
 By default, all slots are private to the class. You may optionally expose a
 slot for reading by providing a `:reader` attribute. You may specify an
 optional name, if desired.
@@ -149,7 +149,8 @@ say $thing->serial;
 say $thing->name;   # no such method error
 ```
 
-### 5.2.3.3 `:writer(optional_identifier)`
+### `:writer(optional_identifier)`
+
 By default, all slots are private to the class. You may optionally expose
 a slot for writing by providing a `:writer` attribute. You may specify an optional
 name, if desired. Note that a `:writer` has `set_` prepended to the name. If you explicity
@@ -169,7 +170,8 @@ $thing->serial_number($new_serial);
 say $thing->serial_number;
 $thing->id($new_id);                    # no such method error
 ```
-### 5.2.3.4 `:predicate(optional_identifier)`
+### `:predicate(optional_identifier)`
+
 Generates a `has_$name` predicate method to let you know if the slot value has
 been _defined_. Of course, you may change the name.
 
@@ -186,7 +188,8 @@ if ( $thing->is_initialized ) { ... }
 if ( $thing->has_name )       { ... }
 ```
 
-### 5.2.3.5 `:name(optional_identifier)`
+### `:name(optional_identifier)`
+
 By default, the name of a slot is the name of the variable minus the
 punctuation. However, this name might be unsuitable for public exposure, or
 may conflict with a parent class's methods. Use `name(optional_identifier)` to
@@ -201,12 +204,14 @@ slot $id :name('ident')              # name is now "ident"
          :predicate(is_registered);  # ->is_registered
 ```
 
-### 5.2.3.6 `:handles(%@*)`
+### `:handles(%@*)`
+
 This attribute is used to delegate methods to the object contained in this
 slot. You may pass it either a list of identifiers and identifier:identifier
 mappings, or the special `*` token.
 
-#### 5.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings
+#### List of Identifiers and Identifier:Identifier Mappings
+
 A list of identifiers says "these methods will be handled by this object.
 
 ```perl
@@ -240,7 +245,8 @@ slot $cache :handles(
 ) = Hash::Ordered->new;
 ```
 
-#### 5.2.3.6.2 Delegate All Unknown Methods
+#### Delegate All Unknown Methods
+
 As a special workaround for not being able to inherit from non-Corinna
 objects, we have a special `handles(*)` syntax. This means that unless
 `$self->can($method)`, try to call method on the delegation target, regardless
@@ -264,9 +270,3 @@ class DateTime::Improved {
     # more code here
 }
 ```
-
-
----
-
-Prev: [Class Construction](class-construction.md)   
-Next: [Methods](methods.md)

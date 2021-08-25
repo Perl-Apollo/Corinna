@@ -1,13 +1,7 @@
-Prev: [Overview](overview.md)   
-Next: [Classes](classes.md)
-
----
-
-# Section 2: Grammar
-
 To make this more manageable and not define a grammar for all of Perl, we will break the grammar out into separate components for simplicity.
 
-# 2.1 Class and Role Grammar
+# Class and Role Grammar
+
 The primary grammar looks like:
 
 ```
@@ -29,7 +23,8 @@ BLOCK       ::= # Perl +/- Extras
 
 The version numbers use the major, minor, and patch numbers from [semantic versioning](https://semver.org/).
 
-# 2.2 Method Grammar
+# Method Grammar
+
 The method grammar (skipping some bits to avoid defining a grammar for Perl):
 
 ```
@@ -40,7 +35,8 @@ MODIFIERS  ::= MODIFIER { MODIFIER }
 MODIFIER   ::= 'private' | 'overrides' | 'common' 
 ```
 
-# 2.3 Slot Grammar
+# Slot Grammar
+
 "Slots" in Corinna parlance are the variables where class and instance data are stored.
 
 For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding variable names. `PERL_EXPRESSION` means what it says. `IDENTIFIER` is a valid Perl identifier.
@@ -63,9 +59,3 @@ PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
-
-
----
-
-Prev: [Overview](overview.md)   
-Next: [Classes](classes.md)

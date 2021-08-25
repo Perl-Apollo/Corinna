@@ -1,21 +1,16 @@
-Prev: [Roles](roles.md)   
-Next: [Questions](questions.md)
-
----
-
-# Section 8: Phasers
-
 At the present time, some final details of phasers are still being decided.
 For Corinna, we have two new phasers, `ADJUST` and `DESTRUCT`.
 
-# 8.1 `ADJUST`
+# `ADJUST`
+
 The `ADJUST` phaser is called just after object construction (`new(..)`) but
 before the object is returned. This allows the developer to apply additional
 logic which cannot be cleanly represented by merely assigning values to slots.
 
 All class and instance data is available in the `ADJUST` phaser.
 
-# 8.2 `DESTRUCT`
+#  `DESTRUCT`
+
 The `DESTRUCT` phaser is called when the current instance goes out of scope.
 
 ```perl
@@ -37,7 +32,8 @@ One possible use of a destruction object is that it could check if a
 stack trace of where it went out of scope. This would be very useful for
 debugging.
 
-# 8.3 Phaser Call Order
+# Phaser Call Order
+
 Class `ADJUST` phasers are called on the root class before its roles `ADJUST`
 phasers which are called before child `ADJUST` phasers and its roles phaswers.
 
@@ -48,9 +44,3 @@ called before parent `DESTRUCT` phasers.
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed. This is deliberate to prevent people from
 assuming they can rely on role consumption order.
-
-
----
-
-Prev: [Roles](roles.md)   
-Next: [Questions](questions.md)

@@ -1,0 +1,16 @@
+[rfcs]
+Overview=overview.md
+Grammar=grammar.md
+Classes=classes.md
+Class Construction=class-construction.md
+Attributes=attributes.md
+Methods=methods.md
+Roles=roles.md
+Phasers=phasers.md
+Questions=questions.md
+Quotes=quotes.md
+
+[main]
+template_dir=templates
+rfc_dir=rfc
+readme=README.md

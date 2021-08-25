@@ -1,10 +1,3 @@
-Prev: [Classes](classes.md)   
-Next: [Attributes](attributes.md)
-
----
-
-# Section 4: Class Construction
-
 For object construction, we provide a list of needed steps, but then we'll
 have pseudocode to make the construction process explicit.
 
@@ -158,9 +151,3 @@ MOP::Class {
     }
 }
 ```
-
-
----
-
-Prev: [Classes](classes.md)   
-Next: [Attributes](attributes.md)

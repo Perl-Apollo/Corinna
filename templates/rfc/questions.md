@@ -1,12 +1,7 @@
-Prev: [Phasers](phasers.md)   
-Next: [Quotes](quotes.md)
+# Open issues for the RFC
 
----
+## Corinna v Other objects
 
-# Section 9: Questions
-
-# 9.1 Open issues for the RFC
-## 9.1.1 Corinna v Other objects
 What would be the easiest way to distinguish between Corinna and other kinds
 of objects? I think having a base class of `Object` solves this.
 
@@ -14,7 +9,8 @@ Thus, anyone could simply ask if `$thing isa Object` and find out of it's
 Corinna or not. This would be very useful if they want to use the MOP and
 discover it doesn't work on a regular blessed reference.
 
-## 9.1.2 Multiple Variables Types In A Slot
+## Multiple Variables Types In A Slot
+
 Can slots have more than one kind of variable?
 
 ```perl
@@ -23,7 +19,8 @@ has ($x, @y);
 
 If so, do we disallow attributes?
 
-## 9.1.3 Twigils?
+## Twigils?
+
 ```perl
 has $:x;
 
@@ -44,7 +41,8 @@ Cons:
 * Is somewhat controversial
 * May contribute to "line-noise" complaints
 
-## 9.1.4 Overridding Attributes
+## Overridding Attributes
+
 A method can override a parent method explicitly to avoid a warning:
 
 ```perl
@@ -54,7 +52,8 @@ override method move($x,$y) {...}
 Should methods generated via slot attributes be allowed to override parents?
 If so, how do we signal this?
 
-## 9.1.5 `can`, `does`, and `isa`
+## `can`, `does`, and `isa`
+
 It has been suggested that we offer new versions of `can`, `does`, and `isa`.
 They would not take arguments.
 
@@ -70,7 +69,8 @@ and other objects.
 
 I think this is probaby out of scope for Corinna.
 
-## 9.1.6 Inline POD?
+## Inline POD?
+
 Because we need a postfix block, many people will be disappointed that we
 won't have inline POD quite as neat as what we had:
 
@@ -88,9 +88,3 @@ This method does something
     method bar() { ... }
 }
 ```
-
-
----
-
-Prev: [Phasers](phasers.md)   
-Next: [Quotes](quotes.md)

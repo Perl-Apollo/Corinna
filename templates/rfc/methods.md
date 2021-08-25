@@ -1,11 +1,5 @@
-Prev: [Attributes](attributes.md)   
-Next: [Roles](roles.md)
+# Overview
 
----
-
-# Section 6: Methods
-
-# 6.1 Overview
 Corinna offers class methods and instance methods. You must specify if they
 override a parent method.
 
@@ -17,7 +11,8 @@ MODIFIERS  ::= MODIFIER { MODIFIER }
 MODIFIER   ::= 'private' | 'overrides' | 'common' 
 ```
 
-# 6.2 Instance Methods
+# Instance Methods
+
 Instance methods are defined via `method $identifier (@args) { ... }`.  They
 automatically have `$class` and `$self` variables injected into them. `$class`
 contains the name of the class from which this method was called. `$self` is
@@ -32,7 +27,8 @@ method name () {
 Instance methods can access both class data and instance data and call both
 instance and class methods.
 
-# 6.3 Class Methods
+# Class Methods
+
 Class methods are defined via `common method $identifier (@args) { ... }`.
 They automatically have a `$class` variable injected into them. This contains
 the name of the class from which this method was called.
@@ -47,7 +43,8 @@ Class methods cannot call instance methods (since they have no `$self`) and
 referencing instance data in a class method should be a compile-time error.
 Ths includes trying to reference `$self` in a class method.
 
-# 6.4 Overridden Methods
+# Overridden Methods
+
 If a method in the current class overrides a in a parent class, a warning will
 be issued. To suppress that warning, use `overrides`.
 
@@ -60,7 +57,8 @@ overrides method name () {
 Note that instance methods can only override instance methods and class
 methods can only override class methods.
 
-# 6.5 Abstract Methods
+# Abstract Methods
+
 Abstract methods are declared as forward declarations. That is, methods
 without a method body.
 
@@ -76,7 +74,8 @@ Abstract methods declared in [roles](roles.md) are "required" methods that
 must be implemented by the consuming class or by other roles consumed at the
 same time.
 
-# 6.6 Private Methods
+# Private Methods
+
 Private methods are declared with the `private` keyword:
 
 ```perl
@@ -97,7 +96,8 @@ Note that this means:
 * A role's private methods can never conflict with another role or class's private methods
 * You cannot use `overrides` and `private` on the same method
 
-## 6.6.1 Private Methods in Roles
+## Private Methods in Roles
+
 There is nothing special about private methods in roles, but they are _not_
 flattened into the consuming class and cannot conflict with class methods.
 Private methods are bound to the namespace in which they are declared. This
@@ -149,9 +149,3 @@ Some::Class->role_method;
 
 The above prints `Some::Class` even though the role author may have been
 expecting `Some::Role`. So private methods are a huge win here.
-
-
----
-
-Prev: [Attributes](attributes.md)   
-Next: [Roles](roles.md)

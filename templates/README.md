@@ -4,26 +4,15 @@
 
 This is to track the RFC for the Corinna MVP OOP proposal.
 
-1. [Overview](rfc/overview.md)
-2. [Grammar](rfc/grammar.md)
-3. [Classes](rfc/classes.md)
-4. [Class Construction](rfc/class-construction.md)
-5. [Attributes](rfc/attributes.md)
-6. [Methods](rfc/methods.md)
-7. [Roles](rfc/roles.md)
-8. [Phasers](rfc/phasers.md)
-9. [Questions](rfc/questions.md)
-10. [Quotes](rfc/quotes.md)
-
+[% FOREACH template IN templates -%]
+[% template.index %]. [[% template.name %]]([% template.file %])
+[% END %]
 
 **Important**: All of the above represent works in progress. Please do not
 consider this the final RFC. We're writing down the shell of the RFC and will
 fine-tune. Anything in the Wiki should be considered "rough drafts."
 
-If you wish to provide a PR, please do so against the corresponding RFC page
-in the `templates` directory. Even further, you could run
-`bin/generate_rfc.pl` to regenerate the RFCs. No external dependenices
-requires.
+See also, [quotes from various people involved](rfc/quotes.md).
 
 ## Not a Tutorial
 

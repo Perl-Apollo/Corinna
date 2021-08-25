@@ -1,11 +1,5 @@
-Prev: [Grammar](grammar.md)   
-Next: [Class Construction](class-construction.md)
+# Overview
 
----
-
-# Section 3: Classes
-
-# 3.1 Overview
 Corinna classes are single-inheritance, data is declared with `slot` or
 `common`, and methods start with the `method` keyword. All methods require
 signatures, even methods who take no arguments.
@@ -30,7 +24,8 @@ class DateTime::Improved {
 }
 ```
 
-# 3.2 Discussion
+# Discussion
+
 As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
@@ -118,7 +113,8 @@ say Person->num_people;     # 0
 
 `ADJUST` and `DESTRUCT` are [phasers](phasers.md).
 
-## 3.2.1 Versions
+## Versions
+
 Versions require a leading `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
 
 ```perl
@@ -127,7 +123,8 @@ class MyClass v0.1.3 {
 }
 ```
 
-## 3.2.2 Inheritance
+## Inheritance
+
 Corinna supports single inheritance via the `isa` keyword.
 
 ```perl
@@ -177,7 +174,8 @@ it's not shown in this example.
 Next is the `next::method` part. Usually we see that as part of the C3 mro. It's here because of the
 [SUPER-bug in Perl](http://modernperlbooks.com/mt/2009/09/when-super-isnt.html).
 
-## 3.2.3 Roles
+## Roles
+
 Corinna allows roles to be consumed via `does`. Here's a simple role.
 
 ```perl
@@ -221,7 +219,8 @@ class Customer isa Person does RoleStringify, RoleJSON v1.2.3 {
 
 Role semantics will be covered more thoroughly in [roles](roles.md).
 
-## 3.2.4 Abstract Classes
+## Abstract Classes
+
 Abstract classes are classes which are designed to be subclassed and not
 instantiated directly. They are declared by prefixing `abstract` to the
 definition:
@@ -242,7 +241,8 @@ class Employee::Hourly isa Employee {
 
 Attempting to instantiate an abstract class is a fatal error.
 
-## 3.2.5 Subroutines versus Methods
+## Subroutines versus Methods
+
 In Corinna, methods and subs are not the same thing. Here's a silly example.
 
 ```perl
@@ -278,9 +278,3 @@ say $iter->sum; # 6
 In Corinna, methods and subroutines are not the same thing. If we did _not_
 have a `sum` method in the above code, attempting to call `$iter->sum` (or
 `$self->sum` internally) would generate a 'method not found' error.
-
-
----
-
-Prev: [Grammar](grammar.md)   
-Next: [Class Construction](class-construction.md)
