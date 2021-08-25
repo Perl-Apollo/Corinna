@@ -1,9 +1,9 @@
-Prev: [Methods](methods.md)  
+Prev: [Methods](methods.md)   
 Next: [Phasers](phasers.md)
 
 ---
 
-# Corinna Roles
+# Roles
 
 ## Background
 
@@ -148,7 +148,8 @@ called before parent `DESTRUCT` phasers.
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
 
+
 ---
 
-Prev: [Methods](methods.md)  
+Prev: [Methods](methods.md)   
 Next: [Phasers](phasers.md)

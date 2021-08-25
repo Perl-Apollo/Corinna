@@ -1,9 +1,9 @@
-Prev: [Class Construction](class-construction.md)  
+Prev: [Class Construction](class-construction.md)   
 Next: [Methods](methods.md)
 
 ---
 
-# Corinna Attributes
+# Attributes
 
 For Corinna, declaring instance data is done with `slot`.
 
@@ -276,7 +276,8 @@ class DateTime::Improved {
 }
 ```
 
+
 ---
 
-Prev: [Class Construction](class-construction.md)  
+Prev: [Class Construction](class-construction.md)   
 Next: [Methods](methods.md)

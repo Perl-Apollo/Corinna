@@ -1,4 +1,9 @@
-# Open Questions
+Prev: [Phasers](phasers.md)   
+Next: [Quotes](quotes.md)
+
+---
+
+# Questions
 
 ## Corinna v Other objects
 
@@ -88,3 +93,9 @@ This method does something
     method bar() { ... }
 }
 ```
+
+
+---
+
+Prev: [Phasers](phasers.md)   
+Next: [Quotes](quotes.md)

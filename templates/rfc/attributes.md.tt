@@ -1,4 +1,4 @@
-# Corinna Attributes
+# [% rfc.name %]
 
 For Corinna, declaring instance data is done with `slot`.
 

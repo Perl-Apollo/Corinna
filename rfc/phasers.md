@@ -1,8 +1,9 @@
-Prev: [Roles](roles.md)
+Prev: [Roles](roles.md)   
+Next: [Questions](questions.md)
 
 ---
 
-# Phaser Semantics
+# Phasers
 
 At the present time, some final details of phasers are still being decided.
 For Corinna, we have two new phasers, `ADJUST` and `DESTRUCT`.
@@ -51,6 +52,8 @@ one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed. This is deliberate to prevent people from
 assuming they can rely on role consumption order.
 
+
 ---
 
-Prev: [Roles](roles.md)
+Prev: [Roles](roles.md)   
+Next: [Questions](questions.md)

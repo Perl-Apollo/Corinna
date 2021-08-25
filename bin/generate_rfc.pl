@@ -22,27 +22,17 @@ exit;
 
 sub write_rfcs {
     my $config  = shift;
-    my $rfc_dir = $config->{main}{rfc_dir};
-
-    my $rfcs = $config->{rfcs};
+    my $rfcs    = $config->{rfcs};
     my $default = { name => 'README', basename => '/README.md' };
-    foreach my $i ( 0 .. $#$rfcs  ) {
-        my $prev = $i > 0 ? $rfcs->[ $i - 1 ] : $default;
-        my $rfc  = $rfcs->[$i];
-        my $next = $rfcs->[ $i + 1 ] || $default;
-            
-
-        #{
-        #    'file'   => 'rfc/overview.md',
-        #    'index'  => 1,
-        #    'name'   => 'Overview',
-        #    'source' => 'templates/rfc/overview.md.tt'
-        #}
+    foreach my $i ( 0 .. $#$rfcs ) {
+        my $prev   = $i > 0 ? $rfcs->[ $i - 1 ] : $default;
+        my $rfc    = $rfcs->[$i];
+        my $next   = $rfcs->[ $i + 1 ] || $default;
         my $source = $rfc->{source};
         my $index  = $rfc->{index};
         my $name   = $rfc->{name};
         my $file   = $rfc->{file};
-        my $tts             = Template::Tiny::Strict->new(
+        my $tts    = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
             name          => $name,
@@ -52,16 +42,17 @@ sub write_rfcs {
             \$template,
             {
                 prev => $prev,
-                name => $name,
+                rfc  => $rfc,
                 next => $next,
             },
             \my $out
         );
+        splat( $file, $out );
     }
 }
 
 sub get_rfc_template {
-    my $source = shift;
+    my $source   = shift;
     my $template = slurp($source);
     return <<"END";
 Prev: [[% prev.name %]]([% prev.basename %])   
@@ -95,7 +86,6 @@ sub write_readme {
 sub rewrite_config {
     my $config = shift;
     my $rfcs   = $config->{rfcs};
-    my $main   = $config->{main};
     my %main;
     foreach my $entry ( @{ $config->{main} } ) {
         $main{ $entry->{key} } = $entry->{value};

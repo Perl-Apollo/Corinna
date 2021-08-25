@@ -1,3 +1,10 @@
+Prev: [Questions](questions.md)   
+Next: [README](/README.md)
+
+---
+
+# Quotes
+
 As Corinna has gotten closer to submitting an RFC to P5P, people have been
 asking about the people who developed or influenced Corinna. This list is not
 exhaustive and changes are to be expected.
@@ -53,3 +60,9 @@ Names are in alphabetical order.
 ## [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
 
 > I am glad Ovid is working on this, better him than me 😛
+
+
+---
+
+Prev: [Questions](questions.md)   
+Next: [README](/README.md)
