@@ -20,7 +20,10 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 consider this the final RFC. We're writing down the shell of the RFC and will
 fine-tune. Anything in the Wiki should be considered "rough drafts."
 
-See also, [quotes from various people involved](rfc/quotes.md).
+If you wish to provide a PR, please do so against the corresponding RFC page
+in the `templates` directory. Even further, you could run
+`bin/generate_rfc.pl` to regenerate the RFCs. No external dependenices
+requires.
 
 ## Not a Tutorial
 
