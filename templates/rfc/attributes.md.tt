@@ -1,3 +1,5 @@
+# Overview 
+
 For Corinna, declaring instance data is done with `slot`.
 
 ```
@@ -41,7 +43,7 @@ the contructor.
 
 The fourth slot should, at this point, be self-explanatory.
 
-## Slot Creation
+# Slot Creation
 
 Slot creation done by declaring `slot` or `common`, the slot variable, and an
 optional default value.

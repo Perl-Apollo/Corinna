@@ -87,6 +87,7 @@ sub renumbered_headings {
             else {
                 $in_code = 0;
             }
+            $rewritten .= "$line\n";
         }
         elsif ( $line =~ /^(#+)\s+(.*)/ && !$in_code ) {
             my $hashes = $1;
@@ -111,6 +112,9 @@ sub renumbered_headings {
                 }
             }
             $last_level = $level;
+            if ($levels{1} ==0) {
+                croak("$rfc->{source} didn't start with a level 1 header");
+            }
             my $section_num = join '.' => $rfc->{index}, map { $levels{$_} }  1..$level;
             $rewritten .= "$hashes $section_num $title";
         }

@@ -1,4 +1,4 @@
-## Quick Notes
+# Overview
 
 Corinna classes are single-inheritance, data is declared with `slot` or
 `common`, and methods start with the `method` keyword. All methods require
@@ -24,7 +24,7 @@ class DateTime::Improved {
 }
 ```
 
-## Discussion
+# Discussion
 
 As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but

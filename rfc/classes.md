@@ -5,8 +5,7 @@ Next: [Class Construction](class-construction.md)
 
 # Section 3: Classes
 
-## Quick Notes
-
+# 3.1 Overview
 Corinna classes are single-inheritance, data is declared with `slot` or
 `common`, and methods start with the `method` keyword. All methods require
 signatures, even methods who take no arguments.
@@ -31,8 +30,7 @@ class DateTime::Improved {
 }
 ```
 
-## Discussion
-
+# 3.2 Discussion
 As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
@@ -120,8 +118,7 @@ say Person->num_people;     # 0
 
 `ADJUST` and `DESTRUCT` are [phasers](phasers.md).
 
-## Versions
-
+## 3.2.1 Versions
 Versions require a leading `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
 
 ```perl
@@ -130,8 +127,7 @@ class MyClass v0.1.3 {
 }
 ```
 
-## Inheritance
-
+## 3.2.2 Inheritance
 Corinna supports single inheritance via the `isa` keyword.
 
 ```perl
@@ -181,8 +177,7 @@ it's not shown in this example.
 Next is the `next::method` part. Usually we see that as part of the C3 mro. It's here because of the
 [SUPER-bug in Perl](http://modernperlbooks.com/mt/2009/09/when-super-isnt.html).
 
-## Roles
-
+## 3.2.3 Roles
 Corinna allows roles to be consumed via `does`. Here's a simple role.
 
 ```perl
@@ -226,8 +221,7 @@ class Customer isa Person does RoleStringify, RoleJSON v1.2.3 {
 
 Role semantics will be covered more thoroughly in [roles](roles.md).
 
-## Abstract Classes
-
+## 3.2.4 Abstract Classes
 Abstract classes are classes which are designed to be subclassed and not
 instantiated directly. They are declared by prefixing `abstract` to the
 definition:
@@ -248,8 +242,7 @@ class Employee::Hourly isa Employee {
 
 Attempting to instantiate an abstract class is a fatal error.
 
-## Subroutines versus Methods
-
+## 3.2.5 Subroutines versus Methods
 In Corinna, methods and subs are not the same thing. Here's a silly example.
 
 ```perl

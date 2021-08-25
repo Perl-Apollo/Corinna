@@ -1,3 +1,5 @@
+# Overview
+
 Corinna offers class methods and instance methods. You must specify if they
 override a parent method.
 
@@ -9,7 +11,7 @@ MODIFIERS  ::= MODIFIER { MODIFIER }
 MODIFIER   ::= 'private' | 'overrides' | 'common' 
 ```
 
-## Instance Methods
+# Instance Methods
 
 Instance methods are defined via `method $identifier (@args) { ... }`.  They
 automatically have `$class` and `$self` variables injected into them. `$class`
@@ -25,7 +27,7 @@ method name () {
 Instance methods can access both class data and instance data and call both
 instance and class methods.
 
-## Class Methods
+# Class Methods
 
 Class methods are defined via `common method $identifier (@args) { ... }`.
 They automatically have a `$class` variable injected into them. This contains
@@ -41,7 +43,7 @@ Class methods cannot call instance methods (since they have no `$self`) and
 referencing instance data in a class method should be a compile-time error.
 Ths includes trying to reference `$self` in a class method.
 
-## Overridden Methods
+# Overridden Methods
 
 If a method in the current class overrides a in a parent class, a warning will
 be issued. To suppress that warning, use `overrides`.
@@ -55,7 +57,7 @@ overrides method name () {
 Note that instance methods can only override instance methods and class
 methods can only override class methods.
 
-## Abstract Methods
+# Abstract Methods
 
 Abstract methods are declared as forward declarations. That is, methods
 without a method body.
@@ -94,7 +96,7 @@ Note that this means:
 * A role's private methods can never conflict with another role or class's private methods
 * You cannot use `overrides` and `private` on the same method
 
-# Private Methods in Roles
+## Private Methods in Roles
 
 There is nothing special about private methods in roles, but they are _not_
 flattened into the consuming class and cannot conflict with class methods.

@@ -8,16 +8,14 @@ Next: [Questions](questions.md)
 At the present time, some final details of phasers are still being decided.
 For Corinna, we have two new phasers, `ADJUST` and `DESTRUCT`.
 
-# `ADJUST`
-
+# 8.1 `ADJUST`
 The `ADJUST` phaser is called just after object construction (`new(..)`) but
 before the object is returned. This allows the developer to apply additional
 logic which cannot be cleanly represented by merely assigning values to slots.
 
 All class and instance data is available in the `ADJUST` phaser.
 
-#  `DESTRUCT`
-
+# 8.2 `DESTRUCT`
 The `DESTRUCT` phaser is called when the current instance goes out of scope.
 
 ```perl
@@ -39,8 +37,7 @@ One possible use of a destruction object is that it could check if a
 stack trace of where it went out of scope. This would be very useful for
 debugging.
 
-# Phaser Call Order
-
+# 8.3 Phaser Call Order
 Class `ADJUST` phasers are called on the root class before its roles `ADJUST`
 phasers which are called before child `ADJUST` phasers and its roles phaswers.
 
