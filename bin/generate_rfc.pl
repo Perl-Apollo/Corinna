@@ -29,13 +29,12 @@ sub write_rfcs {
         my $rfc  = $rfcs->[$i];
         my $next = $rfcs->[ $i + 1 ] || $default;
 
-        my $source = $rfc->{source};
         my $file   = $rfc->{file};
         my $tts    = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
         );
-        my $template = get_rfc_template($source);
+        my $template = get_rfc_template($rfc);
         $tts->process(
             \$template,
             {
@@ -50,8 +49,8 @@ sub write_rfcs {
 }
 
 sub get_rfc_template {
-    my $source   = shift;
-    my $template = slurp($source);
+    my $rfc   = shift;
+    my $template = renumbered_headings($rfc);
     return <<"END";
 Prev: [[% prev.name %]]([% prev.basename %])   
 Next: [[% next.name %]]([% next.basename %])
@@ -67,6 +66,59 @@ $template
 Prev: [[% prev.name %]]([% prev.basename %])   
 Next: [[% next.name %]]([% next.basename %])
 END
+}
+
+sub renumbered_headings {
+    my $rfc = shift;
+    my $template = slurp($rfc->{source});
+    my $rewritten = '';
+    my @lines = split /\n/ => $template;
+
+    my %levels = map { $_ => 0 } 1 .. 4;
+
+    my $last_level = 1;
+
+    my $in_code = 0;
+    LINE: foreach my $line (@lines) {
+        if ( $line =~ /^```/ ) {
+            if ( !$in_code) {
+                $in_code = 1;
+            }
+            else {
+                $in_code = 0;
+            }
+        }
+        elsif ( $line =~ /^(#+)\s+(.*)/ && !$in_code ) {
+            my $hashes = $1;
+            my $title  = $2;
+            my $level  = length $hashes;
+            if ( $last_level == $level ) {
+                # ## 1.2
+                # ## 1.3
+                $levels{$level}++;
+            }
+            elsif ( $last_level < $level ) {
+                # #
+                # ##
+                $levels{$level} = 1;
+            }
+            else {
+                # ##
+                # #
+                $levels{1}++;
+                for my $i (2..$level) {
+                    $levels{$i} = 1;
+                }
+            }
+            $last_level = $level;
+            my $section_num = join '.' => $rfc->{index}, map { $levels{$_} }  1..$level;
+            $rewritten .= "$hashes $section_num $title";
+        }
+        else {
+            $rewritten .= "$line\n";
+        }
+    }
+    return $rewritten;
 }
 
 sub write_readme {
