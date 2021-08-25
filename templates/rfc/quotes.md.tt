@@ -1,0 +1,55 @@
+As Corinna has gotten closer to submitting an RFC to P5P, people have been
+asking about the people who developed or influenced Corinna. This list is not
+exhaustive and changes are to be expected.
+
+Names are in alphabetical order.
+
+## [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna
+
+> We love Perl, but it's struggling. We know that. Corinna is not
+> going to save it. Nor is a better code of conduct. Nor is Perl 7,
+> concurrency, types, or \<insert favorite hobby horse here\>. Instead, it's
+> all of these things, and many more, with a strong community to support the
+> language, that will continue to help Perl thrive. Let's start being the
+> people we tell our children to be.
+
+## [Damian Conway, a.k.a. _That_ Damian](https://metacpan.org/author/DCONWAY), Computer scientist and (too many accolades to list)
+
+> When people ask me whether I support the Corinna proposal, my response is:
+> OH, HELL YES! I’ve literally been waiting two decades to see Perl gain a
+> proper, built-in, declarative, encapsulated, and performant OO system. And
+> this, I firmly believe, is it.
+
+[Read his full statement at blogs.perl.org](http://blogs.perl.org/users/damian_conway/2021/08/a-dream-realized.html).
+
+## [Dan Book, a.k.a. Grinnz](https://metacpan.org/author/DBOOK), CPAN author and docs wrangler
+
+> Moose and its derivatives provide a comprehensive and popular object
+> framework for Perl, but some parts have always been workarounds for the
+> limitations of the hash-based object format and existing Perl syntax and
+> semantics. Corinna is a methodical reimagination of what a modern built-in
+> Perl object framework could look like without those limits, informed by the
+> decades of object-oriented applications within and without.
+
+## [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo
+
+> The Corinna process is highly promising, and I'm very much enjoying the fact
+> that almost everybody involved in the design process is a prolific and
+> highly experienced Moo/se user and yet we still manage to argue about
+> absolutely everything.
+
+## [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking
+
+> Corinna is a feature-rich, modern OO framework. It has a clean, minimal, yet
+> expressive syntax, keeping OO best practices as its defaults. It comes from
+> a veteran of OO in general and in Perl in particular (Moo, Moose, and
+> everything under the sun before and between those), showing how to design a
+> framework that avoids the pitfalls we only discover years into practice. It
+> is not a competitor to Moose. It is the next level from it.
+>
+> Corinna is how Perl should look like and how we should write it. Expressive,
+> minimal and exact, clean, and powerful.
+
+## [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
+
+> I am glad Ovid is working on this, better him than me 😛
