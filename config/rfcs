@@ -14,3 +14,4 @@ Quotes=quotes.md
 template_dir=templates
 rfc_dir=rfc
 readme=README.md
+github=https://github.com/Ovid/Cor
