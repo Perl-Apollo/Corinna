@@ -1,5 +1,5 @@
 Prev: [Questions](questions.md)   
-Next: [README](/README.md)
+Next: [Changes](major-changes.md)
 
 ---
 
@@ -66,4 +66,4 @@ Names are in alphabetical order.
 ---
 
 Prev: [Questions](questions.md)   
-Next: [README](/README.md)
+Next: [Changes](major-changes.md)

@@ -9,6 +9,7 @@ Roles=roles.md
 Phasers=phasers.md
 Questions=questions.md
 Quotes=quotes.md
+Changes=major-changes.md
 
 [main]
 template_dir=templates
