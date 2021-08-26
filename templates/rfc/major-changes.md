@@ -4,10 +4,6 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
-## August 26, 2021
-
-- Private slots now declared with `my`. They do not take attributes.
-
 ## August 19, 2021
 
 - Slot declaration keyword renamed from `has` to `slot`
@@ -16,3 +12,7 @@ Instead, we'll cover major changes here.
 
 - First draft of RFC released as markdown in github repo so that pull requests
   can be received. Wiki is noted to primarily be of historical interest.
+## August 26, 2021
+
+- Private slots now declared with `my`. They do not take attributes.
+

@@ -73,6 +73,10 @@ END
 sub renumbered_headings {
     my $rfc       = shift;
     my $template  = slurp( $rfc->{source} );
+    
+    # XXX fix me. Put this in config
+    return $template if $rfc->{name} eq 'Changes';
+
     my $rewritten = '';
     my @lines     = split /\n/ => $template;
 
