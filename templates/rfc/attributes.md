@@ -1,6 +1,6 @@
 # Overview 
 
-For Corinna, declaring instance data is done with `slot`.
+For Corinna, declaring class and instance data is done with `slot`.
 
 ```
 slot $x;
@@ -23,14 +23,14 @@ The minimal MVP grammar for slots and attributes can be found
 To visualize that, let's look at the slots and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
-1. `common $num_caches :reader                     = 0;`
+1. `my $num_caches = 0;` 
 2. `slot    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;`
 3. `slot    $max_size   :param  :reader             = 20;`
 4. `slot    $created    :reader                     = time;`
 
-The first slot declares class data and will be used to track now many
-caches exist at any time. The `:reader` says "create a read-only method named
-`num_caches` to allow people outside the class to read this data.
+The first slot is a standard `my` variable and is used for class data. Note
+that no attributes are allowed and it's initialized with any default value as
+soon as the class is compiled.
 
 The second slot holds an instance of `Hash::Ordered` and the
 `handles(qw/exists delete/)` says "delegate these to methods to the object
@@ -45,22 +45,22 @@ The fourth slot should, at this point, be self-explanatory.
 
 # Slot Creation
 
-Slot creation done by declaring `slot` or `common`, the slot variable, and an
+Slot creation done by declaring `slot` or `my`, the slot variable, and an
 optional default value.
 
 ```perl
-slot $answer = 42;                      # instance data, defaults to 42
-slot %results_for;                      # instance data, no default
-common @colors = qw(red green blue);   # class data, default to qw(red green blue)
+slot $answer = 42;                 # instance data, defaults to 42
+slot %results_for;                 # instance data, no default
+my @colors = qw(red green blue);   # class data, default to qw(red green blue)
 ```
 
-For scalar slots (and only for scalar slots), you can add attributes after the
-declaration and before the optional default, if any.
+For scalar slots declared with `slot` (and only for scalar slots), you can add
+attributes after the declaration and before the optional default, if any.
 
-We do not (yet) support attributes for array or hash slots because these
-automatically flatten into lists and it's not clear what the semantics
-of readers and writers would be, now how you would pass them in the
-constructor.
+We do not (yet) support attributes for class data. We also do not support
+attributes for array or hash slots because these automatically flatten into
+lists and it's not clear what the semantics of readers and writers would be,
+now how you would pass them in the constructor.
 
 Note that all slots are completely encapsulated, but if they're exposed to the
 outside world via `:reader`, `:writer`, or some other parameter, their _name_
@@ -81,7 +81,7 @@ slot $x :param = 42;
 slot $answer = $x;
 ```
 
-`common` attributes with defaults will be initialized at compile time, while
+`my` variables with defaults will be initialized at compile time, while
 all instance attributes will be initialized at object construction.
 
 ## Slot Destruction
@@ -92,7 +92,8 @@ in global destruction), the same is true for class slots.
 
 ## Slot Attributes
 
-The attributes we support for the MVP are as follows.
+The attributes we support for the MVP are as follows. Only variables declared
+with `slot` may take attributes.
 
 ### `:param(optional_identifier)`
 
@@ -103,9 +104,6 @@ use the `= undef` default.
 
 If `optional_identifier` is present in parenthesis, this must be a legal Perl
 identifier and will be used at the parameter name.
-
-Note that `:param` and `common` are mutually exclusive.  You cannot pass class
-data in constructors. This is one of the few conflicts in object creation.
 
 ```perl
 class Soldier {
@@ -216,22 +214,12 @@ A list of identifiers says "these methods will be handled by this object.
 
 ```perl
 use DateTime;
-common $datetime :handles(now, today) = 'DateTime';
+slot $datetime :handles(now, today) = 'DateTime';
 ```
 
 Now, when you call `->now` or `->today` on the object, those will be
 delegated to the `DateTime` class. Note that because class names are not
 "first class" in Perl, we regrettably treat the classname as a string.
-
-A more common case is to delegate to an instance.
-
-```
-use Hash::Ordered;
-slot $cache :handles(exists, delete) = Hash::Ordered->new;
-```
-
-The above will delegate `->exists($key)` and `->delete($key)` to the object
-held by `$cache`.
 
 You can rename delegated methods by providing identifiers for the 
 method the attribute will handle and for the delegated object's original 

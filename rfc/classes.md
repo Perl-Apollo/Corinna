@@ -12,11 +12,12 @@ edit this file directly. Please edit
 ---
 
 # 3.1 Overview
-Corinna classes are single-inheritance, data is declared with `slot` or
-`common`, and methods start with the `method` keyword. All methods require
-signatures, even methods who take no arguments.
+Corinna classes are single-inheritance, data is declared with `slot` (instance
+data) or `my` (class data), and methods use the `method` keyword instead of
+`sub`. All methods require signatures, even methods who take no arguments.
 
-Methods are not subroutines.
+Methods are not subroutines. Corinna cannot call methods without an invocant
+and cannot call subroutines with an invocant.
 
 Corinna classes cannot inherit from non-Corinna classes, but the special
 `handles(*)` syntax allows this to be simulated. See 
@@ -93,7 +94,8 @@ class Person {
     slot $name  :param;                    # must be passed to customer (:param)
     slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
     slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
-    common slot $num_people :reader = 0;   # class data, defaults to 0 (common, with reader method)
+    my slot $num_people = 0;               # class data, defaults to 0 (common, with hand-rolled reader method)
+    common method num_people () { $num_people }
 
     ADJUST   { $num_people++ }             # called after new(), but before returned to consumer (BUILD)
     DESTRUCT { $num_people-- }             # destructor

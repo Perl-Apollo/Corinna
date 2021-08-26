@@ -52,12 +52,12 @@ MODIFIER   ::= 'private' | 'overrides' | 'common'
 For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding variable names. `PERL_EXPRESSION` means what it says. `IDENTIFIER` is a valid Perl identifier.
 
 ```
-SLOT            ::= INSTANCE | SHARED
-SHARED          ::= 'common' 'slot'? SLOT_DEFINITION
+SLOT            ::= INSTANCE | SHARED ';'
+SHARED          ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE        ::= 'slot'    SLOT_DEFINITION
 SLOT_DEFINITION ::=   SCALAR           ATTRIBUTES? DEFAULT?  
                     | { ARRAY | HASH }             DEFAULT? 
-DEFAULT         ::= PERL_EXPRESSION
+DEFAULT         ::= '=' PERL_EXPRESSION
 ATTRIBUTE       ::= 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES
 ATTRIBUTES      ::= { ATTRIBUTE }
 HANDLES         ::= 'handles' '(' 

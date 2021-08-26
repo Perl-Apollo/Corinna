@@ -126,7 +126,7 @@ class Cache::LRU v0.1.0 {
     use Hash::Ordered;
     use Carp 'croak';
 
-    common $num_caches :reader                     = 0;
+    my $num_caches                                 = 0;
     slot    $cache     :handles(qw/exists delete/) = Hash::Ordered->new;
     slot    $max_size  :param  :reader             = 20;
     slot    $created   :reader                     = time;
@@ -138,6 +138,8 @@ class Cache::LRU v0.1.0 {
         }
     }
     DESTRUCT ($destruction) { $num_caches-- }
+
+    common method num_caches () { $num_caches }
 
     method set ( $key, $value ) {
         if ( $self->exists($key) ) {

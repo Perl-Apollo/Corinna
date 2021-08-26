@@ -77,8 +77,8 @@ role Role::UUID {
     use Data::UUID;
 
     # these are private to this role
-    common $uuid           = Data::UUID->new;
-    common $namespace_uuid = $uuid->create_str;
+    my $uuid           = Data::UUID->new;
+    my $namespace_uuid = $uuid->create_str;
 
     # abtract methods in roles are required
     method name();
