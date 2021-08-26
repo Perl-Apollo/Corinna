@@ -19,7 +19,7 @@ Instead, we'll cover major changes here.
 
 ## August 26, 2021
 
-- Private slots now declared with `my`. They do not take attributes.
+- Class slots now declared with `my`. They do not take attributes.
 
 ## August 19, 2021
 
