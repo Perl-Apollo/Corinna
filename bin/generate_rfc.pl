@@ -140,7 +140,14 @@ sub write_readme {
         name          => 'README',
     );
     my $template = slurp($readme_template);
-    $tts->process( \$template, { templates => $config->{rfcs} }, \my $out, );
+    $tts->process(
+        \$template,
+        {
+            templates => $config->{rfcs},
+            config    => $config->{main},
+        },
+        \my $out,
+    );
     splat( $readme, $out );
 }
 
