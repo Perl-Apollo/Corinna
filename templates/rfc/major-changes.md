@@ -4,7 +4,7 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
-## Auguest 26, 2021
+## August 26, 2021
 
 - Private slots now declared with `my`. They do not take attributes.
 

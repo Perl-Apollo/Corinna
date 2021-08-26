@@ -16,7 +16,7 @@ change to the RFC. You can always clone the repo and read the commits.
 Instead, we'll cover major changes here.
 
 # 11.1 Change Log
-## 11.1.1 Auguest 26, 2021
+## 11.1.1 August 26, 2021
 - Private slots now declared with `my`. They do not take attributes.
 
 ## 11.1.2 August 19, 2021
