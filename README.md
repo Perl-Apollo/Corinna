@@ -27,8 +27,6 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 consider this the final RFC. We're writing down the shell of the RFC and will
 fine-tune. Anything in the Wiki should be considered "rough drafts."
 
-See also, [quotes from various people involved](rfc/quotes.md).
-
 ## Section Numbers
 
 As you navigate the various RFC pages, you'll note that it's broken down into
