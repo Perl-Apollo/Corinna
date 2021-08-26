@@ -25,6 +25,7 @@ sub write_rfcs {
         my $next = $rfcs->[ $i + 1 ] || $default;
 
         my $file = $rfc->{file};
+        print "Processing $rfc->{source}\n";
         my $tts  = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
@@ -138,6 +139,7 @@ sub write_readme {
     my $config          = shift;
     my $readme_template = $config->{main}{readme_template};
     my $readme          = $config->{main}{readme};
+    print "Processing $readme_template\n";
     my $tts             = Template::Tiny::Strict->new(
         forbid_undef  => 1,
         forbid_unused => 1,
