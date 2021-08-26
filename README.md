@@ -29,6 +29,14 @@ fine-tune. Anything in the Wiki should be considered "rough drafts."
 
 See also, [quotes from various people involved](rfc/quotes.md).
 
+## Section Numbers
+
+As you navigate the various RFC pages, you'll note that it's broken down into
+fine-grained section numbers such as 3.2.2. Prior to the RFC being filed,
+these are fluid and will likely change without warning. After the RFC is
+filed, we may make minor changes to the sections, but the section numbers
+themselves should be frozen to make it easy to refer to a given section.
+
 ## Not a Tutorial
 
 This is not a tutorial on OO programming. That could easily fill a book. It's
