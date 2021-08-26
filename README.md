@@ -65,10 +65,6 @@ has much historical discussion of this project. However, the documents in the
 [You can file issues](https://github.com/Ovid/Cor/issues) to address your
 particular concerns and get feedback.
 
-## Changes
-
-[See the Changes file](rfc/major-changes.md).
-
 ## MVP
 
 This work is to drive us to v0.1.0—not v1.0.0—the “minimum viable product.” The
