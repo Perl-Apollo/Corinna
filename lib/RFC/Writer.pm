@@ -7,17 +7,17 @@ class RFC::Writer {
     use RFC::Config::Reader;
     use Template::Tiny::Strict;
 
-    has $file :param;
-    has $config;
-    has $verbose :param = 0;
-    has @toc;
+    has $FILE    :param(file);
+    has $VERBOSE :param(verbose) = 0;
+    has $CONFIG;
+    has @TOC;
 
     BUILD {
-        unless (-e $file) {
-            croak("$file does not exist");
+        unless ( -e $FILE ) {
+            croak("$FILE does not exist");
         }
-        my $reader = RFC::Config::Reader->new( file => $file );
-        $config = $reader->config;
+        my $reader = RFC::Config::Reader->new( file => $FILE );
+        $CONFIG = $reader->config;
         $self->_rewrite_config;
     }
 
@@ -27,22 +27,22 @@ class RFC::Writer {
         $self->_write_toc;
     }
 
-    method _write_toc () {
-        my $toc_file = $config->{rfcs}[0]{file}; # toc is always first
-        my $toc_list = join "\n" => @toc;
-        my $file_contents = $self->_slurp($toc_file);
-        my $marker = $config->{main}{toc_marker};
-        unless ($file_contents =~ /\Q$marker\E/) {
+    method _write_toc() {
+        my $toc_file      = $CONFIG->{rfcs}[0]{file};      # toc is always first
+        my $toc_list      = join "\n" => @TOC;
+        my $FILE_contents = $self->_slurp($toc_file);
+        my $marker        = $CONFIG->{main}{toc_marker};
+        unless ( $FILE_contents =~ /\Q$marker\E/ ) {
             croak("TOC marker '$marker' not found in toc file: $toc_file");
         }
-        $file_contents =~ s/\Q$marker\E/$toc_list/;
-        $self->_splat($toc_file, $file_contents);
+        $FILE_contents =~ s/\Q$marker\E/$toc_list/;
+        $self->_splat( $toc_file, $FILE_contents );
     }
 
-    method _write_readme () {
-        my $readme_template = $config->{main}{readme_template};
-        my $readme          = $config->{main}{readme};
-        print "Processing $readme_template\n" if $verbose;
+    method _write_readme() {
+        my $readme_template = $CONFIG->{main}{readme_template};
+        my $readme          = $CONFIG->{main}{readme};
+        print "Processing $readme_template\n" if $VERBOSE;
         my $tts = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
@@ -52,8 +52,8 @@ class RFC::Writer {
         $tts->process(
             \$template,
             {
-                templates => $config->{rfcs},
-                config    => $config->{main},
+                templates => $CONFIG->{rfcs},
+                config    => $CONFIG->{main},
             },
             \my $out,
         );
@@ -61,15 +61,15 @@ class RFC::Writer {
     }
 
     method _write_rfcs {
-        my $rfcs    = $config->{rfcs};
+        my $rfcs    = $CONFIG->{rfcs};
         my $default = { name => 'README', basename => '/README.md' };
         foreach my $i ( 0 .. $#$rfcs ) {
             my $prev = $i > 0 ? $rfcs->[ $i - 1 ] : $default;
             my $rfc  = $rfcs->[$i];
             my $next = $rfcs->[ $i + 1 ] || $default;
 
-            my $file = $rfc->{file};
-            print "Processing $rfc->{source}\n" if $verbose;
+            my $FILE = $rfc->{file};
+            print "Processing $rfc->{source}\n" if $VERBOSE;
             my $tts = Template::Tiny::Strict->new(
                 forbid_undef  => 1,
                 forbid_unused => 1,
@@ -81,64 +81,66 @@ class RFC::Writer {
                     prev   => $prev,
                     rfc    => $rfc,
                     next   => $next,
-                    config => $config->{main},
+                    config => $CONFIG->{main},
                 },
                 \my $out
             );
-            $self->_splat( $file, $out );
+            $self->_splat( $FILE, $out );
         }
     }
 
     method _rewrite_config() {
-        my $rfcs            = $config->{rfcs};
-        my $readme_template = $config->{main}{readme}
+        my $rfcs            = $CONFIG->{rfcs};
+        my $readme_template = $CONFIG->{main}{readme}
           or die "No readme found in [main] for config";
-        my $toc_template = $config->{main}{toc}
+        my $toc_template = $CONFIG->{main}{toc}
           or die "No toc found in [main] for config";
         $self->_assert_template_name( $readme_template,
-            $config->{main}{template_dir} );
-        $config->{main}{readme_template} =
-          catfile( $config->{main}{template_dir}, $readme_template );
-        $config->{main}{toc_template} =
-          catfile( $config->{main}{template_dir}, $config->{main}{rfc_dir}, $toc_template );
-        
+            $CONFIG->{main}{template_dir} );
+        $CONFIG->{main}{readme_template} =
+          catfile( $CONFIG->{main}{template_dir}, $readme_template );
+        $CONFIG->{main}{toc_template} = catfile(
+            $CONFIG->{main}{template_dir},
+            $CONFIG->{main}{rfc_dir},
+            $toc_template
+        );
 
         my $index = 1;
 
         unshift @$rfcs => {
             key   => 'Table of Contents',
-            value => $config->{main}{toc},
+            value => $CONFIG->{main}{toc},
         };
 
         foreach my $rfc (@$rfcs) {
-            my $filename = $rfc->{value};
+            my $FILEname = $rfc->{value};
             $self->_assert_template_name(
-                $filename,
-                $config->{main}{template_dir},
-                $config->{main}{rfc_dir}
+                $FILEname,
+                $CONFIG->{main}{template_dir},
+                $CONFIG->{main}{rfc_dir}
             );
             delete $rfc->{value};
             $rfc->{name}   = delete $rfc->{key};
-            $rfc->{source} = catfile( $config->{main}{template_dir},
-                $config->{main}{rfc_dir}, $filename );
-            $rfc->{file}     = catfile( $config->{main}{rfc_dir}, $filename );
-            $rfc->{basename} = $filename;
+            $rfc->{source} = catfile( $CONFIG->{main}{template_dir},
+                $CONFIG->{main}{rfc_dir}, $FILEname );
+            $rfc->{file}     = catfile( $CONFIG->{main}{rfc_dir}, $FILEname );
+            $rfc->{basename} = $FILEname;
             $rfc->{index}    = $index;
             $index++;
         }
     }
 
-    method _assert_template_name ( $filename, @dirs ) {
-        unless ( $filename =~ /\.md$/ ) {
-            croak("Template filename must end in '.md': $filename");
+    method _assert_template_name( $FILEname, @dirs ) {
+        unless ( $FILEname =~ /\.md$/ ) {
+            croak("Template filename must end in '.md': $FILEname");
         }
-        my $location = catfile( @dirs, $filename );
+        my $location = catfile( @dirs, $FILEname );
         unless ( -e $location ) {
             croak("Template '$location' does not exist");
         }
     }
 
-    method _get_rfc_template ($rfc) {
+    method _get_rfc_template($rfc) {
         my $template = $self->_renumbered_headings($rfc);
         return <<"END";
 Prev: [[% prev.name %]]([% prev.basename %])   
@@ -163,10 +165,11 @@ Next: [[% next.name %]]([% next.basename %])
 END
     }
 
-    method _renumbered_headings ($rfc) {
+    method _renumbered_headings($rfc) {
         my $template = $self->_slurp( $rfc->{source} );
 
-        push @toc => "\n# [Section: $rfc->{index}: $rfc->{name}]($rfc->{basename})\n";
+        push @TOC =>
+          "\n# [Section: $rfc->{index}: $rfc->{name}]($rfc->{basename})\n";
 
         # XXX fix me. Put this in config
         return $template if $rfc->{name} eq 'Changes';
@@ -179,7 +182,7 @@ END
         my $last_level = 1;
 
         my $in_code = 0;
-    LINE: foreach my $line (@lines) {
+      LINE: foreach my $line (@lines) {
             if ( $line =~ /^```/ ) {
                 if ( !$in_code ) {
                     $in_code = 1;
@@ -218,10 +221,10 @@ END
                     croak("$rfc->{source} didn't start with a level 1 header");
                 }
                 my $section_num = join '.' => $rfc->{index},
-                map { $levels{$_} } 1 .. $level;
+                  map { $levels{$_} } 1 .. $level;
                 my $num_dots = $section_num =~ tr/\././;
-                my $leader = $num_dots ? '..' x $num_dots : '';
-                push @toc => "* `$leader` $section_num $title";
+                my $leader   = $num_dots ? '..' x $num_dots : '';
+                push @TOC => "* `$leader` $section_num $title";
                 $rewritten .= "$hashes $section_num $title";
             }
             else {
@@ -231,16 +234,16 @@ END
         return $rewritten;
     }
 
-    method _slurp($file) {
-        open my $fh, '<', $file or die "Cannot open $file for reading: $!";
+    method _slurp($FILE) {
+        open my $fh, '<', $FILE or die "Cannot open $FILE for reading: $!";
         return do { local $/; <$fh> };
     }
 
-    method _splat( $file, $data ) {
+    method _splat( $FILE, $data ) {
         if ( ref $data ) {
-            croak("Data for splat '$file' must not be a reference ($data)");
+            croak("Data for splat '$FILE' must not be a reference ($data)");
         }
-        open my $fh, '>', $file or die "Cannot open $file for writing: $!";
+        open my $fh, '>', $FILE or die "Cannot open $FILE for writing: $!";
         print {$fh} $data;
     }
 }
