@@ -1,6 +1,6 @@
 use Object::Pad;
 
-class RFC::Writer {
+class RFC::Writer does RFC::Role::File {
     use Carp 'croak';
     use File::Basename 'basename';
     use File::Spec::Functions qw(catfile catdir);
@@ -232,18 +232,5 @@ END
             }
         }
         return $rewritten;
-    }
-
-    method _slurp($FILE) {
-        open my $fh, '<', $FILE or die "Cannot open $FILE for reading: $!";
-        return do { local $/; <$fh> };
-    }
-
-    method _splat( $FILE, $data ) {
-        if ( ref $data ) {
-            croak("Data for splat '$FILE' must not be a reference ($data)");
-        }
-        open my $fh, '>', $FILE or die "Cannot open $FILE for writing: $!";
-        print {$fh} $data;
     }
 }

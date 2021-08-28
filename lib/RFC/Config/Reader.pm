@@ -5,21 +5,18 @@
 
 use Object::Pad;
 
-class RFC::Config::Reader {
-    has $file : param;
-    has $config : reader = {};
+class RFC::Config::Reader does RFC::Role::File {
+    has $file   :param;
+    has $config :reader = {};
 
     BUILD {
         $self->_read_string;
     }
 
     method _read_string {
-        open my $fh, '<', $file or die "Cannot open $file for reading: $!";
-        my $config_data = do { local $/; <$fh> };
-        close $fh;
+        my $config_data = $self->_slurp($file);
 
         # Parse the data.
-
         my $ns      = '_';
         my $counter = 0;
         $config->{$ns} = [];
