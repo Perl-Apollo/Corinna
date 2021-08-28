@@ -10,17 +10,18 @@ edit this file directly. Please edit
 
 This is to track the RFC for the Corinna MVP OOP proposal.
 
-1. [Overview](rfc/overview.md)
-2. [Grammar](rfc/grammar.md)
-3. [Classes](rfc/classes.md)
-4. [Class Construction](rfc/class-construction.md)
-5. [Attributes](rfc/attributes.md)
-6. [Methods](rfc/methods.md)
-7. [Roles](rfc/roles.md)
-8. [Phasers](rfc/phasers.md)
-9. [Questions](rfc/questions.md)
-10. [Quotes](rfc/quotes.md)
-11. [Changes](rfc/major-changes.md)
+1. [Table of Contents](rfc/toc.md)
+2. [Overview](rfc/overview.md)
+3. [Grammar](rfc/grammar.md)
+4. [Classes](rfc/classes.md)
+5. [Class Construction](rfc/class-construction.md)
+6. [Attributes](rfc/attributes.md)
+7. [Methods](rfc/methods.md)
+8. [Roles](rfc/roles.md)
+9. [Phasers](rfc/phasers.md)
+10. [Questions](rfc/questions.md)
+11. [Quotes](rfc/quotes.md)
+12. [Changes](rfc/major-changes.md)
 
 
 **Important**: All of the above represent works in progress. Please do not
