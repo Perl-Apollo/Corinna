@@ -13,11 +13,11 @@ edit this file directly. Please edit
 
 # 1.1 Sections
 
-# [Section: 1: Table of Contents](rfc/toc.md)
+# [Section: 1: Table of Contents](toc.md)
 
 * `..` 1.1 Sections
 
-# [Section: 2: Overview](rfc/overview.md)
+# [Section: 2: Overview](overview.md)
 
 * `..` 2.1 Preamble
 * `..` 2.2 Abstract
@@ -41,13 +41,13 @@ edit this file directly. Please edit
 * `..` 2.14 Contributors
 * `..` 2.15 Copyright
 
-# [Section: 3: Grammar](rfc/grammar.md)
+# [Section: 3: Grammar](grammar.md)
 
 * `..` 3.1 Class and Role Grammar
 * `..` 3.2 Method Grammar
 * `..` 3.3 Slot Grammar
 
-# [Section: 4: Classes](rfc/classes.md)
+# [Section: 4: Classes](classes.md)
 
 * `..` 4.1 Overview
 * `..` 4.2 Discussion
@@ -57,10 +57,10 @@ edit this file directly. Please edit
 * `....` 4.2.4 Abstract Classes
 * `....` 4.2.5 Subroutines versus Methods
 
-# [Section: 5: Class Construction](rfc/class-construction.md)
+# [Section: 5: Class Construction](class-construction.md)
 
 
-# [Section: 6: Attributes](rfc/attributes.md)
+# [Section: 6: Attributes](attributes.md)
 
 * `..` 6.1 Overview 
 * `..` 6.2 Slot Creation
@@ -76,7 +76,7 @@ edit this file directly. Please edit
 * `........` 6.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings
 * `........` 6.2.3.6.2 Delegate All Unknown Methods
 
-# [Section: 7: Methods](rfc/methods.md)
+# [Section: 7: Methods](methods.md)
 
 * `..` 7.1 Overview
 * `..` 7.2 Instance Methods
@@ -86,7 +86,7 @@ edit this file directly. Please edit
 * `..` 7.6 Private Methods
 * `....` 7.6.1 Private Methods in Roles
 
-# [Section: 8: Roles](rfc/roles.md)
+# [Section: 8: Roles](roles.md)
 
 * `..` 8.1 Background
 * `..` 8.2 Overview
@@ -94,13 +94,13 @@ edit this file directly. Please edit
 * `..` 8.4 Aliasing and Excluding
 * `..` 8.5 `ADJUST` and `DESTRUCT`
 
-# [Section: 9: Phasers](rfc/phasers.md)
+# [Section: 9: Phasers](phasers.md)
 
 * `..` 9.1 `ADJUST`
 * `..` 9.2 `DESTRUCT`
 * `..` 9.3 Phaser Call Order
 
-# [Section: 10: Questions](rfc/questions.md)
+# [Section: 10: Questions](questions.md)
 
 * `..` 10.1 Open issues for the RFC
 * `....` 10.1.1 Corinna v Other objects
@@ -110,7 +110,7 @@ edit this file directly. Please edit
 * `....` 10.1.5 `can`, `does`, and `isa`
 * `....` 10.1.6 Inline POD?
 
-# [Section: 11: Quotes](rfc/quotes.md)
+# [Section: 11: Quotes](quotes.md)
 
 * `..` 11.1 Overview
 * `....` 11.1.1 [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna
@@ -120,7 +120,7 @@ edit this file directly. Please edit
 * `....` 11.1.5 [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking
 * `....` 11.1.6 [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
 
-# [Section: 12: Changes](rfc/major-changes.md)
+# [Section: 12: Changes](major-changes.md)
 
 
 

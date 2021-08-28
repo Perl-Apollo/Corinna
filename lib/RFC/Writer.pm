@@ -166,7 +166,7 @@ END
     method _renumbered_headings ($rfc) {
         my $template = $self->_slurp( $rfc->{source} );
 
-        push @toc => "\n# [Section: $rfc->{index}: $rfc->{name}]($rfc->{file})\n";
+        push @toc => "\n# [Section: $rfc->{index}: $rfc->{name}]($rfc->{basename})\n";
 
         # XXX fix me. Put this in config
         return $template if $rfc->{name} eq 'Changes';
