@@ -59,6 +59,15 @@ edit this file directly. Please edit
 
 # [Section: 5: Class Construction](class-construction.md)
 
+* `..` 5.1 Overview
+* `..` 5.2 Steps
+* `....` 5.2.1 Step 1 Verify even-sized list of args
+* `....` 5.2.2 Step 2 Constructor keys may not be references
+* `....` 5.2.3 Step 3 Find constructor args
+* `....` 5.2.4 Step 4 Err out on unknown keys
+* `....` 5.2.5 Step 5 `new()`
+* `....` 5.2.6 Step 6 `ADJUST`
+* `..` 5.3 MOP Pseudocode
 
 # [Section: 6: Attributes](attributes.md)
 
