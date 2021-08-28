@@ -5,7 +5,7 @@ use warnings;
 use Test::More;
 use RFC::Config::Reader;
 
-my $Config = RFC::Config::Reader->new('t/test.conf');
+my $reader = RFC::Config::Reader->new( file => 't/test.conf');
 
 my $expected = {
     '_'     => [ { key => 'root', value => 'something' }, ],
@@ -21,7 +21,6 @@ my $expected = {
         'remove'         => 'whitespace'
     },
 };
-bless $expected, 'RFC::Config::Reader';
-is_deeply( $Config, $expected, 'Config structure matches expected' );
+is_deeply( $reader->config, $expected, 'Config structure matches expected' );
 
 done_testing;

@@ -9,7 +9,8 @@ use File::Spec::Functions qw(catfile catdir);
 use RFC::Config::Reader;
 use Template::Tiny::Strict;
 
-my $config = RFC::Config::Reader->new('config/rfcs');
+my $reader = RFC::Config::Reader->new( file => 'config/rfcs' );
+my $config = $reader->config;
 rewrite_config($config);
 write_readme($config);
 write_rfcs($config);

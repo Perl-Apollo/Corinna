@@ -1,90 +1,64 @@
-package RFC::Config::Reader;
 
 # Forked from Config::Tiny::Ordered to give us both
 # list and hash config entries
 # If you thought Config::Tiny was small...
 
-use strict;
-use warnings;
+use Object::Pad;
 
-# Create an empty object.
+class RFC::Config::Reader {
+    has $file : param;
+    has $config : reader = {};
 
-sub new {
-    my $class = shift;
-    my $self  = bless {}, $class;
-    if (@_) {
-        $self->_read_string(shift);
-    }
-    return $self;
-}
-
-# Create an object from a string.
-
-sub _read_string {
-    my ( $self, $config) = @_;
-    open my $fh, '<', $config or die "Cannot open $config for reading: $!";
-    my $config_data = do { local $/; <$fh> };
-    close $fh;
-
-    # Parse the data.
-
-    my $ns      = '_';
-    my $counter = 0;
-    $self->{$ns} = [];
-
-    for ( split /(?:\015{1,2}\012|\015|\012)/, $config_data ) {
-        $counter++;
-
-        # Skip comments and empty lines.
-
-        next if /^\s*(?:\#|\;|$)/;
-
-        # Remove inline comments.
-
-        s/\s\;\s.+$//g;
-
-        # Handle section headers.
-
-        if (/^\s*\[(\@)?\s*(.+?)\s*\]\s*$/) {
-
-            # Create the sub-hash if it doesn't exist.
-            # Without this sections without keys will not
-            # appear at all in the completed struct.
-
-            # they want a list
-            if ( '@' eq ( $1 || '' ) ) {
-                $self->{ $ns = $2 } ||= [];
-            }
-
-            # they want k/v pairs
-            else {
-                $self->{ $ns = $2 } ||= {};
-            }
-
-            next;
-        }
-
-        # Handle properties.
-
-        if (/^\s*([^=]+?)\s*=\s*(.*?)\s*$/) {
-            my $section = $self->{$ns};
-            if ( 'ARRAY' eq ref $section ) {
-                push @$section, { key => $1, value => $2 };
-            }
-            else {
-                $section->{$1} = $2;
-            }
-            next;
-        }
-
-        return $self->_error("Syntax error at line $counter: '$_'");
+    BUILD {
+        $self->_read_string;
     }
 
-    return $self;
+    method _read_string {
+        open my $fh, '<', $file or die "Cannot open $file for reading: $!";
+        my $config_data = do { local $/; <$fh> };
+        close $fh;
 
+        # Parse the data.
+
+        my $ns      = '_';
+        my $counter = 0;
+        $config->{$ns} = [];
+
+      LINE: for ( split /(?:\015{1,2}\012|\015|\012)/, $config_data ) {
+            $counter++;
+
+            # Skip comments and empty lines.
+            next if /^\s*(?:\#|\;|$)/;
+
+            # Remove inline comments.
+            s/\s\;\s.+$//g;
+
+            # Handle section headers.
+            if (/^\s*\[(\@)?\s*(.+?)\s*\]\s*$/) {
+                if ( '@' eq ( $1 || '' ) ) {    # they want a list
+                    $config->{ $ns = $2 } ||= [];
+                }
+                else {                          # they want k/v pairs
+                    $config->{ $ns = $2 } ||= {};
+                }
+                next LINE;
+            }
+
+            # Handle properties.
+            if (/^\s*([^=]+?)\s*=\s*(.*?)\s*$/) {
+                my $section = $config->{$ns};
+                if ( 'ARRAY' eq ref $section ) {
+                    push @$section, { key => $1, value => $2 };
+                }
+                else {
+                    $section->{$1} = $2;
+                }
+                next;
+            }
+            die "Syntax error at line $counter: '$_'";
+        }
+    }
 }
-
-1;
 
 __END__
 
