@@ -1,4 +1,5 @@
-[@rfcs]
+# see RFC::Config::Reader for syntax
+[@rfcs]                            ; the @ means 'preserve the order of these values
 Overview=overview.md
 Grammar=grammar.md
 Classes=classes.md
@@ -11,10 +12,10 @@ Questions=questions.md
 Quotes=quotes.md
 Changes=major-changes.md
 
-[main]
-template_dir=templates
-rfc_dir=rfc
-readme=README.md
-toc=toc.md
-toc_marker={{TOC}}
-github=https://github.com/Ovid/Cor
+[main]                             ; k/v pairs: $config->{main}{readme} = README.md
+template_dir=templates             ; where the templates are stored
+rfc_dir=rfc                        ; where the rfcs will be saved
+readme=README.md                   ; name of the README.md file
+toc=toc.md                         ; name we'll use for our table of contents file
+toc_marker={{TOC}}                 ; the marker in the toc file for post-process insertion of table of contents
+github=https://github.com/Ovid/Cor ; url of this repo
