@@ -15,4 +15,6 @@ Changes=major-changes.md
 template_dir=templates
 rfc_dir=rfc
 readme=README.md
+toc=toc.md
+toc_marker={{TOC}}
 github=https://github.com/Ovid/Cor
