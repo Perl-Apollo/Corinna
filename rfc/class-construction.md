@@ -12,12 +12,11 @@ edit this file directly. Please edit
 ---
 
 # 5.1 Overview
-For object construction, we provide a list of needed steps, but then we'll
-have pseudocode to make the construction process explicit.
+For object construction, we provide a list of needed steps and then show
+pseudocode to make the construction process explicit.
 
-Note: there are a number of references to MRO order, but we'll likely
-be single inheritance for the MVP. Thus, MRO order is parent to child and
-reverse MRO is child to parent.
+**Note**: because Corinna is single inheritance, MRO order is simply child to
+parent.
 
 Anything which can be removed from this will make object construction
 faster. Anything which can be pushed to compile-time will make object
