@@ -15,110 +15,110 @@ edit this file directly. Please edit
 
 # [Section: 1: Table of Contents](rfc/toc.md)
 
-* .. 1.1 Sections
+* `.. 1.1 Sections`
 
 # [Section: 2: Overview](rfc/overview.md)
 
-* .. 2.1 Preamble
-* .. 2.2 Abstract
-* .. 2.3 Motivation
-* .. 2.4 Rationale
-* .. 2.5 Specification
-* .. 2.6 Backwards Compatibility
-* .. 2.7 Security Implications
-* .. 2.8 Examples
-* .. 2.9 Prototype Implementation
-* .. 2.10 Benefits of this approach
-* .... 2.10.1 Compile-time failures
-* .... 2.10.2 Encapsulation
-* .... 2.10.3 Less Code
-* .... 2.10.4 Cleaner Interfaces
-* .... 2.10.5 No MRO Pain
-* .. 2.11 FAQ
-* .... 2.11.1 Why not Moo/se or alternatives in the core?
-* .. 2.12 Open Issues
-* .. 2.13 Scope for future work
-* .. 2.14 Contributors
-* .. 2.15 Copyright
+* `.. 2.1 Preamble`
+* `.. 2.2 Abstract`
+* `.. 2.3 Motivation`
+* `.. 2.4 Rationale`
+* `.. 2.5 Specification`
+* `.. 2.6 Backwards Compatibility`
+* `.. 2.7 Security Implications`
+* `.. 2.8 Examples`
+* `.. 2.9 Prototype Implementation`
+* `.. 2.10 Benefits of this approach`
+* `.... 2.10.1 Compile-time failures`
+* `.... 2.10.2 Encapsulation`
+* `.... 2.10.3 Less Code`
+* `.... 2.10.4 Cleaner Interfaces`
+* `.... 2.10.5 No MRO Pain`
+* `.. 2.11 FAQ`
+* `.... 2.11.1 Why not Moo/se or alternatives in the core?`
+* `.. 2.12 Open Issues`
+* `.. 2.13 Scope for future work`
+* `.. 2.14 Contributors`
+* `.. 2.15 Copyright`
 
 # [Section: 3: Grammar](rfc/grammar.md)
 
-* .. 3.1 Class and Role Grammar
-* .. 3.2 Method Grammar
-* .. 3.3 Slot Grammar
+* `.. 3.1 Class and Role Grammar`
+* `.. 3.2 Method Grammar`
+* `.. 3.3 Slot Grammar`
 
 # [Section: 4: Classes](rfc/classes.md)
 
-* .. 4.1 Overview
-* .. 4.2 Discussion
-* .... 4.2.1 Versions
-* .... 4.2.2 Inheritance
-* .... 4.2.3 Roles
-* .... 4.2.4 Abstract Classes
-* .... 4.2.5 Subroutines versus Methods
+* `.. 4.1 Overview`
+* `.. 4.2 Discussion`
+* `.... 4.2.1 Versions`
+* `.... 4.2.2 Inheritance`
+* `.... 4.2.3 Roles`
+* `.... 4.2.4 Abstract Classes`
+* `.... 4.2.5 Subroutines versus Methods`
 
 # [Section: 5: Class Construction](rfc/class-construction.md)
 
 
 # [Section: 6: Attributes](rfc/attributes.md)
 
-* .. 6.1 Overview 
-* .. 6.2 Slot Creation
-* .... 6.2.1 Slot Initialization
-* .... 6.2.2 Slot Destruction
-* .... 6.2.3 Slot Attributes
-* ...... 6.2.3.1 `:param(optional_identifier)`
-* ...... 6.2.3.2 `:reader(optional_identifier)`
-* ...... 6.2.3.3 `:writer(optional_identifier)`
-* ...... 6.2.3.4 `:predicate(optional_identifier)`
-* ...... 6.2.3.5 `:name(optional_identifier)`
-* ...... 6.2.3.6 `:handles(%@*)`
-* ........ 6.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings
-* ........ 6.2.3.6.2 Delegate All Unknown Methods
+* `.. 6.1 Overview `
+* `.. 6.2 Slot Creation`
+* `.... 6.2.1 Slot Initialization`
+* `.... 6.2.2 Slot Destruction`
+* `.... 6.2.3 Slot Attributes`
+* `...... 6.2.3.1 `:param(optional_identifier)``
+* `...... 6.2.3.2 `:reader(optional_identifier)``
+* `...... 6.2.3.3 `:writer(optional_identifier)``
+* `...... 6.2.3.4 `:predicate(optional_identifier)``
+* `...... 6.2.3.5 `:name(optional_identifier)``
+* `...... 6.2.3.6 `:handles(%@*)``
+* `........ 6.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings`
+* `........ 6.2.3.6.2 Delegate All Unknown Methods`
 
 # [Section: 7: Methods](rfc/methods.md)
 
-* .. 7.1 Overview
-* .. 7.2 Instance Methods
-* .. 7.3 Class Methods
-* .. 7.4 Overridden Methods
-* .. 7.5 Abstract Methods
-* .. 7.6 Private Methods
-* .... 7.6.1 Private Methods in Roles
+* `.. 7.1 Overview`
+* `.. 7.2 Instance Methods`
+* `.. 7.3 Class Methods`
+* `.. 7.4 Overridden Methods`
+* `.. 7.5 Abstract Methods`
+* `.. 7.6 Private Methods`
+* `.... 7.6.1 Private Methods in Roles`
 
 # [Section: 8: Roles](rfc/roles.md)
 
-* .. 8.1 Background
-* .. 8.2 Overview
-* .. 8.3 Example
-* .. 8.4 Aliasing and Excluding
-* .. 8.5 `ADJUST` and `DESTRUCT`
+* `.. 8.1 Background`
+* `.. 8.2 Overview`
+* `.. 8.3 Example`
+* `.. 8.4 Aliasing and Excluding`
+* `.. 8.5 `ADJUST` and `DESTRUCT``
 
 # [Section: 9: Phasers](rfc/phasers.md)
 
-* .. 9.1 `ADJUST`
-* .. 9.2 `DESTRUCT`
-* .. 9.3 Phaser Call Order
+* `.. 9.1 `ADJUST``
+* `.. 9.2 `DESTRUCT``
+* `.. 9.3 Phaser Call Order`
 
 # [Section: 10: Questions](rfc/questions.md)
 
-* .. 10.1 Open issues for the RFC
-* .... 10.1.1 Corinna v Other objects
-* .... 10.1.2 Multiple Variables Types In A Slot
-* .... 10.1.3 Twigils?
-* .... 10.1.4 Overridding Attributes
-* .... 10.1.5 `can`, `does`, and `isa`
-* .... 10.1.6 Inline POD?
+* `.. 10.1 Open issues for the RFC`
+* `.... 10.1.1 Corinna v Other objects`
+* `.... 10.1.2 Multiple Variables Types In A Slot`
+* `.... 10.1.3 Twigils?`
+* `.... 10.1.4 Overridding Attributes`
+* `.... 10.1.5 `can`, `does`, and `isa``
+* `.... 10.1.6 Inline POD?`
 
 # [Section: 11: Quotes](rfc/quotes.md)
 
-* .. 11.1 Overview
-* .... 11.1.1 [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna
-* .... 11.1.2 [Damian Conway, a.k.a. _That_ Damian](https://metacpan.org/author/DCONWAY), Computer scientist and (too many accolades to list)
-* .... 11.1.3 [Dan Book, a.k.a. Grinnz](https://metacpan.org/author/DBOOK), CPAN author and docs wrangler
-* .... 11.1.4 [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo
-* .... 11.1.5 [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking
-* .... 11.1.6 [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
+* `.. 11.1 Overview`
+* `.... 11.1.1 [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna`
+* `.... 11.1.2 [Damian Conway, a.k.a. _That_ Damian](https://metacpan.org/author/DCONWAY), Computer scientist and (too many accolades to list)`
+* `.... 11.1.3 [Dan Book, a.k.a. Grinnz](https://metacpan.org/author/DBOOK), CPAN author and docs wrangler`
+* `.... 11.1.4 [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo`
+* `.... 11.1.5 [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking`
+* `.... 11.1.6 [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose`
 
 # [Section: 12: Changes](rfc/major-changes.md)
 

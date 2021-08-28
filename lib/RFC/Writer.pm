@@ -221,7 +221,7 @@ END
                 map { $levels{$_} } 1 .. $level;
                 my $num_dots = $section_num =~ tr/\././;
                 my $leader = $num_dots ? '..' x $num_dots : '';
-                push @toc => "* $leader $section_num $title";
+                push @toc => "* `$leader $section_num $title`";
                 $rewritten .= "$hashes $section_num $title";
             }
             else {
