@@ -6,10 +6,10 @@ use warnings;
 use Carp 'croak';
 use File::Basename 'basename';
 use File::Spec::Functions qw(catfile catdir);
-use Config::Tiny::Ordered;
+use RFC::Config::Reader;
 use Template::Tiny::Strict;
 
-my $config = Config::Tiny::Ordered->read('config/rfcs');
+my $config = RFC::Config::Reader->new('config/rfcs');
 rewrite_config($config);
 write_readme($config);
 write_rfcs($config);
@@ -26,7 +26,7 @@ sub write_rfcs {
 
         my $file = $rfc->{file};
         print "Processing $rfc->{source}\n";
-        my $tts  = Template::Tiny::Strict->new(
+        my $tts = Template::Tiny::Strict->new(
             forbid_undef  => 1,
             forbid_unused => 1,
         );
@@ -72,9 +72,9 @@ END
 }
 
 sub renumbered_headings {
-    my $rfc       = shift;
-    my $template  = slurp( $rfc->{source} );
-    
+    my $rfc      = shift;
+    my $template = slurp( $rfc->{source} );
+
     # XXX fix me. Put this in config
     return $template if $rfc->{name} eq 'Changes';
 
@@ -140,7 +140,7 @@ sub write_readme {
     my $readme_template = $config->{main}{readme_template};
     my $readme          = $config->{main}{readme};
     print "Processing $readme_template\n";
-    my $tts             = Template::Tiny::Strict->new(
+    my $tts = Template::Tiny::Strict->new(
         forbid_undef  => 1,
         forbid_unused => 1,
         name          => 'README',
@@ -158,27 +158,27 @@ sub write_readme {
 }
 
 sub rewrite_config {
-    my $config = shift;
-    my $rfcs   = $config->{rfcs};
-    my %main;
-    foreach my $entry ( @{ $config->{main} } ) {
-        $main{ $entry->{key} } = $entry->{value};
-    }
-    my $readme_template = $main{readme}
+    my $config          = shift;
+    my $rfcs            = $config->{rfcs};
+    my $readme_template = $config->{main}{readme}
       or die "No readme found in [main] for config";
-    assert_template_name( $readme_template, $main{template_dir} );
-    $main{readme_template} = catfile( $main{template_dir}, $readme_template );
+    assert_template_name( $readme_template, $config->{main}{template_dir} );
+    $config->{main}{readme_template} =
+      catfile( $config->{main}{template_dir}, $readme_template );
 
-    $config->{main} = \%main;
     my $index = 1;
     foreach my $rfc (@$rfcs) {
         my $filename = $rfc->{value};
-        assert_template_name( $filename, $main{template_dir}, $main{rfc_dir} );
+        assert_template_name(
+            $filename,
+            $config->{main}{template_dir},
+            $config->{main}{rfc_dir}
+        );
         delete $rfc->{value};
-        $rfc->{name} = delete $rfc->{key};
-        $rfc->{source} =
-          catfile( $main{template_dir}, $main{rfc_dir}, $filename );
-        $rfc->{file}     = catfile( $main{rfc_dir}, $filename );
+        $rfc->{name}   = delete $rfc->{key};
+        $rfc->{source} = catfile( $config->{main}{template_dir},
+            $config->{main}{rfc_dir}, $filename );
+        $rfc->{file}     = catfile( $config->{main}{rfc_dir}, $filename );
         $rfc->{basename} = $filename;
         $rfc->{index}    = $index;
         $index++;

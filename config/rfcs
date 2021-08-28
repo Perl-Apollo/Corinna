@@ -1,4 +1,4 @@
-[rfcs]
+[@rfcs]
 Overview=overview.md
 Grammar=grammar.md
 Classes=classes.md
