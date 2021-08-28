@@ -12,7 +12,7 @@ class RFC::Writer {
     has $CONFIG;
     has @TOC;
 
-    BUILD {
+    ADJUST {
         unless ( -e $FILE ) {
             croak("$FILE does not exist");
         }
