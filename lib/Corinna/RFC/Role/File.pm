@@ -53,6 +53,9 @@ Nothing.
 
 =head1 PROVIDES
 
+Note: while both methods are class methods, as of C<Object::Pad> 0.52, we cannot call these methods
+on non-instances.
+
 =head2 C<_slurp($filename)>
 
 	my $contents = $class->_slurp($filename);
