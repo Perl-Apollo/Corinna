@@ -3,9 +3,9 @@
 use strict;
 use warnings;
 use Test::More;
-use RFC::Config::Reader;
+use Corinna::RFC::Config::Reader;
 
-my $reader = RFC::Config::Reader->new( file => 't/test.conf');
+my $reader = Corinna::RFC::Config::Reader->new( file => 't/test.conf');
 
 my $expected = {
     '_'     => [ { key => 'root', value => 'something' }, ],

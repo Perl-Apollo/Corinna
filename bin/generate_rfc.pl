@@ -3,9 +3,9 @@
 use lib 'lib';
 use strict;
 use warnings;
-use RFC::Writer;
+use Corinna::RFC::Writer;
 
-my $writer = RFC::Writer->new( file => 'config/rfcs', verbose => 1 );
+my $writer = Corinna::RFC::Writer->new( file => 'config/rfcs', verbose => 1 );
 $writer->generate_rfcs;
 
 __END__

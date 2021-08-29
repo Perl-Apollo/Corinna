@@ -1,10 +1,10 @@
 use Object::Pad;
 
-class RFC::Writer does RFC::Role::File {
+class Corinna::RFC::Writer does Corinna::RFC::Role::File {
     use Carp 'croak';
     use File::Basename 'basename';
     use File::Spec::Functions qw(catfile catdir);
-    use RFC::Config::Reader;
+    use Corinna::RFC::Config::Reader;
     use Template::Tiny::Strict;
 
     has $FILE    :param(file);
@@ -16,7 +16,7 @@ class RFC::Writer does RFC::Role::File {
         unless ( -e $FILE ) {
             croak("$FILE does not exist");
         }
-        my $reader = RFC::Config::Reader->new( file => $FILE );
+        my $reader = Corinna::RFC::Config::Reader->new( file => $FILE );
         $CONFIG = $reader->config;
         $self->_rewrite_config;
     }

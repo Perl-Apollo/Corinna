@@ -5,7 +5,7 @@
 
 use Object::Pad;
 
-class RFC::Config::Reader does RFC::Role::File {
+class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     has $file   :param;
     has $config :reader = {};
 
@@ -63,7 +63,7 @@ __END__
 
 =head1 NAME
 
-RFC::Config::Reader - Read RFC config files. For internal use only
+Corinna::RFC::Config::Reader - Read RFC config files. For internal use only
 
 =head1 SYNOPSIS
 
@@ -86,7 +86,7 @@ In your configuration file:
 
 In your program:
 
-    use RFC::Config::Reader;
+    use Corinna::RFC::Config::Reader;
 
     # Create a config:
     my $Config = Config::Tiny::Ordered->new('file.conf');
@@ -110,7 +110,7 @@ Your config will contain:
 
 =head1 DESCRIPTION
 
-C<RFC::Config::Reader> is a perl class to read .ini style configuration
+C<Corinna::RFC::Config::Reader> is a perl class to read .ini style configuration
 files with as little code as possible.
 
 Read more in the docs for C<Config::Tiny>.
@@ -124,7 +124,7 @@ This module differs from C<Config::Tiny> in that if there is a data section
 whose name begins with an C<@> symbol, the data is stored in memory in the
 same order as it appears in the input file or string.
 
-C<RFC::Config::Reader> does this by storing the keys and values in an arrayref
+C<Corinna::RFC::Config::Reader> does this by storing the keys and values in an arrayref
 rather than, as most config modules do, in a hashref.
 
 The arrayref sections consists of an ordered set of hashrefs, and these

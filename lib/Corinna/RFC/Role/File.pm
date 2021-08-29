@@ -1,6 +1,6 @@
 use Object::Pad;
 
-role RFC::Role::File {
+role Corinna::RFC::Role::File {
     method _slurp($file) {
         open my $fh, '<:encoding(UTF-8)', $file or die "Cannot open $file for reading: $!";
         return do { local $/; <$fh> };

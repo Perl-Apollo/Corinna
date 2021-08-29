@@ -1,4 +1,4 @@
-# see RFC::Config::Reader for syntax
+# see Corinna::RFC::Config::Reader for syntax
 [@rfcs]                            ; the @ means 'preserve the order of these values
 Overview=overview.md
 Grammar=grammar.md
