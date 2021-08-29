@@ -18,7 +18,8 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
         $self->_validate;
     }
 
-    method config () {
+    method config() {
+
         # by doing this, the caller can mutate $CONFIG to their
         # heart's content, but internaly we're "safe"
         return dclone($CONFIG);
@@ -49,13 +50,12 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     method _read_string() {
         my $config_data = $self->_slurp($FILE);
 
-        # Parse the data.
-        my $ns      = '_';
-        my $counter = 0;
-        $CONFIG->{$ns} = [];
+        my $line_number = 0;
+        my $namespace   = '_';    # Catch-all in case they add extra stuff
+        $CONFIG->{$namespace} = [];
 
-      LINE: for ( split /(?:\015{1,2}\012|\015|\012)/, $config_data ) {
-            $counter++;
+      LINE: for ( split /\n/, $config_data ) {
+            $line_number++;
 
             # Skip comments and empty lines.
             next if /^\s*(?:\#|\;|$)/;
@@ -64,28 +64,28 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             s/\s\;\s.+$//g;
 
             # Handle section headers.
-            if (/^\s*\[(\@)?\s*(.+?)\s*\]\s*$/) {
-                if ( '@' eq ( $1 || '' ) ) {    # they want a list
-                    $CONFIG->{ $ns = $2 } ||= [];
+            if (/^ \s* \[ (?<is_list>\@)? \s* (?<namespace>.+?) \s* \] \s*$/x) {
+                if ( $+{is_list} ) {    # they want a list
+                    $CONFIG->{ $namespace = $+{namespace} } ||= [];
                 }
-                else {                          # they want k/v pairs
-                    $CONFIG->{ $ns = $2 } ||= {};
+                else {                  # they want k/v pairs
+                    $CONFIG->{ $namespace = $+{namespace} } ||= {};
                 }
                 next LINE;
             }
 
             # Handle properties.
-            if (/^\s*([^=]+?)\s*=\s*(.*?)\s*$/) {
-                my $section = $CONFIG->{$ns};
+            if (/^ \s* (?<key>[^=]+?) \s* = \s* (?<value>.*?) \s* $/x) {
+                my $section = $CONFIG->{$namespace};
                 if ( 'ARRAY' eq ref $section ) {
-                    push @$section, { key => $1, value => $2 };
+                    push $section->@*, { key => $+{key}, value => $+{value} };
                 }
                 else {
-                    $section->{$1} = $2;
+                    $section->{ $+{key} } = $+{value};
                 }
                 next;
             }
-            die "Syntax error at line $counter: '$_'";
+            die "Syntax error at line $line_number '$_'";
         }
         delete $CONFIG->{_} unless $CONFIG->{_}->@*;
     }
