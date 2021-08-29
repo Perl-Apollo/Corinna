@@ -4,7 +4,6 @@ lib/Corinna/RFC/Config/Reader.pm
 lib/Corinna/RFC/Role/File.pm
 lib/Corinna/RFC/Types.pm
 lib/Corinna/RFC/Writer.pm
-lib/Template/Tiny/Strict.pm
 Makefile.PL
 MANIFEST
 MYMETA.json

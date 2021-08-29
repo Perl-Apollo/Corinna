@@ -17,8 +17,9 @@ my %WriteMakefileArgs = (
         'Test::Most' => '0.37',
     },
     PREREQ_PM => {
-        'Object::Pad'          => '0.52',
-        'Syntax::Keyword::Try' => '0.25',
+        'Object::Pad'            => '0.52',
+        'Syntax::Keyword::Try'   => '0.25',
+        'Template::Tiny::Strict' => '1.18',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'Corinna-RFC-Writer-*' },

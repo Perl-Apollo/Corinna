@@ -34,6 +34,7 @@
          "requires" : {
             "Object::Pad" : "0.52",
             "Syntax::Keyword::Try" : "0.25",
+            "Template::Tiny::Strict" : "1.18",
             "perl" : "5.026"
          }
       },
