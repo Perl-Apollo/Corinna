@@ -5,15 +5,23 @@ use Object::Pad;
 
 class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     use Syntax::Keyword::Try;
+    use Storable 'dclone';
+    use Readonly;
     use Corinna::RFC::Types qw(compile ArrayRef HashRef Str Dict);
     use Carp 'croak';
 
-    has $file : param;
-    has $config : reader = {};
+    has $FILE :param(file);
+    has $CONFIG = {};
 
     BUILD {
         $self->_read_string;
         $self->_validate;
+    }
+
+    method config () {
+        # by doing this, the caller can mutate $CONFIG to their
+        # heart's content, but internaly we're "safe"
+        return dclone($CONFIG);
     }
 
     method _validate() {
@@ -31,7 +39,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             ]
         );
         try {
-            $check->($config);
+            $check->($CONFIG);
         }
         catch ($error) {
             croak("Config file error: $error");
@@ -39,12 +47,12 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     }
 
     method _read_string() {
-        my $config_data = $self->_slurp($file);
+        my $config_data = $self->_slurp($FILE);
 
         # Parse the data.
         my $ns      = '_';
         my $counter = 0;
-        $config->{$ns} = [];
+        $CONFIG->{$ns} = [];
 
       LINE: for ( split /(?:\015{1,2}\012|\015|\012)/, $config_data ) {
             $counter++;
@@ -58,17 +66,17 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             # Handle section headers.
             if (/^\s*\[(\@)?\s*(.+?)\s*\]\s*$/) {
                 if ( '@' eq ( $1 || '' ) ) {    # they want a list
-                    $config->{ $ns = $2 } ||= [];
+                    $CONFIG->{ $ns = $2 } ||= [];
                 }
                 else {                          # they want k/v pairs
-                    $config->{ $ns = $2 } ||= {};
+                    $CONFIG->{ $ns = $2 } ||= {};
                 }
                 next LINE;
             }
 
             # Handle properties.
             if (/^\s*([^=]+?)\s*=\s*(.*?)\s*$/) {
-                my $section = $config->{$ns};
+                my $section = $CONFIG->{$ns};
                 if ( 'ARRAY' eq ref $section ) {
                     push @$section, { key => $1, value => $2 };
                 }
@@ -79,7 +87,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             }
             die "Syntax error at line $counter: '$_'";
         }
-        delete $config->{_} unless $config->{_}->@*;
+        delete $CONFIG->{_} unless $CONFIG->{_}->@*;
     }
 }
 
@@ -89,102 +97,14 @@ __END__
 
 =head1 NAME
 
-Corinna::RFC::Config::Reader - Read RFC config files. For internal use only
+Corinna::RFC::Config::Reader - Immutable object to read the Corinna RFC generator config
 
 =head1 SYNOPSIS
 
 In your configuration file:
 
-    root=something
-    
-    # the following section is ordered
-    [@section]
-    one=two
-    one=three
-    Foo=Bar
-    this=Your Mother!
-    blank=
-    
-    # the following section will be stored as k/v pairs
-    [Section Two]
-    something else=blah
-       remove = whitespace  
-
-In your program:
-
-    use Corinna::RFC::Config::Reader;
-
-    # Create a config:
-    my $Config = Config::Tiny::Ordered->new('file.conf');
-
-Your config will contain:
-
-    {
-        '_'     => [ { key => 'root', value => 'something' }, ],
-        section => [
-            { key => 'one',   value => 'two' },
-            { key => 'one',   value => 'three' },
-            { key => 'Foo',   value => 'Bar' },
-            { key => 'this',  value => 'Your Mother!' },
-            { key => 'blank', value => '' },
-        ],
-        'Section Two' => {
-            'something else' => 'blah',
-            'remove'         => 'whitespace'
-        },
-    }
-
-=head1 DESCRIPTION
-
-C<Corinna::RFC::Config::Reader> is a perl class to read .ini style configuration
-files with as little code as possible.
-
-Read more in the docs for C<Config::Tiny>.
-
-This module is primarily for reading human written files, and anything we
-write shouldn't need to have documentation/comments. If you need something with more power,
-move up to L<Config::Tiny>, L<Config::IniFiles>, L<Config::Simple>, L<Config::General> or one of
-the many other C<Config::*> modules.
-
-This module differs from C<Config::Tiny> in that if there is a data section
-whose name begins with an C<@> symbol, the data is stored in memory in the
-same order as it appears in the input file or string.
-
-C<Corinna::RFC::Config::Reader> does this by storing the keys and values in an arrayref
-rather than, as most config modules do, in a hashref.
-
-The arrayref sections consists of an ordered set of hashrefs, and these
-hashrefs use the keys 'key' and 'value'.
-
-So, in memory, the data in the synopsis, for the section called 'section',
-looks like:
-
-	[
-        {key => 'reg_exp_1', value => 'High Priority'},
-        {key => 'reg_exp_2', vlaue => 'Low Priority'},
-        etc
-	]
-
-This means the config file can be used in situations such as with business rules
-which must be applied in a specific order.
-
-=head1 CONFIGURATION FILE SYNTAX
-
-Files are the same format as for windows .ini files. For example:
-
-	[section]
-	var1=value1
-	var2=value2
-
-If a property is outside of a section at the beginning of a file, it will
-be assigned to the C<"root section">, available at C<$Config-E<gt>{_}>.
-
-Lines starting with C<'#'> or C<';'> are considered comments and ignored,
-as are blank lines.
-
-Sections started with an `@` symbol are preserved in order:
-
-    [@rfcs]
+    # see Corinna::RFC::Config::Reader for syntax
+    [@rfcs]                            ; the @ means 'preserve the order of these values
     Overview=overview.md
     Grammar=grammar.md
     Classes=classes.md
@@ -197,73 +117,127 @@ Sections started with an `@` symbol are preserved in order:
     Quotes=quotes.md
     Changes=major-changes.md
 
+    [main]                             ; k/v pairs: $config->{main}{readme} = README.md
+    template_dir=templates             ; where the templates are stored
+    rfc_dir=rfc                        ; where the rfcs will be saved
+    readme=README.md                   ; name of the README.md file
+    toc=toc.md                         ; name we'll use for our table of contents file
+    toc_marker={{TOC}}                 ; the marker in the toc file for post-process insertion of table of contents
+    github=https://github.com/Ovid/Cor ; url of this repo
+
+In your program:
+
+    use Corinna::RFC::Config::Reader;
+
+    # Create a config:
+    my $reader = Corinna::RFC::Config::Reader->new( file => 'file.conf' );
+    my $config = $reader->config;
+
+Your config will contain:
+
+    {
+        main => {
+            github       => 'https://github.com/Ovid/Cor',
+            readme       => 'README.md',
+            rfc_dir      => 'rfc',
+            template_dir => 'templates',
+            toc          => 'toc.md',
+            toc_marker   => '{{TOC}}'
+        },
+        rfcs => [
+            { key => 'Overview',           value => 'overview.md' },
+            { key => 'Grammar',            value => 'grammar.md' },
+            { key => 'Classes',            value => 'classes.md' },
+            { key => 'Class Construction', value => 'class-construction.md' },
+            { key => 'Attributes',         value => 'attributes.md' },
+            { key => 'Methods',            value => 'methods.md' },
+            { key => 'Roles',              value => 'roles.md' },
+            { key => 'Phasers',            value => 'phasers.md' },
+            { key => 'Questions',          value => 'questions.md' },
+            { key => 'Quotes',             value => 'quotes.md' },
+            { key => 'Changes',            value => 'major-changes.md' }
+        ]
+    };
+
+=head1 DESCRIPTION
+
+C<Corinna::RFC::Config::Reader> is a perl class to read Corinna RFC .ini style configuration
+file.
+
+This module differs from C<Config::Tiny> in that if there is a data section
+whose name begins with an C<@> symbol, the data is stored in memory in the
+same order as it appears in the input file or string.
+
+Futher, there is a grammar for the resulting config data that is defined via
+C<Types::Standard>.
+
+=head1 CONFIGURATION FILE SYNTAX
+
+Files are the same format as for windows .ini files. For example:
+
+	[section]
+	var1=value1
+	var2=value2
+
+Lines starting with C<'#'> or C<';'> are considered comments and ignored,
+as are blank lines.
+
+Sections started with an `@` symbol are preserved in order:
+
+    [@rfcs]
+    Overview=overview.md
+    Grammar=grammar.md
+    Classes=classes.md
+
 =head1 METHODS
 
-=head2 new
+=head2 C<new( file => $config_file )>
 
-The constructor C<new> creates and returns an empty C<Config::Tiny::Ordered> object.
+    my $config = Corinna::RFC::Config::Reader->new(file => $file);
 
-If you pass it the name of the file to read, it will read that config.
+Returns a new C<Corinna::RFC::Config::Reader> object.
 
-=head2 read $filename
+=head2 C<config>
 
-The C<read> constructor reads a config file, and returns a new
-C<Config::Tiny::Ordered> object containing the properties in the file.
-
-Returns the object on success, or C<undef> on error.
-
-When C<read> fails, C<Config::Tiny::Ordered> sets an error message internally,
-which you can recover via C<<Config::Tiny::Ordered->errstr>>. Although in B<some>
-cases a failed C<read> will also set the operating system error
-variable C<$!>, not all errors do and you should not rely on using
-the C<$!> variable.
-
-=head2 read_string $string;
-
-The C<read_string> method takes, as an argument, the contents of a config file
-as a string and returns the C<Config::Tiny::Ordered> object for it.
-
-=head2 errstr
-
-When an error occurs, you can retrieve the error message either from the
-C<$Config::Tiny::Ordered::errstr> variable, or using the C<errstr()> method.
-
+Returns a I<cloned> hashref of the config. Because we clone the data before we return it,
+you may call C<< $reader->config >> multiple times and always get the same response.
 =head1 Repository
 
-...
+https://github.com/Ovid/Cor
+
+=head1 DESIGN NOTES
+
+This module is rather interesting for new developers in that it:
+
+=over 4
+
+=item * Consumes a role (L<Corinna::RFC::Role::File>)
+
+=item * Is immutable
+
+=item * The internal C<_validate> method shows how to apply type constraints
+
+=back
 
 =head1 SUPPORT
 
-Bugs should be reported via the CPAN bug tracker at
-
-...
-
-For other issues, or commercial enhancement or support, contact the author.
+Bugs should be reported via https://github.com/Ovid/Cor/issues
 
 =head1 AUTHORS
 
-Adam Kennedy E<lt>adamk@cpan.orgE<gt>, Ron Savage E<lt>rsavage@cpan.orgE<gt>
-
-=head1 ACKNOWLEGEMENTS
-
-This module is 99% as per L<Config::Tiny> by Adam Kennedy.
-
-Ron Savage made some tiny changes to suppport the preservation of key order.
-
-The test suite was likewise adapted.
+Curtis "Ovid" Poe E<lt>ovid@allaroundtheworld.frE<gt>, based on code by Adam
+Kennedy E<lt>adamk@cpan.orgE<gt> and Ron Savage E<lt>rsavage@cpan.orgE<gt>.
 
 =head1 SEE ALSO
 
-L<Config::Tiny>, L<Config::IniFiles>, L<Config::Simple>, L<Config::General>, L<ali.as>
+L<Config::Tiny::Ordered>, L<Config::Tiny>, L<Config::IniFiles>,
+L<Config::Simple>, L<Config::General>, L<ali.as>
 
-=head1 Copyright
+=head1 Copyright and License
 
-	Copyright 2002 - 2008 Adam Kennedy.
+This software is copyright (c) 2021 by Curtis "Ovid" Poe.
 
-	Australian copyright (c) 2009,  Ron Savage.
-	All Programs of Ron's are 'OSI Certified Open Source Software';
-	you can redistribute them and/or modify them under the terms of
-	the Artistic or the GPL licences, copies of which is available at:
-	http://www.opensource.org/licenses/index.html
+This is free software; you can redistribute it and/or modify it under the same
+terms as the Perl 5 programming language system itself.
 
 =cut
