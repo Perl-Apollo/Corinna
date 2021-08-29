@@ -1,19 +1,44 @@
+# Forked from Config::Tiny::Ordered
 
-# Forked from Config::Tiny::Ordered to give us both
-# list and hash config entries
-# If you thought Config::Tiny was small...
-
+use v5.26.0;
 use Object::Pad;
 
 class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
-    has $file   :param;
-    has $config :reader = {};
+    use Syntax::Keyword::Try;
+    use Corinna::RFC::Types qw(compile ArrayRef HashRef Str Dict);
+    use Carp 'croak';
+
+    has $file : param;
+    has $config : reader = {};
 
     BUILD {
         $self->_read_string;
+        $self->_validate;
     }
 
-    method _read_string {
+    method _validate() {
+        state $check = compile(
+            Dict [
+                rfcs => ArrayRef [ Dict [ key => Str, value => Str ], ],
+                main => Dict [
+                    template_dir => Str,
+                    rfc_dir      => Str,
+                    readme       => Str,
+                    toc          => Str,
+                    toc_marker   => Str,
+                    github       => Str,
+                ],
+            ]
+        );
+        try {
+            $check->($config);
+        }
+        catch ($error) {
+            croak("Config file error: $error");
+        }
+    }
+
+    method _read_string() {
         my $config_data = $self->_slurp($file);
 
         # Parse the data.
@@ -54,6 +79,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             }
             die "Syntax error at line $counter: '$_'";
         }
+        delete $config->{_} unless $config->{_}->@*;
     }
 }
 
