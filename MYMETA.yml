@@ -1,0 +1,26 @@
+---
+abstract: 'Generate navigable pages for Corinna RFC'
+author:
+  - 'Curtis "Ovid" Poe <ovid@allaroundtheworld.fr>'
+build_requires:
+  ExtUtils::MakeMaker: '0'
+  Test::Most: '0.37'
+configure_requires:
+  ExtUtils::MakeMaker: '0'
+dynamic_config: 0
+generated_by: 'ExtUtils::MakeMaker version 7.24, CPAN::Meta::Converter version 2.150010'
+license: artistic_2
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: '1.4'
+name: Corinna-RFC-Writer
+no_index:
+  directory:
+    - t
+    - inc
+requires:
+  Object::Pad: '0.52'
+  Syntax::Keyword::Try: '0.25'
+  perl: '5.026'
+version: v0.1.0
+x_serialization_backend: 'CPAN::Meta::YAML version 0.018'

@@ -1,0 +1,49 @@
+{
+   "abstract" : "Generate navigable pages for Corinna RFC",
+   "author" : [
+      "Curtis \"Ovid\" Poe <ovid@allaroundtheworld.fr>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "ExtUtils::MakeMaker version 7.24, CPAN::Meta::Converter version 2.150010",
+   "license" : [
+      "artistic_2"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "Corinna-RFC-Writer",
+   "no_index" : {
+      "directory" : [
+         "t",
+         "inc"
+      ]
+   },
+   "prereqs" : {
+      "build" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Object::Pad" : "0.52",
+            "Syntax::Keyword::Try" : "0.25",
+            "perl" : "5.026"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Most" : "0.37"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "version" : "v0.1.0",
+   "x_serialization_backend" : "JSON::PP version 4.04"
+}
