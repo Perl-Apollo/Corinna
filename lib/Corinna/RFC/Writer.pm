@@ -1,4 +1,6 @@
-use Object::Pad;
+use Object::Pad 0.52;
+
+package Corinna::RFC::Writer v0.1.0; # tooling needs this to pick up the version number
 
 class Corinna::RFC::Writer does Corinna::RFC::Role::File {
     use Carp 'croak';
@@ -234,3 +236,91 @@ END
         return $rewritten;
     }
 }
+
+__END__
+
+=head1 NAME
+
+Corinna::RFC::Writer - Generate navigable pages for Corinna RFC
+
+=head1 SYNOPSIS
+
+	use Corinna::RFC::Writer;
+	my $writer = Corinna::RFC::Writer->new(
+		file    => 'config/rfcs',
+		verbose => 1,
+	);
+	$writer->generate_rfcs;
+
+=head1 DESCRIPTION
+
+=head2 Overview
+
+This is being written using L<Object::Pad>, a module being used as a testbed
+for many of the ideas in the Corinna RFC. Over time, we'd like to gradually
+migrate this to Corinna itself.
+
+There aren't really any user-serviceable parts in this codebase, but it's
+worth browsing through the code to get a "feel" for how object-oriented
+programming is evolving in Perl.
+
+=head2 Behavior
+
+When an instance of C<Corinna::RFC::Writer> is loaded, it uses
+C<Corinna::RFC::Config::Reader> to load the C<config/rfcs> file. We then
+rewrite the config data to be more useful, internally.
+
+=head3 README.md
+
+When C<< $writer-> generate_rfcs >> is called, we first write out our
+C<README.md> file, using the files listed in C<config/rfcs> as a quick
+synopsis of the RFC.
+
+=head3 RFC Sections
+
+Then we iterate through the RFCs sections in the order listed C<config/rfcs>
+and using the correcsponding RFC document in F<templates/rfcs> and we write
+the result to the C<rfcs> directory. The resulting document will have a title
+and navigation added, along with a warning to not edit it directly.
+
+Every RFC section listed in C<templates/rfcs> should use markdown headers to
+indicate structure. When we read the templates, we will use these to generate
+section and subsection numbers.  For example, for section number C<X>, we
+might have this:
+
+	# X.1
+	# X.2
+	## X.2.1
+	## X.2.2
+	#### X.2.2.1
+	## X.2.3
+	# X.3
+
+While the RFC is being developed, those will change. When the RFC is finally
+delivered, we will strive to preserve the numbering to make it easier for people
+to refer to sections of the RFC.
+
+=head3 Table of Contents
+
+Once all of the RFC sections have been written, we take the accumulated data
+from the section numbering and using this to write out a table of contents, a portion
+of which may look like this:
+
+	Section: 4: Classes
+	.. 4.1 Overview
+	.. 4.2 Discussion
+	.... 4.2.1 Versions
+	.... 4.2.2 Inheritance
+	.... 4.2.3 Roles
+	.... 4.2.4 Abstract Classes
+	.... 4.2.5 Subroutines versus Methods
+	Section: 5: Class Construction
+	.. 5.1 Overview
+	.. 5.2 Steps
+	.... 5.2.1 Step 1 Verify even-sized list of args
+	.... 5.2.2 Step 2 Constructor keys may not be references
+	.... 5.2.3 Step 3 Find constructor args
+	.... 5.2.4 Step 4 Err out on unknown keys
+	.... 5.2.5 Step 5 new()
+	.... 5.2.6 Step 6 ADJUST
+	.. 5.3 MOP Pseudocode
