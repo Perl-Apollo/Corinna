@@ -58,7 +58,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
             $line_number++;
 
             # Skip comments and empty lines.
-            next if /^\s*(?:\#|\;|$)/;
+            next LINE if /^\s*(?:\#|\;|$)/;
 
             # Remove inline comments.
             s/\s\;\s.+$//g;
@@ -83,7 +83,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
                 else {
                     $section->{ $+{key} } = $+{value};
                 }
-                next;
+                next LINE;
             }
             die "Syntax error at line $line_number '$_'";
         }
