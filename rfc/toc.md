@@ -102,6 +102,8 @@ edit this file directly. Please edit
 * `..` 8.3 Example
 * `..` 8.4 Aliasing and Excluding
 * `..` 8.5 `ADJUST` and `DESTRUCT`
+* `..` 8.6 Questions
+* `....` 8.6.1 Changing access level of role methods?
 
 # [Section: 9: Phasers](phasers.md)
 

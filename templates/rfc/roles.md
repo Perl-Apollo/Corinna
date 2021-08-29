@@ -140,3 +140,15 @@ called before parent `DESTRUCT` phasers.
 **Important**: for a given level of the inheritance hierarchy, if more than
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
+
+# Questions
+
+## Changing access level of role methods?
+
+No role method marked as `private` should be composed into the consuming class
+or role. However, the consumer may need the behavior, but not want to expose
+it.
+
+If a method exported by a role is public but the consumer does not wish to
+expose that part of its interface, should it have a way to adjust the access
+level to C<private>?
