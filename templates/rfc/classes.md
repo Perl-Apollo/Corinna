@@ -52,7 +52,7 @@ And here's how you would use this class.
 my $villain = Person->new( title => 'Dr.', name => 'Zacharary Smith' );
 my $boy     = Person->new( name => 'Will Robinson' );
 
-say $villian->name;   # Dr. Zacharary Smith
+say $villain->name;   # Dr. Zacharary Smith
 say $boy->name;       # Will Robinson
 ```
 
@@ -83,7 +83,7 @@ class Person {
     slot $name  :param;                    # must be passed to customer (:param)
     slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
     slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
-    my slot $num_people = 0;               # class data, defaults to 0 (common, with hand-rolled reader method)
+    my $num_people = 0;                    # class data, defaults to 0 (common, with hand-rolled reader method)
     common method num_people () { $num_people }
 
     ADJUST   { $num_people++ }             # called after new(), but before returned to consumer (BUILD)
