@@ -9,6 +9,7 @@ class Corinna::RFC::Writer does Corinna::RFC::Role::File {
     use Corinna::RFC::Config::Reader;
     use Template::Tiny::Strict;
 
+    # TODO Replace `has` with `slot`
     has $FILE    :param(file);
     has $VERBOSE :param(verbose) = 0;
     has $CONFIG;
@@ -18,6 +19,8 @@ class Corinna::RFC::Writer does Corinna::RFC::Role::File {
         unless ( -e $FILE ) {
             croak("$FILE does not exist");
         }
+
+        # TODO Per the spec, this should be possible via a default assignement to $CONFIG
         my $reader = Corinna::RFC::Config::Reader->new( file => $FILE );
         $CONFIG = $reader->config;
         $self->_rewrite_config;
@@ -29,6 +32,7 @@ class Corinna::RFC::Writer does Corinna::RFC::Role::File {
         $self->_write_toc;
     }
 
+    # TODO Use private subs
     method _write_toc() {
         my $toc_file      = $CONFIG->{rfcs}[0]{file};      # toc is always first
         my $toc_list      = join "\n" => @TOC;
@@ -245,12 +249,12 @@ Corinna::RFC::Writer - Generate navigable pages for Corinna RFC
 
 =head1 SYNOPSIS
 
-	use Corinna::RFC::Writer;
-	my $writer = Corinna::RFC::Writer->new(
-		file    => 'config/rfcs',
-		verbose => 1,
-	);
-	$writer->generate_rfcs;
+    use Corinna::RFC::Writer;
+    my $writer = Corinna::RFC::Writer->new(
+        file    => 'config/rfcs',
+        verbose => 1,
+    );
+    $writer->generate_rfcs;
 
 =head1 DESCRIPTION
 
@@ -288,13 +292,13 @@ indicate structure. When we read the templates, we will use these to generate
 section and subsection numbers.  For example, for section number C<X>, we
 might have this:
 
-	# X.1
-	# X.2
-	## X.2.1
-	## X.2.2
-	#### X.2.2.1
-	## X.2.3
-	# X.3
+    # X.1
+    # X.2
+    ## X.2.1
+    ## X.2.2
+    #### X.2.2.1
+    ## X.2.3
+    # X.3
 
 While the RFC is being developed, those will change. When the RFC is finally
 delivered, we will strive to preserve the numbering to make it easier for people
@@ -306,21 +310,21 @@ Once all of the RFC sections have been written, we take the accumulated data
 from the section numbering and using this to write out a table of contents, a portion
 of which may look like this:
 
-	Section: 4: Classes
-	.. 4.1 Overview
-	.. 4.2 Discussion
-	.... 4.2.1 Versions
-	.... 4.2.2 Inheritance
-	.... 4.2.3 Roles
-	.... 4.2.4 Abstract Classes
-	.... 4.2.5 Subroutines versus Methods
-	Section: 5: Class Construction
-	.. 5.1 Overview
-	.. 5.2 Steps
-	.... 5.2.1 Step 1 Verify even-sized list of args
-	.... 5.2.2 Step 2 Constructor keys may not be references
-	.... 5.2.3 Step 3 Find constructor args
-	.... 5.2.4 Step 4 Err out on unknown keys
-	.... 5.2.5 Step 5 new()
-	.... 5.2.6 Step 6 ADJUST
-	.. 5.3 MOP Pseudocode
+    Section: 4: Classes
+    .. 4.1 Overview
+    .. 4.2 Discussion
+    .... 4.2.1 Versions
+    .... 4.2.2 Inheritance
+    .... 4.2.3 Roles
+    .... 4.2.4 Abstract Classes
+    .... 4.2.5 Subroutines versus Methods
+    Section: 5: Class Construction
+    .. 5.1 Overview
+    .. 5.2 Steps
+    .... 5.2.1 Step 1 Verify even-sized list of args
+    .... 5.2.2 Step 2 Constructor keys may not be references
+    .... 5.2.3 Step 3 Find constructor args
+    .... 5.2.4 Step 4 Err out on unknown keys
+    .... 5.2.5 Step 5 new()
+    .... 5.2.6 Step 6 ADJUST
+    .. 5.3 MOP Pseudocode
