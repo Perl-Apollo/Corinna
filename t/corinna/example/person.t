@@ -25,6 +25,7 @@ is $boy->num_people, 1,
   'We should have one person left after killing the villain';
 
 DEVELOPMENT {
+    # TODO Be be able to call methods on classes
     is Corinna::Example::Person->num_people, 1,
       'We should be able to call class methods on the class';
     undef $boy;
