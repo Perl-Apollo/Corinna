@@ -14,7 +14,8 @@ my %WriteMakefileArgs = (
         'ExtUtils::MakeMaker' => '0',
     },
     TEST_REQUIRES => {
-        'Test::Most' => '0.37',
+        'Test::Most'           => '0.37',
+        'Keyword::DEVELOPMENT' => '0.07',
     },
     PREREQ_PM => {
         'Object::Pad'            => '0.52',
