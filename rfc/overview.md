@@ -163,7 +163,7 @@ class Cache::LRU v0.1.0 {
 ```
 
 # 2.9 Prototype Implementation
-Paul "LeoNerd" Evans has been using [Object::Pad](https://metacpan.org/pod/Object::Pad) as a test bed for many of these ideas, though he's included many things we don't intend for V1. However, we understand that Object::Pad is already stable enough that at least [one company is using it in production](https://metacpan.org/pod/Myriad). [Here's an great discussion of what they discovered](https://www.reddit.com/r/perl/comments/nyuid5/were_starting_the_rfc_for_bringing_modern_oo_to/h1plagk/).
+Paul "LeoNerd" Evans has been using [Object::Pad](https://metacpan.org/pod/Object::Pad) as a test bed for many of these ideas, though he's included many things we don't intend for V1. However, Object::Pad is stable and powerful enough that at least [one company is using it in production](https://metacpan.org/pod/Myriad). [Here's a great discussion of what they discovered](https://www.reddit.com/r/perl/comments/nyuid5/were_starting_the_rfc_for_bringing_modern_oo_to/h1plagk/).
 
 # 2.10 Benefits of this approach
 ## 2.10.1 Compile-time failures
