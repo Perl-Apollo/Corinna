@@ -3,26 +3,24 @@ use Object::Pad 0.52;
 class Corinna::Example::Person {
     use Time::HiRes 'time';
 
-    # TODO Do not yet have the 'slot' keyword
+    # TODO Rename `has` to `slot`
     has $name  :param;              # must be passed to customer (:param)
     has $title :param = undef;      # optionally passed to constructor     (:param, but with default)
     has $created :reader;           # cannot be passed to constructor (no :param)
 
     my $num_people = 0;              # class data, defaults to 0 (common, with hand-rolled reader method)
 
-	# TODO class method, but we cannot yet declare them
-    # common method num_people () { $num_people }
+	# TODO Add ability to declare class methods: common method num_people () { $num_people }
     method num_people () { $num_people }
 
     ADJUST   {
         $num_people++;
 
-        # TODO cannot use has $created = time; because that's assigned
-        # at compile-time, not instantiation time
+        # TODO Allow `slot $created = time;` (or similar) to allow default at instantiation time
         $created = time;
     }
 
-	# TODO DESTRUCT does not yet exist
+	# TODO Implement `DESTRUCT` for a destructor
     DESTROY { $num_people-- }             # destructor
 
     method name () {                 # instance method
