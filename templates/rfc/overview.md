@@ -58,7 +58,7 @@ Stevan Little's [Moxie](https://metacpan.org/pod/Moxie) is of great interest, bu
 
 # Specification
 
-The specification would be daunting for the RFC. It's largely based on [our MVC description](https://github.com/Ovid/Cor/wiki/Corinna-Overview) and the [Object::Pad](https://metacpan.org/pod/Object::Pad) test suite.
+The specification would be daunting for the RFC. It's largely based on [our MVP description](https://github.com/Ovid/Cor/wiki/Corinna-Overview) and the [Object::Pad](https://metacpan.org/pod/Object::Pad) test suite.
 
 There a few signficant things worth noting, First, Corinna is only single inheritance. Code reuse of OO behavior is done via compositing roles or delegation. Corinna offers native support for delegation:
 
@@ -66,7 +66,7 @@ There a few signficant things worth noting, First, Corinna is only single inheri
 slot $created :handles(*) = DateTime->now;
 ```
 
-[The full grammar of the Corinna MVC can be found here](grammar.md).
+[The full grammar of the Corinna MVP can be found here](grammar.md).
 
 # Backwards Compatibility
 
