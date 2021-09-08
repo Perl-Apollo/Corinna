@@ -20,7 +20,7 @@ an instance of the current class.
 
 ```perl
 method name () {
-    return defined $title ? "$title $ name" : $name;
+    return defined $title ? "$title $name" : $name;
 }
 ```
 
@@ -45,8 +45,8 @@ Ths includes trying to reference `$self` in a class method.
 
 # Overridden Methods
 
-If a method in the current class overrides a in a parent class, a warning will
-be issued. To suppress that warning, use `overrides`.
+If a method in the current class overrides a method in a parent class, a warning
+will be issued. To suppress that warning, use `overrides`.
 
 ```perl
 overrides method name () {
