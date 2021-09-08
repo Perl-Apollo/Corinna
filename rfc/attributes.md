@@ -45,7 +45,7 @@ that no attributes are allowed and it's initialized with any default value as
 soon as the class is compiled.
 
 The second slot holds an instance of `Hash::Ordered` and the
-`handles(qw/exists delete/)` says "delegate these to methods to the object
+`handles(qw/exists delete/)` says "delegate these methods to the object
 contained in `$cache`".
 
 The third slot uses `:param` to say "you may pass this as a parameter to
@@ -71,7 +71,7 @@ attributes after the declaration and before the optional default, if any.
 We do not (yet) support attributes for class data. We also do not support
 attributes for array or hash slots because these automatically flatten into
 lists and it's not clear what the semantics of readers and writers would be,
-now how you would pass them in the constructor.
+nor how you would pass them in the constructor.
 
 Note that all slots are completely encapsulated, but if they're exposed to the
 outside world via `:reader`, `:writer`, or some other parameter, their _name_
@@ -110,7 +110,7 @@ constructor. If you wish for it to be optional, but not have a default value,
 use the `= undef` default.
 
 If `optional_identifier` is present in parenthesis, this must be a legal Perl
-identifier and will be used at the parameter name.
+identifier and will be used as the parameter name.
 
 ```perl
 class Soldier {
