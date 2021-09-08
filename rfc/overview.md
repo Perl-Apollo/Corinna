@@ -66,7 +66,7 @@ There's more which can be said, but the Moo/se issues have taught us a huge amou
 Stevan Little's [Moxie](https://metacpan.org/pod/Moxie) is of great interest, but the syntax is unfortunate and it's still tied to Perl's limitations.
 
 # 2.5 Specification
-The specification would be daunting for the RFC. It's largely based on [our MVC description](https://github.com/Ovid/Cor/wiki/Corinna-Overview) and the [Object::Pad](https://metacpan.org/pod/Object::Pad) test suite.
+The specification would be daunting for the RFC. It's largely based on [our MVP description](https://github.com/Ovid/Cor/wiki/Corinna-Overview) and the [Object::Pad](https://metacpan.org/pod/Object::Pad) test suite.
 
 There a few signficant things worth noting, First, Corinna is only single inheritance. Code reuse of OO behavior is done via compositing roles or delegation. Corinna offers native support for delegation:
 
@@ -74,7 +74,7 @@ There a few signficant things worth noting, First, Corinna is only single inheri
 slot $created :handles(*) = DateTime->now;
 ```
 
-[The full grammar of the Corinna MVC can be found here](grammar.md).
+[The full grammar of the Corinna MVP can be found here](grammar.md).
 
 # 2.6 Backwards Compatibility
 Currently, Corinna's syntax is generally backwards-compatible because the code does not parse on older Perls that `use strict`. This is helped tremendously by requiring a postfix block syntax which encapsulates the changes, rather than the standard `class Foo is Bar; slot ...` syntax.

@@ -31,7 +31,7 @@ an instance of the current class.
 
 ```perl
 method name () {
-    return defined $title ? "$title $ name" : $name;
+    return defined $title ? "$title $name" : $name;
 }
 ```
 
@@ -54,8 +54,8 @@ referencing instance data in a class method should be a compile-time error.
 Ths includes trying to reference `$self` in a class method.
 
 # 7.4 Overridden Methods
-If a method in the current class overrides a in a parent class, a warning will
-be issued. To suppress that warning, use `overrides`.
+If a method in the current class overrides a method in a parent class, a warning
+will be issued. To suppress that warning, use `overrides`.
 
 ```perl
 overrides method name () {
@@ -93,8 +93,10 @@ private common method bar () { ...}
 Private methods can only be called from methods defined in the namespace and file at _compile time_
 
 * Private methods are not inherited
-* If a class or role has a `private` method with the name matching the name of the method being called, the dispatch is to that method.
-* Even if a subclass has a public or private method with the same signature, the methods in a class class will call its private method, not the inherited one
+* If a class or role has a `private` method with the name matching the name of
+  the method being called, the dispatch is to that method.
+* Even if a subclass has a public or private method with the same signature,
+  the methods in a class will call its private method, not the inherited one
 * Roles and classes cannot call each other's private methods
 
 Note that this means:
