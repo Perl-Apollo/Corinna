@@ -86,8 +86,10 @@ private common method bar () { ...}
 Private methods can only be called from methods defined in the namespace and file at _compile time_
 
 * Private methods are not inherited
-* If a class or role has a `private` method with the name matching the name of the method being called, the dispatch is to that method.
-* Even if a subclass has a public or private method with the same signature, the methods in a class class will call its private method, not the inherited one
+* If a class or role has a `private` method with the name matching the name of
+  the method being called, the dispatch is to that method.
+* Even if a subclass has a public or private method with the same signature,
+  the methods in a class will call its private method, not the inherited one
 * Roles and classes cannot call each other's private methods
 
 Note that this means:
