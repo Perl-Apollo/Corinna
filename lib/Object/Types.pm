@@ -194,8 +194,6 @@ C<$typed_enum> will match any of C<true>, C<false>, C<Ovid>, or a number.
 
 =head2 C<HashRef>
 
-The first is imply saying "any hashref is acceptable":
-
     # this is the same as HashRef(Any);
     my $hashref = HashRef;
 
