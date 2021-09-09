@@ -21,6 +21,7 @@ my %WriteMakefileArgs = (
         'Object::Pad'            => '0.52',
         'Syntax::Keyword::Try'   => '0.25',
         'Template::Tiny::Strict' => '1.18',
+        'Regexp::Common'         => '2017060201',
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'Corinna-RFC-Writer-*' },
