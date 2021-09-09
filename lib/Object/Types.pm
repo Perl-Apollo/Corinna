@@ -179,15 +179,6 @@ coercion value.
 B<Important>: this will I<mutate> the data you pass in. If you need the data
 unchanged, clone the data before passing it.
 
-=head2 C<Dict>
-
-    my $dict = Dict(
-        quantity => Int,
-        name     => Str,
-    );
-
-Matches a hashref where the keys match and the value types match.
-
 =head2 C<Enum>
 
     my $colors = Enum(qw/red white blue/);
@@ -230,6 +221,21 @@ instead:
             payload   => Any,
         },
     );
+
+=head2 C<Dict>
+
+    my $dict = Dict(
+        name   => Str,
+        colors => Enum(qw/red white blue/),
+        json   => {
+            order_ids => ArrayRef(Int),
+            payload   => Any,
+        },
+    );
+
+Like C<HashRef>, but extra keys are fatal. If you want some keys to be
+I<optional>, see C<Optional>. Otherwise, if you want some values to be
+optional (in other words, to allow C<undef>), use C<Maybe>.
 
 =head2 C<Int>
 
