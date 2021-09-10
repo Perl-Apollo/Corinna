@@ -44,6 +44,7 @@ role Object::Types::Role::Core {
     use Scalar::Util 'blessed';
     our @CARP_NOT;
 
+    # TODO allow roles to require protected/trusted methods. This should not be part of the API
     requires _validate;
 
     has $non_fatal :param         = 0;
@@ -283,6 +284,9 @@ class Object::Types::Concrete::Optional does Object::Types::Role::Core {
     }
 }
 
+
+# We use a parent class for the role target methods because otherwise, we get
+# method collisions
 class Object::Types::Concrete::_Coerce does Object::Types::Role::Core {
     method _validate( $value, $name ) { }
 }
@@ -294,6 +298,8 @@ class Object::Types::Concrete::Coerce isa Object::Types::Concrete::_Coerce {
     BUILD {
         croak("Not a code reference for via") unless 'CODE' eq ref $via;
     }
+
+    # TODO allow aliasing/excluding methods from roles to avoid this subclassing hack
     method validate ($value, $var_name='$data') {
 
         # use the value from the original @_ array to ensure we have an alias
