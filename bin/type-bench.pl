@@ -21,7 +21,7 @@ cmpthese(
         'Types::Standard' => sub { $types_standard->($sample_data) },
         'O:P/construct'   => sub { Object::Pad::Test->get_definition->validate($sample_data) },
         'Moose/construct' => sub { Moose::Test->get_definition->validate($sample_data) },
-        'Moo/construct'   => sub { Moose::Test->get_definition->validate($sample_data) },
+        'Moo/construct'   => sub { Moo::Test->get_definition->validate($sample_data) },
         'T:S/construct'   => sub { Types::Standard::Test->get_definition->($sample_data) },
     }
 );
@@ -166,15 +166,15 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 =head1 SYNOPSIS
 
     $ time perl bin/type-bench.pl
-                       Rate T:S/construct Moose/construct Moo/construct O:P/construct Moose Object::Pad   Moo Types::Standard
-    T:S/construct     696/s            --            -63%          -63%          -78%  -81%        -86%  -86%            -99%
-    Moose/construct  1864/s          168%              --           -2%          -42%  -49%        -63%  -64%            -98%
-    Moo/construct    1895/s          172%              2%            --          -41%  -48%        -62%  -63%            -98%
-    O:P/construct    3213/s          361%             72%           70%            --  -12%        -36%  -37%            -96%
-    Moose            3671/s          427%             97%           94%           14%    --        -27%  -28%            -96%
-    Object::Pad      5025/s          622%            170%          165%           56%   37%          --   -2%            -94%
-    Moo              5128/s          636%            175%          171%           60%   40%          2%    --            -94%
-    Types::Standard 83333/s        11865%           4372%         4297%         2493% 2170%       1558% 1525%              --
+                       Rate T:S/construct Moose/construct O:P/construct Moo/construct Object::Pad Moose   Moo Types::Standard
+    T:S/construct     375/s            --            -77%          -87%          -88%        -88%  -88%  -92%            -99%
+    Moose/construct  1617/s          331%              --          -43%          -48%        -49%  -50%  -66%            -98%
+    O:P/construct    2847/s          658%             76%            --           -8%        -10%  -11%  -40%            -96%
+    Moo/construct    3092/s          724%             91%            9%            --         -2%   -4%  -35%            -96%
+    Object::Pad      3161/s          742%             96%           11%            2%          --   -2%  -33%            -96%
+    Moose            3213/s          756%             99%           13%            4%          2%    --  -32%            -96%
+    Moo              4748/s         1165%            194%           67%           54%         50%   48%    --            -94%
+    Types::Standard 73529/s        19482%           4449%         2482%         2278%       2226% 2188% 1449%              --
 
     real    3m3.179s
     user    2m59.690s
