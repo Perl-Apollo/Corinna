@@ -19,14 +19,10 @@ cmpthese(
         'Moose'           => sub { $moose->validate($sample_data) },
         'Moo'             => sub { $moo->validate($sample_data) },
         'Types::Standard' => sub { $types_standard->($sample_data) },
-        'Object::Pad with construct' =>
-          sub { Object::Pad::Test->get_definition->validate($sample_data) },
-        'Moose with construct' =>
-          sub { Moose::Test->get_definition->validate($sample_data) },
-        'Moo with construct' =>
-          sub { Moose::Test->get_definition->validate($sample_data) },
-        'Types::Standard with construct' =>
-          sub { Types::Standard::Test->get_definition->($sample_data) },
+        'O:P/construct'   => sub { Object::Pad::Test->get_definition->validate($sample_data) },
+        'Moose/construct' => sub { Moose::Test->get_definition->validate($sample_data) },
+        'Moo/construct'   => sub { Moose::Test->get_definition->validate($sample_data) },
+        'T:S/construct'   => sub { Types::Standard::Test->get_definition->($sample_data) },
     }
 );
 
@@ -133,10 +129,10 @@ package Moo::Test {
 
 package Types::Standard::Test {
     use Types::Standard qw( Str Int Enum ArrayRef Dict Num Optional );
-    use Type::Params qw( construct );
+    use Type::Params qw( compile );
 
     sub get_definition {
-        construct(
+        compile(
             Dict [
                 doe           => Str,
                 ray           => Str,
@@ -170,16 +166,16 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 =head1 SYNOPSIS
 
     $ time perl bin/type-bench.pl
-                                    Rate Types::Standard with construct Moo with construct Moose with construct Object::Pad with construct   Moo Moose Object::Pad Types::Standard
-    Types::Standard with construct   686/s                           --             -63%               -65%                     -78%  -79%  -82%        -86%            -99%
-    Moo with construct              1860/s                         171%               --                -4%                     -42%  -44%  -51%        -62%            -98%
-    Moose with construct            1940/s                         183%               4%                 --                     -39%  -41%  -49%        -60%            -98%
-    Object::Pad with construct      3189/s                         365%              71%                64%                       --   -4%  -16%        -34%            -96%
-    Moo                             3305/s                         381%              78%                70%                       4%    --  -13%        -32%            -96%
-    Moose                           3779/s                         451%             103%                95%                      19%   14%    --        -22%            -95%
-    Object::Pad                     4864/s                         609%             161%               151%                      53%   47%   29%          --            -94%
-    Types::Standard                83333/s                       12042%            4380%              4195%                    2513% 2422% 2105%       1613%              --
-    
+                       Rate T:S/construct Moo/construct Moose/construct O:P/construct   Moo Moose Object::Pad Types::Standard
+    T:S/construct     693/s            --          -65%            -65%          -79%  -80%  -81%        -86%            -99%
+    Moo/construct    1983/s          186%            --             -0%          -39%  -42%  -47%        -60%            -97%
+    Moose/construct  1983/s          186%            0%              --          -39%  -42%  -47%        -60%            -97%
+    O:P/construct    3234/s          366%           63%             63%            --   -6%  -13%        -35%            -96%
+    Moo              3448/s          397%           74%             74%            7%    --   -7%        -31%            -96%
+    Moose            3709/s          435%           87%             87%           15%    8%    --        -25%            -95%
+    Object::Pad      4975/s          618%          151%            151%           54%   44%   34%          --            -94%
+    Types::Standard 78125/s        11169%         3839%           3839%         2316% 2166% 2006%       1470%              -- 
+
     real    3m3.179s
     user    2m59.690s
     sys     0m1.171s
@@ -188,29 +184,27 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 
 To get a serious, real-world benchmark, we have re-implemented a subset of L<Types::Standard>
 in L<Object::Pad>, L<Moose>, and L<Moo>. In short, this somewhat complex type constraint
-has is used to validate a data structure 50,000 times:
+is used to validate a data structure 50,000 times:
 
-        construct(
-            Dict [
-                doe              => Str,
-                ray              => Str,
-                pi               => Num,
-                xmas             => Enum [qw/true false/],
-                'french-hens'    => Int,
-                'calling-birds'  => ArrayRef [ Enum [qw/huey dewey louie fred/] ],
-                'xmas-fifth-day' => Dict [
-                    'calling-birds' => Str,
-                    'french-hens'   => Int,
-                    'golden-rings'  => Int,
-                    partridges      => Dict [
-                        count             => Int,
-                        location          => Str,
-                        'lords-a-leaping' => Optional [Int],
-                    ],
-                    'turtle-doves' => Str,
-                ]
-            ]
-        );
+    Dict [
+        doe              => Str,
+        ray              => Str,
+        pi               => Num,
+        xmas             => Enum [qw/true false/],
+        'french-hens'    => Int,
+        'calling-birds'  => ArrayRef [ Enum [qw/huey dewey louie fred/] ],
+        'xmas-fifth-day' => Dict [
+            'calling-birds' => Str,
+            'french-hens'   => Int,
+            'golden-rings'  => Int,
+            partridges      => Dict [
+                count             => Int,
+                location          => Str,
+                'lords-a-leaping' => Optional [Int],
+            ],
+            'turtle-doves' => Str,
+        ]
+    ];
 
 Unsurprisingly, C<Types::Standard> wins, hands down. However, we see
 C<Object::Pad> is considerably faster than both C<Moose> and C<Moo>.
