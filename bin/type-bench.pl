@@ -166,15 +166,15 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 =head1 SYNOPSIS
 
     $ time perl bin/type-bench.pl
-                       Rate T:S/construct Moose/construct O:P/construct Moo/construct Object::Pad Moose   Moo Types::Standard
-    T:S/construct     375/s            --            -77%          -87%          -88%        -88%  -88%  -92%            -99%
-    Moose/construct  1617/s          331%              --          -43%          -48%        -49%  -50%  -66%            -98%
-    O:P/construct    2847/s          658%             76%            --           -8%        -10%  -11%  -40%            -96%
-    Moo/construct    3092/s          724%             91%            9%            --         -2%   -4%  -35%            -96%
-    Object::Pad      3161/s          742%             96%           11%            2%          --   -2%  -33%            -96%
-    Moose            3213/s          756%             99%           13%            4%          2%    --  -32%            -96%
-    Moo              4748/s         1165%            194%           67%           54%         50%   48%    --            -94%
-    Types::Standard 73529/s        19482%           4449%         2482%         2278%       2226% 2188% 1449%              --
+                       Rate T:S/construct Moose/construct Moo/construct O:P/construct Moose Object::Pad   Moo Types::Standard
+    T:S/construct     716/s            --            -66%          -78%          -78%  -82%        -86%  -87%            -99%
+    Moose/construct  2098/s          193%              --          -35%          -37%  -48%        -59%  -60%            -97%
+    Moo/construct    3218/s          350%             53%            --           -3%  -20%        -38%  -39%            -96%
+    O:P/construct    3327/s          365%             59%            3%            --  -17%        -35%  -37%            -96%
+    Moose            4023/s          462%             92%           25%           21%    --        -22%  -24%            -95%
+    Object::Pad      5155/s          620%            146%           60%           55%   28%          --   -3%            -94%
+    Moo              5302/s          641%            153%           65%           59%   32%          3%    --            -93%
+    Types::Standard 79365/s        10989%           3683%         2367%         2286% 1873%       1440% 1397%              --
 
     real    3m3.179s
     user    2m59.690s
