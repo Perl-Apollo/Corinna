@@ -19,6 +19,8 @@ my %WriteMakefileArgs = (
     },
     PREREQ_PM => {
         'Object::Pad'            => '0.52',
+        'Moose'                  => '2.2014',
+        'Moo'                    => '2.005003',
         'Syntax::Keyword::Try'   => '0.25',
         'Template::Tiny::Strict' => '1.18',
         'Regexp::Common'         => '2017060201',
