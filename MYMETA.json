@@ -32,7 +32,10 @@
       },
       "runtime" : {
          "requires" : {
+            "Moo" : "2.005003",
+            "Moose" : "2.2014",
             "Object::Pad" : "0.52",
+            "Regexp::Common" : "2017060201",
             "Syntax::Keyword::Try" : "0.25",
             "Template::Tiny::Strict" : "1.18",
             "perl" : "5.026"
@@ -40,6 +43,7 @@
       },
       "test" : {
          "requires" : {
+            "Keyword::DEVELOPMENT" : "0.07",
             "Test::Most" : "0.37"
          }
       }
