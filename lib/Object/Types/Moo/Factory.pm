@@ -1,39 +1,49 @@
-package Object::Types::Moose::Factory;
+package Object::Types::Moo::Factory;
 
 use 5.26.0;
 use warnings;
+use Scalar::Util;
 
 sub create {
     my ( $class, $type_name, @args ) = @_;
-    my $factory_class = "Object::Types::Moose::Concrete::$type_name";
-    unless ( $factory_class->DOES('Object::Types::Moose::Role::Core') ) {
+    my $factory_class = "Object::Types::Moo::Concrete::$type_name";
+    unless ( $factory_class->DOES('Object::Types::Moo::Role::Core') ) {
         croak("Unknown type '$type_name'");
     }
     return $factory_class->new( type_name => $type_name, @args );
 }
 
+sub _make_isa {
+    my ( $attr, $type ) = @_;
+    return sub { die "$attr must be a $type" unless ref $_[0] eq $type; };
+}
+
+sub _make_does {
+    my ( $attr, $role ) = @_;
+    return sub { die "$attr must consume $role" unless blessed $_[0] && $_[0]->DOES($role) };
+}
+
 # Set up the core roles we need
-package Object::Types::Moose::Role::Elements {
-    use Moose::Role;
+package Object::Types::Moo::Role::Elements {
+    use Moo::Role;
 
     requires '_is_type';
 
     has elements => (
         is      => 'ro',
-        isa     => 'ArrayRef',
+        isa     => Object::Types::Moo::Factory::_make_isa('elements', 'ARRAY'),
         default => sub { [] },
     );
 
     has element_hash => (
         is      => 'ro',
-        isa     => 'HashRef',
+        isa     => Object::Types::Moo::Factory::_make_isa('element_hash', 'HASH'),
         lazy    => 1,
         builder => '_build_element_hash',
     );
 
     has _has_types => (
         is      => 'ro',
-        isa     => 'Bool',
         lazy    => 1,
         default => sub {
             my $self = shift;
@@ -50,10 +60,11 @@ package Object::Types::Moose::Role::Elements {
         return \%lookup;
     }
 
+    no Moo::Role;
 }
 
-package Object::Types::Moose::Role::Core {
-    use Moose::Role;
+package Object::Types::Moo::Role::Core {
+    use Moo::Role;
     use Carp;
     use Scalar::Util 'blessed';
     our @CARP_NOT;
@@ -74,13 +85,12 @@ package Object::Types::Moose::Role::Core {
 
     has non_fatal => (
         is      => 'ro',
-        isa     => 'Bool',
         default => 0,
     );
 
     has contains => (
         is   => 'ro',
-        does => 'Object::Types::Moose::Role::Core',
+        does => Object::Types::Moo::Factory::_make_does('contains', 'Object::Types::Moo::Role::Core' ),
     );
 
     sub _is_type {
@@ -91,7 +101,7 @@ package Object::Types::Moose::Role::Core {
     sub type_name {
         my $self = shift;
         my $name = ref $self;
-        $name =~ s/^Object::Types::Moose::Concrete:://;
+        $name =~ s/^Object::Types::Moo::Concrete:://;
         return $name;
     }
 
@@ -109,7 +119,7 @@ package Object::Types::Moose::Role::Core {
 
     sub _report_error {
         my ( $self, $message ) = @_;
-        if ( $self->non_fatal || $Object::Types::Moose::Factory::Test::Mode ) {
+        if ( $self->non_fatal || $Object::Types::Moo::Factory::Test::Mode ) {
             carp $message;
         }
         else {
@@ -140,63 +150,64 @@ package Object::Types::Moose::Role::Core {
         return @namespaces;
     }
 
+    no Moo::Role;
 }
 
 # now create our type classes
 
-package Object::Types::Moose::Concrete::Any {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
+package Object::Types::Moo::Concrete::Any {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate { return 1 }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Int {
-    use Moose;
+package Object::Types::Moo::Concrete::Int {
+    use Moo;
     use Regexp::Common;
-    with 'Object::Types::Moose::Role::Core';
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
         return if !defined $value || ref $value;
         return $value =~ /^$RE{num}{int}$/;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Num {
-    use Moose;
+package Object::Types::Moo::Concrete::Num {
+    use Moo;
     use Regexp::Common;
-    with 'Object::Types::Moose::Role::Core';
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
         return if !defined $value || ref $value;
         return $value =~ /^$RE{num}{real}$/;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Str {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
+package Object::Types::Moo::Concrete::Str {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
         return if !defined $value || ref $value;
         return $value =~ /\w/;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Regex {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
+package Object::Types::Moo::Concrete::Regex {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     has regex => (
         is       => 'ro',
-        isa      => 'Regexp',
+        isa      => Object::Types::Moo::Factory::_make_isa('regex', 'Regexp' ),
         required => 1,
     );
 
@@ -207,15 +218,15 @@ package Object::Types::Moose::Concrete::Regex {
         $value //= '';
         return $value =~ /$regex/;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Enum {
-    use Moose;
+package Object::Types::Moo::Concrete::Enum {
+    use Moo;
     use Carp;
     with qw(
-      Object::Types::Moose::Role::Core
-      Object::Types::Moose::Role::Elements
+      Object::Types::Moo::Role::Core
+      Object::Types::Moo::Role::Elements
     );
 
     sub BUILD {
@@ -245,12 +256,12 @@ package Object::Types::Moose::Concrete::Enum {
             return exists $self->element_hash->{$value};
         }
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::ArrayRef {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
+package Object::Types::Moo::Concrete::ArrayRef {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
@@ -264,20 +275,19 @@ package Object::Types::Moose::Concrete::ArrayRef {
         }
         return $success;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::HashRef {
-    use Moose;
+package Object::Types::Moo::Concrete::HashRef {
+    use Moo;
     with qw(
-      Object::Types::Moose::Role::Core
-      Object::Types::Moose::Role::Elements
+      Object::Types::Moo::Role::Core
+      Object::Types::Moo::Role::Elements
     );
 
     # restricted hashes only allow the keys declared in the types
     has restricted => (
         is      => 'ro',
-        isa     => 'Bool',
         default => 0,
     );
 
@@ -320,7 +330,7 @@ package Object::Types::Moose::Concrete::HashRef {
             foreach my $key ( keys $elements->%* ) {
                 if (   !exists $value->{$key}
                     && !$elements->{$key}
-                    ->isa('Object::Types::Moose::Concrete::Optional') )
+                    ->isa('Object::Types::Moo::Concrete::Optional') )
                 {
                     $key = $self->_quote_key($key);
                     my $var_name = "$name\{$key}";
@@ -360,18 +370,12 @@ package Object::Types::Moose::Concrete::HashRef {
         }
         return $success;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Maybe {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
-
-    has contains => (
-        is       => 'ro',
-        does     => 'Object::Types::Moose::Role::Core',
-        required => 1,
-    );
+package Object::Types::Moo::Concrete::Maybe {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
@@ -379,18 +383,12 @@ package Object::Types::Moose::Concrete::Maybe {
         return 1 if !defined $value;    # and it can be empty
         return $contains->validate( $value, "$name" );
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Optional {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
-
-    has contains => (
-        is       => 'ro',
-        does     => 'Object::Types::Moose::Role::Core',
-        required => 1,
-    );
+package Object::Types::Moo::Concrete::Optional {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     sub _validate {
         my ( $self, $value, $name ) = @_;
@@ -398,22 +396,16 @@ package Object::Types::Moose::Concrete::Optional {
         return 1 if !defined $value;    # and it can be empty
         return $contains->validate( $value, "$name" );
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
-package Object::Types::Moose::Concrete::Coerce {
-    use Moose;
-    with 'Object::Types::Moose::Role::Core';
-
-    has contains => (
-        is       => 'ro',
-        does     => 'Object::Types::Moose::Role::Core',
-        required => 1,
-    );
+package Object::Types::Moo::Concrete::Coerce {
+    use Moo;
+    with 'Object::Types::Moo::Role::Core';
 
     has via => (
         is       => 'ro',
-        isa      => 'CodeRef',
+        isa      => Object::Types::Moo::Factory::_make_isa('via', 'CODE'),
         required => 1,
     );
 
@@ -442,6 +434,7 @@ package Object::Types::Moose::Concrete::Coerce {
         }
         return $success;
     }
-    __PACKAGE__->meta->make_immutable;
+    no Moo;
 }
 
+1;
