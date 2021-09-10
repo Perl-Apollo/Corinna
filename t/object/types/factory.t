@@ -119,11 +119,9 @@ subtest 'Coerce' => sub {
 subtest 'Default values' => sub {
     my $h1 = Object::Types::Concrete::HashRef->new;
     my $h2 = Object::Types::Concrete::HashRef->new;
-  TODO: {
-        local $TODO = 'Default references shared :(';
-        isnt refaddr( $h1->elements ), refaddr( $h2->elements ),
-          'Default references should not be the same reference';
-    }
+    explain "There's currently an ADJUST hack in the code for this";
+    isnt refaddr( $h1->elements ), refaddr( $h2->elements ),
+      'Default references should not be the same reference';
 };
 
 done_testing;

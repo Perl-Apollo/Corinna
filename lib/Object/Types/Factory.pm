@@ -22,9 +22,14 @@ role Object::Types::Role::Elements {
     requires _is_type;
 
     # TODO: I assume that has $foo = []; is getting the same reference per instance. This should be fixed.
-    has $elements     :reader :param = [];
-    has $element_hash :reader :param = {};
+    has $elements     :reader :param = undef;
+    has $element_hash :reader :param = undef;
     has $has_types    :reader;
+
+    ADJUST {
+        $elements     //= [];
+        $element_hash //= {};
+    }
 
     BUILD {
         $has_types = 0;
