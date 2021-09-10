@@ -182,9 +182,10 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 
 =head1 DESCRIPTION
 
-To get a serious, real-world benchmark, we have re-implemented a subset of L<Types::Standard>
-in L<Object::Pad>, L<Moose>, and L<Moo>. In short, this somewhat complex type constraint
-is used to validate a data structure 50,000 times:
+To get a heavier-duty benchmark than simply creating objects and changing a
+few values, we have re-implemented a subset of L<Types::Standard> in
+L<Object::Pad>, L<Moose>, and L<Moo>. In short, this somewhat complex type
+constraint is used to validate a data structure 50,000 times:
 
     Dict [
         doe              => Str,
