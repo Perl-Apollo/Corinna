@@ -26,10 +26,10 @@ is $boy->num_people, 1,
 
 DEVELOPMENT {
     # TODO Be be able to call methods on classes
-    is Corinna::Example::Person->num_people, 1,
+    is +Corinna::Example::Person->num_people, 1,
       'We should be able to call class methods on the class';
     undef $boy;
-    is Corinna::Example::Person->num_people, 0,
+    is +Corinna::Example::Person->num_people, 0,
       '... and when their are no more instances, we should have no more people';
 }
 
