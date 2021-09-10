@@ -102,7 +102,7 @@ package Moose::Test {
 }
 
 package Moo::Test {
-    use Object::Types::Moose ':all';
+    use Object::Types::Moo ':all';
 
     sub get_definition {
         Dict(
@@ -166,15 +166,15 @@ bin/type-bench.pl - Benchmarks for Object::Pad (and ultimately, Corinna)
 =head1 SYNOPSIS
 
     $ time perl bin/type-bench.pl
-                       Rate T:S/construct Moo/construct Moose/construct O:P/construct   Moo Moose Object::Pad Types::Standard
-    T:S/construct     693/s            --          -65%            -65%          -79%  -80%  -81%        -86%            -99%
-    Moo/construct    1983/s          186%            --             -0%          -39%  -42%  -47%        -60%            -97%
-    Moose/construct  1983/s          186%            0%              --          -39%  -42%  -47%        -60%            -97%
-    O:P/construct    3234/s          366%           63%             63%            --   -6%  -13%        -35%            -96%
-    Moo              3448/s          397%           74%             74%            7%    --   -7%        -31%            -96%
-    Moose            3709/s          435%           87%             87%           15%    8%    --        -25%            -95%
-    Object::Pad      4975/s          618%          151%            151%           54%   44%   34%          --            -94%
-    Types::Standard 78125/s        11169%         3839%           3839%         2316% 2166% 2006%       1470%              -- 
+                       Rate T:S/construct Moose/construct Moo/construct O:P/construct Moose Object::Pad   Moo Types::Standard
+    T:S/construct     696/s            --            -63%          -63%          -78%  -81%        -86%  -86%            -99%
+    Moose/construct  1864/s          168%              --           -2%          -42%  -49%        -63%  -64%            -98%
+    Moo/construct    1895/s          172%              2%            --          -41%  -48%        -62%  -63%            -98%
+    O:P/construct    3213/s          361%             72%           70%            --  -12%        -36%  -37%            -96%
+    Moose            3671/s          427%             97%           94%           14%    --        -27%  -28%            -96%
+    Object::Pad      5025/s          622%            170%          165%           56%   37%          --   -2%            -94%
+    Moo              5128/s          636%            175%          171%           60%   40%          2%    --            -94%
+    Types::Standard 83333/s        11865%           4372%         4297%         2493% 2170%       1558% 1525%              --
 
     real    3m3.179s
     user    2m59.690s
@@ -207,9 +207,9 @@ is used to validate a data structure 50,000 times:
     ];
 
 Unsurprisingly, C<Types::Standard> wins, hands down. However, we see
-C<Object::Pad> is considerably faster than both C<Moose> and C<Moo>.
-Interestingly, if you also include the "construct" step, C<Object::Pad> is far
-and away the fastest, while C<Types::Standard> is the slowest.
+C<Object::Pad> is considerably faster than both C<Moose> and C<Moo> if you
+include object construction. Otherwise, C<Object::Pad> and C<Moo> are about
+neck and neck as of this writing (September 10, 2021);
 
 If someone wants to contribute a C<bless> version to compare against, that
 would be interesting.
