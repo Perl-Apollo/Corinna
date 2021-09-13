@@ -1,16 +1,16 @@
 # Forked from Config::Tiny::Ordered
 
 use v5.26.0;
+use lib 'lib';
 use Object::Pad;
 
 class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     use Syntax::Keyword::Try;
     use Storable 'dclone';
-    use Readonly;
-    use Corinna::RFC::Types qw(compile ArrayRef HashRef Str Dict);
+    use Object::Types qw(ArrayRef HashRef Str Dict);
     use Carp 'croak';
 
-    has $FILE :param(file);
+    has $FILE : param(file);
     has $CONFIG = {};
 
     BUILD {
@@ -26,21 +26,19 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     }
 
     method _validate() {
-        state $check = compile(
-            Dict [
-                rfcs => ArrayRef [ Dict [ key => Str, value => Str ], ],
-                main => Dict [
-                    template_dir => Str,
-                    rfc_dir      => Str,
-                    readme       => Str,
-                    toc          => Str,
-                    toc_marker   => Str,
-                    github       => Str,
-                ],
-            ]
+        state $check = Dict(
+            rfcs => ArrayRef( Dict( key => Str, value => Str ), ),
+            main => Dict(
+                template_dir => Str,
+                rfc_dir      => Str,
+                readme       => Str,
+                toc          => Str,
+                toc_marker   => Str,
+                github       => Str,
+            ),
         );
         try {
-            $check->($CONFIG);
+            $check->validate($CONFIG);
         }
         catch ($error) {
             croak("Config file error: $error");
