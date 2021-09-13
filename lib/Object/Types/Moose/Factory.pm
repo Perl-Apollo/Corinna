@@ -109,7 +109,8 @@ package Object::Types::Moose::Role::Core {
 
     sub _report_error {
         my ( $self, $message ) = @_;
-        if ( $self->non_fatal || $Object::Types::Moose::Factory::Test::Mode ) {
+        return if $Object::Types::Moose::Factory::Test::Mode;
+        if ( $self->non_fatal ) {
             carp $message;
         }
         else {

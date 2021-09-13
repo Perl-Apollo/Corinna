@@ -60,7 +60,6 @@ package Object::Types::Moo::Role::Elements {
         return \%lookup;
     }
 
-    no Moo::Role;
 }
 
 package Object::Types::Moo::Role::Core {
@@ -119,7 +118,8 @@ package Object::Types::Moo::Role::Core {
 
     sub _report_error {
         my ( $self, $message ) = @_;
-        if ( $self->non_fatal || $Object::Types::Moo::Factory::Test::Mode ) {
+        return if $Object::Types::Moo::Factory::Test::Mode;
+        if ( $self->non_fatal ) {
             carp $message;
         }
         else {
@@ -150,7 +150,6 @@ package Object::Types::Moo::Role::Core {
         return @namespaces;
     }
 
-    no Moo::Role;
 }
 
 # now create our type classes
@@ -160,7 +159,6 @@ package Object::Types::Moo::Concrete::Any {
     with 'Object::Types::Moo::Role::Core';
 
     sub _validate { return 1 }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Int {
@@ -173,7 +171,6 @@ package Object::Types::Moo::Concrete::Int {
         return if !defined $value || ref $value;
         return $value =~ /^$RE{num}{int}$/;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Num {
@@ -186,7 +183,6 @@ package Object::Types::Moo::Concrete::Num {
         return if !defined $value || ref $value;
         return $value =~ /^$RE{num}{real}$/;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Str {
@@ -198,7 +194,6 @@ package Object::Types::Moo::Concrete::Str {
         return if !defined $value || ref $value;
         return $value =~ /\w/;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Regex {
@@ -218,7 +213,6 @@ package Object::Types::Moo::Concrete::Regex {
         $value //= '';
         return $value =~ /$regex/;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Enum {
@@ -256,7 +250,6 @@ package Object::Types::Moo::Concrete::Enum {
             return exists $self->element_hash->{$value};
         }
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::ArrayRef {
@@ -275,7 +268,6 @@ package Object::Types::Moo::Concrete::ArrayRef {
         }
         return $success;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::HashRef {
@@ -370,7 +362,6 @@ package Object::Types::Moo::Concrete::HashRef {
         }
         return $success;
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Maybe {
@@ -383,7 +374,6 @@ package Object::Types::Moo::Concrete::Maybe {
         return 1 if !defined $value;    # and it can be empty
         return $contains->validate( $value, "$name" );
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Optional {
@@ -396,7 +386,6 @@ package Object::Types::Moo::Concrete::Optional {
         return 1 if !defined $value;    # and it can be empty
         return $contains->validate( $value, "$name" );
     }
-    no Moo;
 }
 
 package Object::Types::Moo::Concrete::Coerce {
@@ -434,7 +423,6 @@ package Object::Types::Moo::Concrete::Coerce {
         }
         return $success;
     }
-    no Moo;
 }
 
 1;
