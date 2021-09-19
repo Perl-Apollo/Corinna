@@ -44,8 +44,8 @@ Check that the even-sized list of args to `new()` are not duplicated (stops
 the `new( this => 1, this => 2` ) error).
 
 ```perl
-my @args = ... get list passed to new()
-  unless ( !( @args % 2 ) ) {
+my @args = ...; # get list passed to new()
+unless ( !( @args % 2 ) ) {
     croak("even-sized list required");
 }
 ```
