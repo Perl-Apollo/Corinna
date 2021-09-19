@@ -10,7 +10,7 @@ class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
     use Object::Types qw(ArrayRef HashRef Str Dict);
     use Carp 'croak';
 
-    has $FILE : param(file);
+    has $FILE :param(file);
     has $CONFIG = {};
 
     BUILD {
