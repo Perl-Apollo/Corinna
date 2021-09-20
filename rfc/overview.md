@@ -142,7 +142,7 @@ class Cache::LRU v0.1.0 {
     use Hash::Ordered;
     use Carp 'croak';
 
-    my $num_caches                             = 0;
+    my $num_caches                         = 0;
     slot $cache    :handles(exists delete) = Hash::Ordered->new;
     slot $max_size :param  :reader         = 20;
     slot $created  :reader                 = time;
