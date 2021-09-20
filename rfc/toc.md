@@ -25,6 +25,9 @@ edit this file directly. Please edit
 * `..` 2.4 Rationale
 * `..` 2.5 Specification
 * `..` 2.6 Backwards Compatibility
+* `....` 2.6.1 Syntax
+* `....` 2.6.2 Tooling
+* `....` 2.6.3 Feature Guard
 * `..` 2.7 Security Implications
 * `..` 2.8 Examples
 * `..` 2.9 Prototype Implementation

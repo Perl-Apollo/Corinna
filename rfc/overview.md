@@ -77,6 +77,7 @@ slot $created :handles(*) = DateTime->now;
 [The full grammar of the Corinna MVP can be found here](grammar.md).
 
 # 2.6 Backwards Compatibility
+## 2.6.1 Syntax
 Currently, Corinna's syntax is generally backwards-compatible because the code does not parse on older Perls that `use strict`. This is helped tremendously by requiring a postfix block syntax which encapsulates the changes, rather than the standard `class Foo is Bar; slot ...` syntax.
 
 ```
@@ -107,11 +108,26 @@ class Foo {}  # prints "darn it"
 
 Note that we also intend for the block to have strict and warnings, along with disabling indirect method calls. Because those pragmas are file scoped without a block, requiring a block limits the damage, so to speak.
 
+## 2.6.2 Tooling
 As for tooling, we hope that [`B::Deparse`](https://metacpan.org/pod/B::Deparse), [`Devel::Cover`](https://metacpan.org/pod/Devel::Cover), and [`Devel::NYTProf`](https://metacpan.org/pod/Devel::NYTProf), won't be impacted too strongly. However, this has not yet been tested.
 
 [`PPI`](https://metacpan.org/pod/PPI) (and thus [`Perl::Critic`](https://metacpan.org/pod/Perl::Critic) and friends) will be impacted, but we have defined a regular grammar for Corinna, making parsing much easier.
 
 Paul "LeoNerd" Evans intends to release `Feature::Compat::Class` along the same lines as [`Feature::Compat::Try`](https://metacpan.org/pod/Feature::Compat::Try). That would allow Corinna to be accessible to Perls as old as v5.18.0 (the earliest Perl version that supports Object::Pad).
+
+## 2.6.3 Feature Guard
+For newer Perl's, Corinna is not intended to be available by default. Instead,
+it will start with a feature guard:
+
+```perl
+use feature 'class';
+
+class Customer isa Person {
+    ...
+}
+```
+
+Later, it will likely be automatically available with `use v8;` (speculating about the version number).
 
 # 2.7 Security Implications
 Most of what we plan leverages Perl's current capabilities, but with a different grammar. We don't anticipate particular security issues. In fact, due to increased encapsulation, Corinna might actually be a bit more secure (in terms of data it exposes).
@@ -127,9 +143,9 @@ class Cache::LRU v0.1.0 {
     use Carp 'croak';
 
     my $num_caches                             = 0;
-    slot    $cache     :handles(exists delete) = Hash::Ordered->new;
-    slot    $max_size  :param  :reader         = 20;
-    slot    $created   :reader                 = time;
+    slot $cache    :handles(exists delete) = Hash::Ordered->new;
+    slot $max_size :param  :reader         = 20;
+    slot $created  :reader                 = time;
 
     ADJUST { # called after new()
         $num_caches++;
@@ -137,7 +153,7 @@ class Cache::LRU v0.1.0 {
             croak(...);
         }
     }
-    DESTRUCT ($destruction) { $num_caches-- }
+    DESTRUCT { $num_caches-- }
 
     common method num_caches () { $num_caches }
 
