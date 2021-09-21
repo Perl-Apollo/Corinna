@@ -18,32 +18,29 @@ The primary grammar looks like:
 
 ```
 Corinna     ::= CLASS | ROLE
-CLASS       ::= DESCRIPTOR? 'class' NAMESPACE
-                DECLARATION BLOCK
+CLASS       ::= DESCRIPTOR? 'class' NAMESPACE DECLARATION? BLOCK
 DESCRIPTOR  ::= 'abstract'
-ROLE        ::= 'role' NAMESPACE
-                DECLARATION BLOCK
+ROLE        ::= 'role' NAMESPACE ROLES? BLOCK
 NAMESPACE   ::= IDENTIFIER { '::' IDENTIFIER } VERSION? 
-DECLARATION ::= { PARENT | ROLES } | { ROLES | PARENT }
+DECLARATION ::= PARENT? ROLES?
 PARENT      ::= 'isa' NAMESPACE
 ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
 IDENTIFIER  ::= [:alpha:] {[:alnum:]}
-VERSION     ::= 'v' DIGIT {DIGIT} '.' DIGIT {DIGIT} '.' DIGIT {DIGIT}
-DIGIT       ::= [0-9]
+VERSION     ::= # all currently allowed version numbers
 BLOCK       ::= # Perl +/- Extras
 ```
 
-The version numbers use the major, minor, and patch numbers from [semantic versioning](https://semver.org/).
+We recommend [semantic versioning](https://semver.org/), but in we allow all
+existing Perl version formats to facilitate upgarding existing modules.
 
 # 3.2 Method Grammar
 The method grammar (skipping some bits to avoid defining a grammar for Perl):
 
 ```
-METHOD     ::= MODIFIERS 'method' SIGNATURE '{' (perl code) '}'
-SIGNATURE  ::= METHODNAME '(' current sub argument structure + extra work from Dave Mitchell ')'
-METHODNAME ::= [a-zA-Z_]\w*
-MODIFIERS  ::= MODIFIER { MODIFIER }
-MODIFIER   ::= 'private' | 'overrides' | 'common' 
+METHOD        ::= 'method' ACCESS_LEVELS SIGNATURE '{' (perl code) '}'
+SIGNATURE     ::= IDENTIFIER '(' current sub argument structure + extra work from Dave Mitchell ')'
+ACCESS_LEVELS ::= ACCESS_LEVEL { ACCESS_LEVEL }
+ACCESS_LEVEL  ::= ':' { 'private' | 'overrides' | 'common' }
 ```
 
 # 3.3 Slot Grammar
@@ -55,17 +52,16 @@ For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding varia
 SLOT            ::= INSTANCE | SHARED ';'
 SHARED          ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE        ::= 'slot'    SLOT_DEFINITION
-SLOT_DEFINITION ::=   SCALAR           ATTRIBUTES? DEFAULT?  
-                    | { ARRAY | HASH }             DEFAULT? 
+SLOT_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
 DEFAULT         ::= '=' PERL_EXPRESSION
-ATTRIBUTE       ::= 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES
+ATTRIBUTE       ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
 ATTRIBUTES      ::= { ATTRIBUTE }
 HANDLES         ::= 'handles' '(' 
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this slot handles
                                  |  PAIR { ',' PAIR }                # map of methods (to, from) this slot handles
                                  | '*'                               # this slot handles all unknown methods, but inheritance takes precedence
                               ')'
-PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
+PAIR            ::= IDENTIFIER  ':' IDENTIFIER
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```

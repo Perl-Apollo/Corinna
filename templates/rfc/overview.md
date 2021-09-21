@@ -153,7 +153,7 @@ class Cache::LRU v0.1.0 {
     }
     DESTRUCT { $num_caches-- }
 
-    common method num_caches () { $num_caches }
+    method num_caches :common () { $num_caches }
 
     method set ( $key, $value ) {
         if ( $self->exists($key) ) {

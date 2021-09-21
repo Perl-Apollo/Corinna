@@ -68,8 +68,8 @@ you wish to provide an an alternate set of arguments to the constructor, write
 an alternate constructor (the behavior replaces Moo/se `BUILDARGS`).
 
 ```perl
-common method from_name ($name) {    # 'common method' is a class method
-    $class->new( name => $name );    # all methods have $class injected.
+method from_name :common ($name) {    # ':common ' means it's a class method
+    $class->new( name => $name );     # all methods have $class injected.
 }
 my $boy = Person->from_name('Will Robinson');
 say $boy->name; # Will Robinson
@@ -84,7 +84,7 @@ class Person {
     slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
     slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
     my $num_people = 0;                    # class data, defaults to 0 (common, with hand-rolled reader method)
-    common method num_people () { $num_people }
+    method num_people :common () { $num_people }
 
     ADJUST   { $num_people++ }             # called after new(), but before returned to consumer (BUILD)
     DESTRUCT { $num_people-- }             # destructor
@@ -133,7 +133,7 @@ Corinna supports single inheritance via the `isa` keyword.
 class Customer isa Person v0.1.0 {
     slot $customer_id :param;
 
-    overrides method name () {
+    method name :overrides () {
         my $name = $self->next::method;
         $name .= " (#$customer_id)";
         return $name;
@@ -153,14 +153,14 @@ say $customer->name;      # Ford Prefect (#42)
 Let's look at the method a bit more closely.
 
 ```
-01:    overrides method name () {
+01:    method name :overrides () {
 02:        my $name = $self->next::method;
 03:        $name .= " (#$customer_id)";
 04:        return $name;
 05:    }
 ```
 
-On line 1, the `overrides` tells Corinna we're overriding a parent method. This should:
+On line 1, the `:overrides` tells Corinna we're overriding a parent method. This should:
 
 * Suppress overridden warnings when overriding a parent method
 * Generate a compile-time error if there is no parent method

@@ -116,7 +116,7 @@ identifier and will be used as the parameter name.
 class Soldier {
     slot $id            :param;             # required in constructor
     slot $name          :param = undef;     # optional in constructor
-    slot $rank          :param = 'private'; # optional in constructor, defaults to 'private'
+    slot $rank          :param = 'recruit'; # optional in constructor, defaults to 'recruit'
     slot $serial_number :param('sn');
 }
 
