@@ -16,12 +16,13 @@ DECLARATION ::= { PARENT | ROLES } | { ROLES | PARENT }
 PARENT      ::= 'isa' NAMESPACE
 ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
 IDENTIFIER  ::= [:alpha:] {[:alnum:]}
-VERSION     ::= 'v' DIGIT {DIGIT} '.' DIGIT {DIGIT} '.' DIGIT {DIGIT}
+VERSION     ::= # all currently allowed version numbers
 DIGIT       ::= [0-9]
 BLOCK       ::= # Perl +/- Extras
 ```
 
-The version numbers use the major, minor, and patch numbers from [semantic versioning](https://semver.org/).
+We recommend [semantic versioning](https://semver.org/), but in we allow all
+existing Perl version formats to facilitate upgarding existing modules.
 
 # Method Grammar
 
