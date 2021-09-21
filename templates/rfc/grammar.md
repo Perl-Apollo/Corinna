@@ -6,13 +6,11 @@ The primary grammar looks like:
 
 ```
 Corinna     ::= CLASS | ROLE
-CLASS       ::= DESCRIPTOR? 'class' NAMESPACE
-                DECLARATION BLOCK
+CLASS       ::= DESCRIPTOR? 'class' NAMESPACE DECLARATION? BLOCK
 DESCRIPTOR  ::= 'abstract'
-ROLE        ::= 'role' NAMESPACE
-                DECLARATION BLOCK
+ROLE        ::= 'role' NAMESPACE ROLES? BLOCK
 NAMESPACE   ::= IDENTIFIER { '::' IDENTIFIER } VERSION? 
-DECLARATION ::= { PARENT | ROLES } | { ROLES | PARENT }
+DECLARATION ::= PARENT? ROLES?
 PARENT      ::= 'isa' NAMESPACE
 ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
 IDENTIFIER  ::= [:alpha:] {[:alnum:]}
@@ -29,10 +27,10 @@ existing Perl version formats to facilitate upgarding existing modules.
 The method grammar (skipping some bits to avoid defining a grammar for Perl):
 
 ```
-METHOD     ::= MODIFIERS 'method' SIGNATURE '{' (perl code) '}'
-SIGNATURE  ::= IDENTIFIER '(' current sub argument structure + extra work from Dave Mitchell ')'
-MODIFIERS  ::= MODIFIER { MODIFIER }
-MODIFIER   ::= 'private' | 'overrides' | 'common' 
+METHOD        ::= 'method' ACCESS_LEVELS SIGNATURE '{' (perl code) '}'
+SIGNATURE     ::= IDENTIFIER '(' current sub argument structure + extra work from Dave Mitchell ')'
+ACCESS_LEVELS ::= ACCESS_LEVEL { ACCESS_LEVEL }
+ACCESS_LEVEL  ::= ':' { 'private' | 'overrides' | 'common' }
 ```
 
 # Slot Grammar
@@ -45,10 +43,9 @@ For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding varia
 SLOT            ::= INSTANCE | SHARED ';'
 SHARED          ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE        ::= 'slot'    SLOT_DEFINITION
-SLOT_DEFINITION ::=   SCALAR           ATTRIBUTES? DEFAULT?  
-                    | { ARRAY | HASH }             DEFAULT? 
+SLOT_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
 DEFAULT         ::= '=' PERL_EXPRESSION
-ATTRIBUTE       ::= 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES
+ATTRIBUTE       ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES )
 ATTRIBUTES      ::= { ATTRIBUTE }
 HANDLES         ::= 'handles' '(' 
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this slot handles
