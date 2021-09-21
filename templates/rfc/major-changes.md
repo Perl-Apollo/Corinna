@@ -6,6 +6,7 @@ Instead, we'll cover major changes here.
 
 ## September 21, 2021
 
+- :name attribute for slots removed from MVP. Might be returned later.
 - Version numbers no longer limited to semver. All current Perl version
   formats intended to be supported.
 - Classes which both inherit and consume roles must now declare the parent
