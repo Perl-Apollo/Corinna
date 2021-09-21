@@ -30,8 +30,7 @@ The method grammar (skipping some bits to avoid defining a grammar for Perl):
 
 ```
 METHOD     ::= MODIFIERS 'method' SIGNATURE '{' (perl code) '}'
-SIGNATURE  ::= METHODNAME '(' current sub argument structure + extra work from Dave Mitchell ')'
-METHODNAME ::= [a-zA-Z_]\w*
+SIGNATURE  ::= IDENTIFIER '(' current sub argument structure + extra work from Dave Mitchell ')'
 MODIFIERS  ::= MODIFIER { MODIFIER }
 MODIFIER   ::= 'private' | 'overrides' | 'common' 
 ```
