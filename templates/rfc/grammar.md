@@ -44,7 +44,7 @@ SHARED          ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE        ::= 'slot'    SLOT_DEFINITION
 SLOT_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
 DEFAULT         ::= '=' PERL_EXPRESSION
-ATTRIBUTE       ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | 'name' MODIFIER? | HANDLES )
+ATTRIBUTE       ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
 ATTRIBUTES      ::= { ATTRIBUTE }
 HANDLES         ::= 'handles' '(' 
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this slot handles
