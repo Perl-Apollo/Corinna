@@ -27,7 +27,6 @@ PARENT      ::= 'isa' NAMESPACE
 ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
 IDENTIFIER  ::= [:alpha:] {[:alnum:]}
 VERSION     ::= # all currently allowed version numbers
-DIGIT       ::= [0-9]
 BLOCK       ::= # Perl +/- Extras
 ```
 
