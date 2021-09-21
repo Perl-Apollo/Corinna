@@ -35,7 +35,7 @@ of a method is considered an abstract method.
 ```perl
 role SomeRole {
     method foo();
-    common method bar ();
+    method bar :common ();
     abstract method baz (); # abstract is optional
     ...
 }
@@ -46,9 +46,9 @@ role provides. These may be both class and instance methods.
 
 ```perl
 role SomeRole P
-    method foo ()         { ... } # instance method provided
-    common method bar ()  { ... } # class method provided
-    private method baz () { ... } # private methods are not provided
+    method foo ()          { ... } # instance method provided
+    method bar :common ()  { ... } # class method provided
+    method baz :private () { ... } # private methods are not provided
 }
 ```
 

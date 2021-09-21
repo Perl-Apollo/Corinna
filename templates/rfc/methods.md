@@ -1,15 +1,7 @@
 # Overview
 
-Corinna offers class methods and instance methods. You must specify if they
-override a parent method.
-
-```
-METHOD     ::= MODIFIERS 'method' SIGNATURE '{' (perl code) '}'
-SIGNATURE  ::= METHODNAME '(' current sub argument structure + extra work from Dave Mitchell ')'
-METHODNAME ::= [a-zA-Z_]\w*
-MODIFIERS  ::= MODIFIER { MODIFIER }
-MODIFIER   ::= 'private' | 'overrides' | 'common' 
-```
+Corinna offers class methods and instance methods. You must also specify if
+they override a parent method.
 
 # Instance Methods
 
@@ -29,12 +21,12 @@ instance and class methods.
 
 # Class Methods
 
-Class methods are defined via `common method $identifier (@args) { ... }`.
+Class methods are defined via `method $identifier :common (@args) { ... }`.
 They automatically have a `$class` variable injected into them. This contains
 the name of the class from which this method was called.
 
 ```perl
-common method foo() {
+method foo :common () {
     say "We were called via the $class class";
 }
 ```
@@ -46,10 +38,10 @@ Ths includes trying to reference `$self` in a class method.
 # Overridden Methods
 
 If a method in the current class overrides a method in a parent class, a warning
-will be issued. To suppress that warning, use `overrides`.
+will be issued. To suppress that warning, use `:overrides`.
 
 ```perl
-overrides method name () {
+method name :overrides () {
     ...
 }
 ```
@@ -64,7 +56,7 @@ without a method body.
 
 ```perl
 method foo();
-common method bar ();
+method bar :common ();
 ```
 
 They have two uses. Any class with an abstract method must declare itself as
@@ -79,14 +71,14 @@ same time.
 Private methods are declared with the `private` keyword:
 
 ```perl
-private method foo() {...}
-private common method bar () { ...}
+method foo :private () {...}
+method bar :private :common () { ...}
 ```
 
 Private methods can only be called from methods defined in the namespace and file at _compile time_
 
 * Private methods are not inherited
-* If a class or role has a `private` method with the name matching the name of
+* If a class or role has a `:private` method with the name matching the name of
   the method being called, the dispatch is to that method.
 * Even if a subclass has a public or private method with the same signature,
   the methods in a class will call its private method, not the inherited one
@@ -96,7 +88,7 @@ Note that this means:
 
 * For the MVP, roles cannot require private methods
 * A role's private methods can never conflict with another role or class's private methods
-* You cannot use `overrides` and `private` on the same method
+* You cannot use `:overrides` and `:private` on the same method
 
 ## Private Methods in Roles
 
@@ -112,11 +104,11 @@ Thus:
 ```
 role SomeRole {
     method role_method () { $self->do_it }
-    private method do_it () { say "SomeRole" }
+    method do_it :private () { say "SomeRole" }
 }
 class SomeClass does SomeRole {
     method class_method () { $self->do_it }
-    private method do_it () { say "SomeClass" }
+    method do_it :private () { say "SomeClass" }
 }
 my $object = SomeClass->new;
 say $object->class_method;
