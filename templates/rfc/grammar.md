@@ -55,7 +55,7 @@ HANDLES         ::= 'handles' '('
                                  |  PAIR { ',' PAIR }                # map of methods (to, from) this slot handles
                                  | '*'                               # this slot handles all unknown methods, but inheritance takes precedence
                               ')'
-PAIR            ::= IDENTIFIER  ( ',' | '=>' ) IDENTIFIER
+PAIR            ::= IDENTIFIER  ':' IDENTIFIER
 MODIFIER        ::= '(' IDENTIFIER ')'
 IDENTIFIER      ::= [:alpha:] {[:alnum:]}
 ```
