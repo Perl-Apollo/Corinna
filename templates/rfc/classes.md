@@ -14,7 +14,7 @@ Corinna classes cannot inherit from non-Corinna classes, but the special
 ```perl
 class DateTime::Improved {
     use DateTime;
-    slot $args :params; 
+    slot $args :param; 
     slot $datetime :handles(*);
 
     ADJUST {

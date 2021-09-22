@@ -34,9 +34,8 @@ of a method is considered an abstract method.
 
 ```perl
 role SomeRole {
-    method foo();
-    method bar :common ();
-    abstract method baz (); # abstract is optional
+    method foo;
+    method bar :common;
     ...
 }
 ```
@@ -44,8 +43,17 @@ role SomeRole {
 Any non-private methods with method bodies are considered to be methods the
 role provides. These may be both class and instance methods.
 
+*Important* required methods must not be listed with arguments. These are a
+syntax errors:
+
 ```perl
-role SomeRole P
+method foo ();
+method bar ($baz);
+```
+
+
+```perl
+role SomeRole {
     method foo ()          { ... } # instance method provided
     method bar :common ()  { ... } # class method provided
     method baz :private () { ... } # private methods are not provided
@@ -81,7 +89,7 @@ role Role::UUID {
     my $namespace_uuid = $uuid->create_str;
 
     # abtract methods in roles are required
-    method name();
+    method name;
 
     method uuid () {
         return $uuid->create_from_name_str( $namespace_uuid, $self->name );

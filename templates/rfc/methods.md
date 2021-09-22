@@ -55,8 +55,8 @@ Abstract methods are declared as forward declarations. That is, methods
 without a method body.
 
 ```perl
-method foo();
-method bar :common ();
+method foo;
+method bar :common;
 ```
 
 They have two uses. Any class with an abstract method must declare itself as
@@ -66,13 +66,30 @@ Abstract methods declared in [roles](roles.md) are "required" methods that
 must be implemented by the consuming class or by other roles consumed at the
 same time.
 
+*Important* abstract methods must not be listed with arguments. These are a
+syntax errors:
+
+```perl
+method foo ();
+method bar ($baz);
+```
+
+## Checking Abstract Methods
+
+When compiling code containing abstract methods, the check to see if the
+method is overridden it should be compile time for a class and composition
+time for a role. You should be able to compile an abstract class itself with a
+standard `perl -c` check, but any class which inherits from the abstract class
+and doesn't override the methods would either need to be declared `abstract`
+or have a compile-time failure.
+
 # Private Methods
 
 Private methods are declared with the `private` keyword:
 
 ```perl
 method foo :private () {...}
-method bar :private :common () { ...}
+method bar :private :common () {...}
 ```
 
 Private methods can only be called from methods defined in the namespace and file at _compile time_

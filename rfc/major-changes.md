@@ -17,9 +17,15 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+## September 22, 2021
+
+- Abtract methods in classes and required methods in roles are no longer
+  allowed to declare their argument lists. This gives us room to reconsider
+  this behavior post-MVP.
+
 ## September 21, 2021
 
-- :name attribute for slots removed from MVP. Might be returned later.
+- `:name` attribute for slots removed from MVP. Might be returned later.
 - Version numbers no longer limited to semver. All current Perl version
   formats intended to be supported.
 - Classes which both inherit and consume roles must now declare the parent
@@ -27,7 +33,9 @@ Instead, we'll cover major changes here.
 - Method access levels such as `common`, `private`, and `overrides` are now
   attributes that come between the method name and the argument list:
 
-  method foo :overrides ($bar, $baz) { ... }
+```perl
+method foo :overrides ($bar, $baz) { ... }
+```
 
 ## August 26, 2021
 

@@ -95,6 +95,7 @@ edit this file directly. Please edit
 * `..` 7.3 Class Methods
 * `..` 7.4 Overridden Methods
 * `..` 7.5 Abstract Methods
+* `....` 7.5.1 Checking Abstract Methods
 * `..` 7.6 Private Methods
 * `....` 7.6.1 Private Methods in Roles
 
