@@ -21,7 +21,7 @@ and cannot call subroutines with an invocant.
 
 Corinna classes cannot inherit from non-Corinna classes, but the special
 `handles(*)` syntax allows this to be simulated. See 
-["Delegate All Unknown Methods"](attributes.md#delegate-all-unknown-methods) for more information.
+["Delegate All Unknown Methods"](attributes.md#62362-delegate-all-unknown-methods) for more information.
 
 ```perl
 class DateTime::Improved {
