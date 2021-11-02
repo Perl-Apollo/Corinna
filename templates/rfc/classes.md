@@ -117,20 +117,23 @@ say Person->num_people;     # 0
 
 ## Versions
 
-Versions require a leading `v` followed by the `major.minor.patch` numbers from [semantic versioning](https://semver.org/).
+Just add the version number after the class name. This should accept any
+standard version number.
 
 ```perl
-class MyClass v0.1.3 {
+class My::Class 3.14 {
     ...
 }
 ```
 
 ## Inheritance
 
-Corinna supports single inheritance via the `isa` keyword.
+Corinna supports single inheritance via the `isa` keyword. You may optionally
+add a version number to the name of the class you're inheriting from to show
+the minimum allowed version of the class.
 
 ```perl
-class Customer isa Person v0.1.0 {
+class Customer isa Person v2.1.0 {
     slot $customer_id :param;
 
     method name :overrides () {
