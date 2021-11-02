@@ -4,6 +4,11 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# November 2, 2021
+
+- Classes documentation now shows we use any legal version numbers, not just
+  semver triples.
+
 ## September 22, 2021
 
 - Abtract methods in classes and required methods in roles are no longer
