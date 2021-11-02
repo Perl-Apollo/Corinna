@@ -136,6 +136,9 @@ around method set_size ($size) {
 }
 ```
 
+**Important**: Note that the `$ORIG` variable is injected directly into the
+`around` method. This behavior and name is provisional and may be changed.
+
 ## Execution order of method modifiers and inheritance
 
 When both a superclass and an inheriting class have the same method modifiers,
