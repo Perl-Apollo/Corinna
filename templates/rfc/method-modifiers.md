@@ -1,10 +1,5 @@
 # Overview
 
-# TODO
-# A method modifier implicitly adds the method to the list of required methods
-# can't define modifiers in the same class/role as the core method
-# (maintainability nightmare)
-
 Note: the bulk of this document is translated almost verbatim from [the Corinna
 documentation](https://metacpan.org/dist/Corinna/source/lib/Corinna/Manual/MethodModifiers.pod).
 
@@ -230,3 +225,7 @@ due to how method resolution is performed in Perl. Experiment with a test
 program to ensure your class hierarchy works as expected, or more preferably,
 don't use multiple inheritance (roles can help with this)!
 
+A method modifier implicitly adds the method to the list of required methods.
+
+Unlike Moo/se, you can't define modifiers in the same class/role as the core
+method.

@@ -118,17 +118,13 @@ edit this file directly. Please edit
 # [Section: 10: Method Modifiers](method-modifiers.md)
 
 * `..` 10.1 Overview
-* `..` 10.2 TODO
-* `..` 10.3 A method modifier implicitly adds the method to the list of required methods
-* `..` 10.4 can't define modifiers in the same class/role as the core method
-* `..` 10.5 (maintainability nightmare)
-* `..` 10.6 WHY USE THEM?
-* `..` 10.7 BEFORE, AFTER, AND AROUND
-* `....` 10.7.1 Before and after Modifiers
-* `....` 10.7.2 Around modifiers
-* `....` 10.7.3 Execution order of method modifiers and inheritance
-* `..` 10.8 EXCEPTIONS AND STACK TRACES
-* `..` 10.9 CAVEATS
+* `..` 10.2 WHY USE THEM?
+* `..` 10.3 BEFORE, AFTER, AND AROUND
+* `....` 10.3.1 Before and after Modifiers
+* `....` 10.3.2 Around modifiers
+* `....` 10.3.3 Execution order of method modifiers and inheritance
+* `..` 10.4 EXCEPTIONS AND STACK TRACES
+* `..` 10.5 CAVEATS
 
 # [Section: 11: Questions](questions.md)
 

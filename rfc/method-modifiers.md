@@ -12,7 +12,6 @@ edit this file directly. Please edit
 ---
 
 # 10.1 Overview
-# 10.2 TODO# 10.3 A method modifier implicitly adds the method to the list of required methods# 10.4 can't define modifiers in the same class/role as the core method# 10.5 (maintainability nightmare)
 Note: the bulk of this document is translated almost verbatim from [the Corinna
 documentation](https://metacpan.org/dist/Corinna/source/lib/Corinna/Manual/MethodModifiers.pod).
 
@@ -76,7 +75,7 @@ before 2
 after 2
 ```
 
-# 10.6 WHY USE THEM?
+# 10.2 WHY USE THEM?
 Method modifiers have many uses. They are often used in roles to alter the
 behavior of methods in the classes that consume the role. See [this RFC
 page](https://github.com/Ovid/Cor/blob/master/rfc/roles.md) for more
@@ -86,10 +85,10 @@ Since modifiers are mostly useful in roles, some of the examples below
 are a bit artificial. They're intended to give you an idea of how
 modifiers work, but may not be the most natural usage.
 
-# 10.7 BEFORE, AFTER, AND AROUND
+# 10.3 BEFORE, AFTER, AND AROUND
 Method modifiers can be used to add behavior to methods without modifying the definition of those methods.
 
-## 10.7.1 Before and after Modifiers
+## 10.3.1 Before and after Modifiers
 Method modifiers can be used to add behavior to a method that Corinna
 generates for you, such as an attribute accessor:
 
@@ -123,7 +122,7 @@ was taken.
 Note that the return values of both `before` and `after` modifiers are
 ignored.
 
-## 10.7.2 Around modifiers
+## 10.3.2 Around modifiers
 An `around` modifier is more powerful than either a `before` or
 `after` modifier. It can modify the arguments being passed to the
 original method, and you can even decide to simply not call the
@@ -145,7 +144,7 @@ around method set_size ($size) {
 }
 ```
 
-## 10.7.3 Execution order of method modifiers and inheritance
+## 10.3.3 Execution order of method modifiers and inheritance
 When both a superclass and an inheriting class have the same method modifiers,
 the method modifiers of the inheriting class are wrapped around the method
 modifiers of the superclass, as the following example illustrates:
@@ -197,7 +196,7 @@ In Subclass before
 In Subclass after
 ```
 
-# 10.8 EXCEPTIONS AND STACK TRACES
+# 10.4 EXCEPTIONS AND STACK TRACES
 An exception thrown in a `before` modifier will prevent the method it
 modifies from being called at all. An exception in an `around` modifier may
 prevent the modified method from being called, depending on how the `around`
@@ -209,7 +208,7 @@ like the method it called threw an exception. However, method modifiers are
 just standard Perl subroutines. This means that they end up on the stack in
 stack traces as an additional frame.
 
-# 10.9 CAVEATS
+# 10.5 CAVEATS
 Be extremely careful if you use method modifiers to alter the outout. If
 multiple modifiers are used and one adds $10 to a total and another one adds
 20% VAT (tax), the final result will depend on the order the modifiers have been
@@ -230,6 +229,11 @@ These method modification features do not work well with multiple inheritance,
 due to how method resolution is performed in Perl. Experiment with a test
 program to ensure your class hierarchy works as expected, or more preferably,
 don't use multiple inheritance (roles can help with this)!
+
+A method modifier implicitly adds the method to the list of required methods.
+
+Unlike Moo/se, you can't define modifiers in the same class/role as the core
+method.
 
 
 ---
