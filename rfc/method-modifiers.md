@@ -13,7 +13,7 @@ edit this file directly. Please edit
 
 # 10.1 Overview
 Note: the bulk of this document is translated almost verbatim from [the Moose
-documentation](https://metacpan.org/dist/Moose/source/lib/Moose/Manual/MethodModifiers.pod).
+documentation](https://metacpan.org/dist/Moose/view/lib/Moose/Manual/MethodModifiers.pod).
 
 ---
 
