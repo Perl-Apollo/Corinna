@@ -115,27 +115,42 @@ edit this file directly. Please edit
 * `..` 9.2 `DESTRUCT`
 * `..` 9.3 Phaser Call Order
 
-# [Section: 10: Questions](questions.md)
+# [Section: 10: Method Modifiers](method-modifiers.md)
 
-* `..` 10.1 Open issues for the RFC
-* `....` 10.1.1 Corinna v Other objects
-* `....` 10.1.2 Multiple Variables Types In A Slot
-* `....` 10.1.3 Twigils?
-* `....` 10.1.4 Overridding Attributes
-* `....` 10.1.5 `can`, `does`, and `isa`
-* `....` 10.1.6 Inline POD?
+* `..` 10.1 Overview
+* `..` 10.2 TODO
+* `..` 10.3 A method modifier implicitly adds the method to the list of required methods
+* `..` 10.4 can't define modifiers in the same class/role as the core method
+* `..` 10.5 (maintainability nightmare)
+* `..` 10.6 WHY USE THEM?
+* `..` 10.7 BEFORE, AFTER, AND AROUND
+* `....` 10.7.1 Before and after Modifiers
+* `....` 10.7.2 Around modifiers
+* `....` 10.7.3 Execution order of method modifiers and inheritance
+* `..` 10.8 EXCEPTIONS AND STACK TRACES
+* `..` 10.9 CAVEATS
 
-# [Section: 11: Quotes](quotes.md)
+# [Section: 11: Questions](questions.md)
 
-* `..` 11.1 Overview
-* `....` 11.1.1 [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna
-* `....` 11.1.2 [Damian Conway, a.k.a. _That_ Damian](https://metacpan.org/author/DCONWAY), Computer scientist and (too many accolades to list)
-* `....` 11.1.3 [Dan Book, a.k.a. Grinnz](https://metacpan.org/author/DBOOK), CPAN author and docs wrangler
-* `....` 11.1.4 [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo
-* `....` 11.1.5 [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking
-* `....` 11.1.6 [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
+* `..` 11.1 Open issues for the RFC
+* `....` 11.1.1 Corinna v Other objects
+* `....` 11.1.2 Multiple Variables Types In A Slot
+* `....` 11.1.3 Twigils?
+* `....` 11.1.4 Overridding Attributes
+* `....` 11.1.5 `can`, `does`, and `isa`
+* `....` 11.1.6 Inline POD?
 
-# [Section: 12: Changes](major-changes.md)
+# [Section: 12: Quotes](quotes.md)
+
+* `..` 12.1 Overview
+* `....` 12.1.1 [Curtis Poe, a.k.a. Ovid](https://metacpan.org/author/OVID/), Perl book author and lead designer of Corinna
+* `....` 12.1.2 [Damian Conway, a.k.a. _That_ Damian](https://metacpan.org/author/DCONWAY), Computer scientist and (too many accolades to list)
+* `....` 12.1.3 [Dan Book, a.k.a. Grinnz](https://metacpan.org/author/DBOOK), CPAN author and docs wrangler
+* `....` 12.1.4 [Matt Trout, a.k.a. mst](https://metacpan.org/author/MSTROUT), Creator of Moo
+* `....` 12.1.5 [Sawyer X, a.k.a. Sawyer X](https://metacpan.org/author/XSAWYERX), former Perl pumpking
+* `....` 12.1.6 [Stevan Little, a.k.a. "Damnit, Stevan"](https://metacpan.org/author/STEVAN), creator of Moose
+
+# [Section: 13: Changes](major-changes.md)
 
 
 

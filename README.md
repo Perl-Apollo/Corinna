@@ -19,9 +19,10 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 7. [Methods](rfc/methods.md)
 8. [Roles](rfc/roles.md)
 9. [Phasers](rfc/phasers.md)
-10. [Questions](rfc/questions.md)
-11. [Quotes](rfc/quotes.md)
-12. [Changes](rfc/major-changes.md)
+10. [Method Modifiers](rfc/method-modifiers.md)
+11. [Questions](rfc/questions.md)
+12. [Quotes](rfc/quotes.md)
+13. [Changes](rfc/major-changes.md)
 
 
 **Important**: All of the above represent works in progress. Please do not
