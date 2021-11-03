@@ -223,3 +223,6 @@ method final_total () {
 ```
 
 A method modifier implicitly adds the method to the list of required methods.
+
+Modifiers do _not_ get applied to methods until class/role composition is
+finished. Otherwise, the modifiers could be applied to the wrong method.
