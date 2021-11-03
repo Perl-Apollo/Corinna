@@ -136,8 +136,8 @@ around method set_size ($size) {
 }
 ```
 
-**Important**: Note that the `$ORIG` variable is injected directly into the
-`around` method. This behavior and name is provisional and may be changed.
+**Important**: Note that while the `$ORIG` variable is injected directly into
+the `around` method, this behavior and name is provisional and may be changed.
 
 ## Execution order of method modifiers and inheritance
 
