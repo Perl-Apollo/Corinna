@@ -230,9 +230,6 @@ method final_total () {
 
 A method modifier implicitly adds the method to the list of required methods.
 
-Unlike Moo/se, you can't define modifiers in the same class/role as the core
-method.
-
 
 ---
 
