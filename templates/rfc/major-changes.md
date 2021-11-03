@@ -6,6 +6,7 @@ Instead, we'll cover major changes here.
 
 # November 2, 2021
 
+- Method modifiers RFC section added.
 - Classes documentation now shows we use any legal version numbers, not just
   semver triples.
 
