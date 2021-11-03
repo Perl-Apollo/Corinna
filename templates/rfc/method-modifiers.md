@@ -151,7 +151,7 @@ Here is the parent class:
 class Superclass {
      method rant () { printf "        RANTING!\n" }
      before method rant () { printf "    In %s before\n", __PACKAGE__ }
-     after  method rant ()  { printf "    In %s after\n",  __PACKAGE__ }
+     after  method rant () { printf "    In %s after\n",  __PACKAGE__ }
      around method rant () {
          printf "      In %s around before calling original\n", __PACKAGE__;
          $self->$ORIG;
@@ -159,7 +159,6 @@ class Superclass {
      }
 }
 ```
-
 
 And the child class:
 
