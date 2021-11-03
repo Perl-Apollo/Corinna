@@ -207,7 +207,7 @@ stack traces as an additional frame.
 
 # CAVEATS
 
-Be extremely careful if you use method modifiers to alter the outout. If
+Be extremely careful if you use method modifiers to alter the output. If
 multiple modifiers are used and one adds $10 to a total and another one adds
 20% VAT (tax), the final result will depend on the order the modifiers have been
 applied. Because this order is not guaranteed, you cannot be sure of what the
@@ -222,11 +222,6 @@ method final_total () {
     return $total
 }
 ```
-
-These method modification features do not work well with multiple inheritance,
-due to how method resolution is performed in Perl. Experiment with a test
-program to ensure your class hierarchy works as expected, or more preferably,
-don't use multiple inheritance (roles can help with this)!
 
 A method modifier implicitly adds the method to the list of required methods.
 
