@@ -121,8 +121,8 @@ original method, and you can even decide to simply not call the
 original method at all. You can also modify the return value with an
 `around` modifier.
 
-An `around` modifier receives the original method as its first argument,
-_then_ the object, and finally any arguments passed to the method.
+An `around` modifier receives the original method injected into it via the
+`$ORIG` variable.
 
 ```perl
 around method set_size ($size) {
