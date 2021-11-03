@@ -63,7 +63,7 @@ before 2
 after 2
 ```
 
-# WHY USE THEM?
+# Why use them?
 
 Method modifiers have many uses. They are often used in roles to alter the
 behavior of methods in the classes that consume the role. See [this RFC
@@ -74,7 +74,7 @@ Since modifiers are mostly useful in roles, some of the examples below
 are a bit artificial. They're intended to give you an idea of how
 modifiers work, but may not be the most natural usage.
 
-# BEFORE, AFTER, AND AROUND
+# Before, after, and around modifiers
 
 Method modifiers can be used to add behavior to methods without modifying the definition of those methods.
 
@@ -192,7 +192,7 @@ In Subclass before
 In Subclass after
 ```
 
-# EXCEPTIONS AND STACK TRACES
+# Exceptions and stack traces
 
 An exception thrown in a `before` modifier will prevent the method it
 modifies from being called at all. An exception in an `around` modifier may
@@ -205,7 +205,7 @@ like the method it called threw an exception. However, method modifiers are
 just standard Perl subroutines. This means that they end up on the stack in
 stack traces as an additional frame.
 
-# CAVEATS
+# Caveats
 
 Be extremely careful if you use method modifiers to alter the output. If
 multiple modifiers are used and one adds $10 to a total and another one adds

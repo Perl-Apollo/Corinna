@@ -118,13 +118,13 @@ edit this file directly. Please edit
 # [Section: 10: Method Modifiers](method-modifiers.md)
 
 * `..` 10.1 Overview
-* `..` 10.2 WHY USE THEM?
-* `..` 10.3 BEFORE, AFTER, AND AROUND
+* `..` 10.2 Why use them?
+* `..` 10.3 Before, after, and around modifiers
 * `....` 10.3.1 Before and after Modifiers
 * `....` 10.3.2 Around modifiers
 * `....` 10.3.3 Execution order of method modifiers and inheritance
-* `..` 10.4 EXCEPTIONS AND STACK TRACES
-* `..` 10.5 CAVEATS
+* `..` 10.4 Exceptions and stack traces
+* `..` 10.5 Caveats
 
 # [Section: 11: Questions](questions.md)
 
