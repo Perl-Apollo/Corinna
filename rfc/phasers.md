@@ -1,5 +1,5 @@
 Prev: [Roles](roles.md)   
-Next: [Questions](questions.md)
+Next: [Method Modifiers](method-modifiers.md)
 
 ---
 
@@ -59,4 +59,4 @@ assuming they can rely on role consumption order.
 ---
 
 Prev: [Roles](roles.md)   
-Next: [Questions](questions.md)
+Next: [Method Modifiers](method-modifiers.md)
