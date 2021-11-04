@@ -132,6 +132,9 @@ foreach my $this_class (@reverse_mro) {
         }
     }
 }
+
+# PSEUDOCODE! In no way is this meant to suggest that this will be the
+# underlying representation of Corinna objects.
 my $self = bless \@slot_values => $class;
 ```
 
