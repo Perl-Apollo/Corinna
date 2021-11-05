@@ -95,9 +95,3 @@ implement them. This will effectively be a democracy. A level playing field.
 If you won’t support Corinna because your personal favorite feature isn’t in
 the MVP, I don’t know what to say to that. You, like everyone else, will be
 able to lobby for that feature.
-
-# License
-
-This repository, all documents, and all code contained contained herein is
-licensed under [the Artistic 2.0
-license](https://github.com/Ovid/Cor/blob/master/LICENSE).

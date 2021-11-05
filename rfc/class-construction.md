@@ -101,6 +101,19 @@ if (my $error = join '  ' => @duplicate_constructor_args) {
 }
 ```
 
+**Note**: "reused" constructor arguments refers to the public name for the
+slot. You can reuse `slot $message;` in subclasses because it's not public.
+However, you cannot reuse `slot $message :param;` in a subclass because the
+slot name default to `message`.  Instead, you would need to rename it: `slot
+$message :param :name(client_message);`.
+
+We have this restriction to enforce encapsulation of logic in a class. If the
+parent class has `slot $error :param;` and expects that to contain an error
+_object_ and a child class has a `slot $error :param;` and expects that to
+contain an error _string_, you're in trouble. Until such time that we can
+squeeze types into Corinna (and to Perl in general), this restriction makes
+the code safer, albeit at the cost of some annoyance.
+
 ## 5.2.4 Step 4 Err out on unknown keys
 
 After previous step, if we have any extra keys passed to `new()` which cannot
