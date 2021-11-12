@@ -186,7 +186,7 @@ Corinna allows roles to be consumed via `does`. Here's a simple role.
 ```perl
 role RoleStringify {
     use overload '""' => 'to_string';
-    requires to_string();
+    method to_string;
 }
 ```
 
