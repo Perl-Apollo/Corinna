@@ -14,9 +14,9 @@ edit this file directly. Please edit
 # 11.1 Open issues for the RFC
 ## 11.1.1 Corinna v Other objects
 What would be the easiest way to distinguish between Corinna and other kinds
-of objects? I think having a base class of `Object` solves this.
+of objects? I think having a base class of `OBJECT` solves this.
 
-Thus, anyone could simply ask if `$thing isa Object` and find out of it's
+Thus, anyone could simply ask if `$thing isa OBJECT` and find out of it's
 Corinna or not. This would be very useful if they want to use the MOP and
 discover it doesn't work on a regular blessed reference.
 
@@ -70,7 +70,7 @@ They would not take arguments.
 
 Because these methods currently do not take arguments, this might be extending
 them instead of modifiying them. However, this would still be modifying
-current behavior. Or we could put this in an `Object`  base class for Corinna.
+current behavior. Or we could put this in an `OBJECT`  base class for Corinna.
 However, this would mean the external behaviors would be different for Corinna
 and other objects.
 
