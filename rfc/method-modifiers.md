@@ -24,10 +24,10 @@ It's probably easiest to understand this feature with a few examples:
 
 ```perl
 role Some::Role {
-     before method foo() { print "about to call foo\n"; }
-     after  method foo() { print "just called foo\n"; }
+     method foo :before () { print "about to call foo\n"; }
+     method foo :after  () { print "just called foo\n"; }
 
-     around method foo() {
+     method foo :around () {
          print "  I'm around foo\n";
 
          $self->$ORIG(@_);
@@ -36,7 +36,7 @@ role Some::Role {
      }
 }
 
-class Example does Some::Role {
+class Example :does(Some::Role) {
      method foo () {
          print "    foo\n";
      }
@@ -53,14 +53,14 @@ about to call foo
 just called foo
 ```
 
-You probably could have figured that out from the names `before`,
-`after`, and `around`.
+You probably could have figured that out from the names `:before`,
+`:after`, and `:around`.
 
-Also, as you can see, the `before` modifiers come before `around` modifiers, and
-`after` modifiers come last.
+Also, as you can see, the `:before` modifiers come before `:around` modifiers, and
+`:after` modifiers come last.
 
-When there are multiple modifiers of the same type, the `before` and
-`around` modifiers run from the last added to the first, and `after`
+When there are multiple modifiers of the same type, the `:before` and
+`:around` modifiers run from the last added to the first, and `:after`
 modifiers run from first added to last:
 
 ```
@@ -86,7 +86,8 @@ are a bit artificial. They're intended to give you an idea of how
 modifiers work, but may not be the most natural usage.
 
 # 10.3 Before, after, and around modifiers
-Method modifiers can be used to add behavior to methods without modifying the definition of those methods.
+Method modifiers can be used to add behavior to methods without modifying the
+definition of those methods.
 
 ## 10.3.1 Before and after Modifiers
 Method modifiers can be used to add behavior to a method that Corinna
@@ -95,45 +96,44 @@ generates for you, such as an attribute accessor:
 ```perl
 slot $size :reader :writer;
 
-before method set_size ($size) {
+method set_size :before ($size) {
     Carp::cluck('Someone is setting size');
 }
 ```
 
-Another use for the `before` modifier would be to do some sort of
+Another use for the `:before` modifier would be to do some sort of
 prechecking on a method call. For example:
 
 ```perl
-before method set_size ($size) {
+method set_size :before ($size) {
 
     die 'Cannot set size while the person is growing'
         if $self->is_growing;
 }
 ```
 
-
 This lets us implement logical checks that don't make sense as type
 constraints. In particular, they're useful for defining logical rules
 about an object's state changes.
 
-Similarly, an `after` modifier could be used for logging an action that
+Similarly, an `:after` modifier could be used for logging an action that
 was taken.
 
-Note that the return values of both `before` and `after` modifiers are
+Note that the return values of both `:before` and `:after` modifiers are
 ignored.
 
 ## 10.3.2 Around modifiers
-An `around` modifier is more powerful than either a `before` or
-`after` modifier. It can modify the arguments being passed to the
+An `:around` modifier is more powerful than either a `:before` or
+`:after` modifier. It can modify the arguments being passed to the
 original method, and you can even decide to simply not call the
 original method at all. You can also modify the return value with an
-`around` modifier.
+`:around` modifier.
 
-An `around` modifier receives the original method injected into it via the
+An `:around` modifier receives the original method injected into it via the
 `$ORIG` variable.
 
 ```perl
-around method set_size ($size) {
+method set_size :around ($size) {
     return $self->$ORIG()
         unless @_;
 
@@ -157,9 +157,9 @@ Here is the parent class:
 ```perl
 class Superclass {
      method rant () { printf "        RANTING!\n" }
-     before method rant () { printf "    In %s before\n", __PACKAGE__ }
-     after  method rant () { printf "    In %s after\n",  __PACKAGE__ }
-     around method rant () {
+     method rant :before () { printf "    In %s before\n", __PACKAGE__ }
+     method rant :after  () { printf "    In %s after\n",  __PACKAGE__ }
+     method rant :around () {
          printf "      In %s around before calling original\n", __PACKAGE__;
          $self->$ORIG;
          printf "      In %s around after calling original\n", __PACKAGE__;
@@ -170,17 +170,16 @@ class Superclass {
 And the child class:
 
 ```perl
-class Subclass isa Superclass {
-     before method rant () { printf "In %s before\n", __PACKAGE__ }
-     after  method rant () { printf "In %s after\n",  __PACKAGE__ }
-     around method rant () {
+class Subclass :isa(Superclass) {
+     method rant :before () { printf "In %s before\n", __PACKAGE__ }
+     method rant :after  () { printf "In %s after\n",  __PACKAGE__ }
+     method rant :around () {
          printf "  In %s around before calling original\n", __PACKAGE__;
          $self->$ORIG;
          printf "  In %s around after calling original\n", __PACKAGE__;
      }
 }
 ```
-
 
 And here's the output when we call the wrapped method (`Child->rant`):
 
@@ -199,11 +198,11 @@ In Subclass after
 ```
 
 # 10.4 Exceptions and stack traces
-An exception thrown in a `before` modifier will prevent the method it
-modifies from being called at all. An exception in an `around` modifier may
-prevent the modified method from being called, depending on how the `around`
-modifier is structured. An exception in an `after` modifier obviously cannot
-prevent the method it wraps from being called.
+An exception thrown in a `:before` modifier will prevent the method it
+modifies from being called at all. An exception in an `:around` modifier may
+prevent the modified method from being called if it's thrown before
+`$self->$ORIG` is called, but not after. An exception in an `:after` modifier
+obviously cannot prevent the method it wraps from being called.
 
 From the caller's perspective, an exception in a method modifier will look
 like the method it called threw an exception. However, method modifiers are

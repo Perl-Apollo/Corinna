@@ -27,21 +27,10 @@ Roles are designed to share small sets of behaviors which address
 cross-cutting concerns. Roles may consume other roles, but they may not
 inherit from classes, nor may they be inherited from.
 
-```
-ROLE        ::= 'role' NAMESPACE ROLES
-                DECLARATION BLOCK
-NAMESPACE   ::= IDENTIFIER { '::' IDENTIFIER } VERSION?
-DECLARATION ::= ROLES?
-ROLES       ::= 'does' NAMESPACE { ',' NAMESPACE } ','?
-IDENTIFIER  ::= [:alpha:] {[:alnum:]}
-VERSION     ::= 'v' DIGIT {DIGIT} '.' DIGIT {DIGIT} '.' DIGIT {DIGIT}
-DIGIT       ::= [0-9]
-BLOCK       ::= # Perl +/- Extras
-```
-
 Roles may require one or more methods to be implemented. All abstract methods
 in roles are considered to be required. For Corinna, any forward declaration
-of a method is considered an abstract method.
+(a method declared without a body: `method foo;`) of a method is considered an
+abstract method.
 
 ```perl
 role SomeRole {
@@ -61,7 +50,6 @@ syntax errors:
 method foo ();
 method bar ($baz);
 ```
-
 
 ```perl
 role SomeRole {
@@ -110,7 +98,7 @@ role Role::UUID {
 And to use that in your class:
 
 ```perl
-class Person does Role::UUID {
+class Person :does(Role::UUID) {
     has $name :param :reader;
 }
 ```
@@ -130,11 +118,11 @@ method name conflicts are fatal, if and only if the methods come from
 different namespaces.
 
 ```perl
-role A does C { method a () { ... } }
-role B does C { method b () { ... } }
-role C        { method c () { ... } }
+role A :does(C) { method a () { ... } }
+role B :does(C) { method b () { ... } }
+role C          { method c () { ... } }
 
-class SomeClass does A, B { ... }
+class SomeClass :does(A, B)   { ... }
 ```
 
 Thus, in the above example, though A and B both pull in the `c()` method from
