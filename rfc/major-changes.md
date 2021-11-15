@@ -17,6 +17,15 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# November 15, 2021
+
+- After many suggestions from Paul Evans and later by Damian Conway, Corinna
+  has been switched over to
+  [KIM](https://ovid.github.io/articles/language-design-consistency.html)
+  (Keyword, Identifier, Modifier) syntax. See also [Damian Conway's post on
+  the
+  topic](http://blogs.perl.org/users/damian_conway/2021/11/a-dream-resyntaxed.html).
+
 # November 2, 2021
 
 - Method modifiers RFC section added.
