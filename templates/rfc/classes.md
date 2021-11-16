@@ -128,12 +128,12 @@ class My::Class :version(3.14) {
 
 ## Inheritance
 
-Corinna supports single inheritance via the `isa` keyword. You may optionally
-add a version number to the name of the class you're inheriting from to show
-the minimum allowed version of the class.
+Corinna supports single inheritance via the `:isa` attribute. You may
+optionally add a version number to the name of the class you're inheriting
+from to show the minimum allowed version of the class.
 
 ```perl
-class Customer :isa(Person) :version( v2.1.0) {
+class Customer :isa(Person) :version(v2.1.0) {
     slot $customer_id :param;
 
     method name :overrides () {
