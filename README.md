@@ -54,6 +54,48 @@ code by taking it away.
 
 Any proposals to change the RFC must consider the principle of parsimony.
 
+# KIM
+
+We are trying to adhere to the
+[KIM](https://ovid.github.io/articles/language-design-consistency.html)
+principle. In short, features should try to follow this syntax:
+
+```
+KEYWORD IDENTIFIER MODIFIER? SETUP?
+```
+
+So instead of this:
+
+```perl
+class Foo isa Bar does SomeRole v1.2.3 {
+    overrides method some_method() {
+        ...
+    }
+}
+```
+
+We're doing this:
+
+```perl
+class Foo :isa(Bar) :does(SomeRole) :version(v1.2.3) {
+    method some_method :override () {
+        ...
+    }
+}
+```
+
+By trying to have all syntax arranged like this we reduce the core of Corinna
+down to four new keywords:
+
+* `class`
+* `role`
+* `slot`
+* `method`
+
+Everything which tweaks those behaviors should be a modifier.
+
+This part is still a work in progress and may evolve.
+
 ## This Repository
 
 This repository is not for code. Instead, it’s to have a central place to
@@ -95,3 +137,9 @@ implement them. This will effectively be a democracy. A level playing field.
 If you won’t support Corinna because your personal favorite feature isn’t in
 the MVP, I don’t know what to say to that. You, like everyone else, will be
 able to lobby for that feature.
+
+# DEDICATION
+
+This project is dedicated to the memory of both Jeff Goff and David Adler,
+two Perl developers who also loved Raku and worked to create a better
+language. They were both wonderful people and will be missed.

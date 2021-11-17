@@ -4,7 +4,7 @@
       "Curtis \"Ovid\" Poe <ovid@allaroundtheworld.fr>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "ExtUtils::MakeMaker version 7.44, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "ExtUtils::MakeMaker version 7.34, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "artistic_2"
    ],
@@ -50,5 +50,5 @@
    },
    "release_status" : "stable",
    "version" : "v0.1.0",
-   "x_serialization_backend" : "JSON::PP version 4.04"
+   "x_serialization_backend" : "JSON::PP version 2.97001"
 }
