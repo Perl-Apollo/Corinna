@@ -260,7 +260,7 @@ class DateTime::Improved {
 ```
 
 Note that `handles(*)` should not attempt to delegate any method that begins
-with an underscore. Otherwise, that becomes part of the private interface.
+with an underscore. Otherwise, that becomes part of the public interface.
 Instead, you need to call those explicitly:
 
 ```perl
