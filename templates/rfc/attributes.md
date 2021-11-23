@@ -258,3 +258,27 @@ class DateTime::Improved {
     # more code here
 }
 ```
+
+Note that `handles(*)` should not attempt to delegate any method that begins
+with an underscore. Otherwise, that becomes part of the private interface.
+Instead, you need to call those explicitly:
+
+```perl
+class DateTime::Improved {
+    use DateTime;
+    slot $args :params;
+    slot $datetime :handles(*);
+
+    ADJUST {
+        my @datetimes_args = ...;
+        $datetime = DateTime->new(@datetimes_args);
+    }
+
+    method do_something() {
+
+        # we cannot delegate directly to private methods
+        my $timezone = $datetime->_default_time_zone;
+        ...
+    }
+}
+```

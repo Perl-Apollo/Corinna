@@ -17,6 +17,13 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# November 23, 2021
+
+- Clarify that the `handles(*)` delegation will not auto-delegate to methods
+  beginning with underscores to avoid those becoming part of the public
+  interface. Of course, internally you can still call those methods directly
+  on the slot variable calling the object.
+
 # November 15, 2021
 
 - After many suggestions from Paul Evans and later by Damian Conway, Corinna
