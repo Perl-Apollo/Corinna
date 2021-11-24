@@ -146,7 +146,7 @@ class Customer :isa(Person) :version(v2.1.0) {
     slot $customer_id :param;
 
     method name :overrides () {
-        my $name = $self->next::method;
+        my $name = $self->next::method();
         $name .= " (#$customer_id)";
         return $name;
     }
@@ -166,7 +166,7 @@ Let's look at the method a bit more closely.
 
 ```
 01:    method name :overrides () {
-02:        my $name = $self->next::method;
+02:        my $name = $self->next::method();
 03:        $name .= " (#$customer_id)";
 04:        return $name;
 05:    }
@@ -178,8 +178,8 @@ On line 1, the `:overrides` tells Corinna we're overriding a parent method. This
 * Generate a compile-time error if there is no parent method
 
 The compile-time error is to prevent cases like the method above, where
-`$self->next::method` would ordinarily generate a runtime exception because the
-method does not exist.
+`$self->next::method()` would ordinarily generate a runtime exception because
+the method does not exist.
 
 On line 2, we see two interesting things. First is the `$self` variable automatically
 injected into the body of the method. There is also a `$class` variable availabe, but
