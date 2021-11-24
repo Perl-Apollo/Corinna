@@ -185,8 +185,7 @@ Corinna allows roles to be consumed via `does`. Here's a simple role.
 
 ```perl
 role RoleStringify {
-    use overload '""' => 'to_string';
-    method to_string;
+    method to_string() { return $self->name }
 }
 ```
 
@@ -197,12 +196,10 @@ class Customer :isa(Person) :does(RoleStringify) {
     slot $customer_id :param;
 
     method name :overrides () {
-        my $name = $self->next::method;
+        my $name = $self->next::method();
         $name .= " (#$customer_id)";
         return $name;
     }
-
-    method to_string($,$) { return $self->name }
 }
 ```
 
@@ -210,11 +207,8 @@ Usage.
 
 ```perl
 my $customer = Customer->new( name => 'Ford Prefect', customer_id => 42 );
-say $customer;      # Ford Prefect (#42)
+say $customer->to_string();      # Ford Prefect (#42)
 ```
-
-Note that in the above example, we have overloading being transferred from the
-role to the consuming class.
 
 Multiple roles may be consumed.
 
