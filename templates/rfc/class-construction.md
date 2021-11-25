@@ -35,7 +35,7 @@ the `new( this => 1, this => 2` ) error).
 
 ```perl
 my @args = ...; # get list passed to new()
-unless ( !( @args % 2 ) ) {
+if ( @args % 2 ) {
     croak("even-sized list required");
 }
 ```
@@ -49,10 +49,10 @@ my %arg_for;
 while (@args) {
     my ( $key, $value ) = splice @args, 0, 2;
     if ( ref $key ) {
-        croak("$key must not be a ref");
+        croak("'$key' must not be a ref");
     }
     if ( exists $arg_for{$key} ) {
-        croak("duplicate key $key detected");
+        croak("duplicate key '$key' detected");
     }
     $arg_for{$key} = $value;
 }
@@ -60,8 +60,9 @@ while (@args) {
 
 ## Step 3 Find constructor args
 
-Walk through classes from parent to child. `croak()` if any constructor
-argument is reused.
+Walk through classes from parent to child. `croak()` if any
+constructor argument is reused.  Different roles and classes can
+consume the same role, their constructor arguments only count once.
 
 ```perl
 my %orig_args = %arg_for;    # shallow copy
@@ -69,10 +70,12 @@ my %constructor_args;
 
 
 my @duplicate_constructor_args;
+my %seen_roles;
 foreach my $class (@reverse_mro) {
-    my @roles = roles_from_class($class);
+    my @roles = grep { ! $seen_roles{$_} } roles_from_class($class);
+	@seen_roles{ @roles } = 1;
     foreach my $thing ( $class, @roles ) {
-        foreach my $name ( get_slots_with_new_attribute($thing) ) {
+        foreach my $name ( get_slots_with_param_attribute($thing) ) {
             if ( my $other_class = $constructor_args{$name} ) {
                 # XXX Warning! This may be a bad thing
                 # If you don't happen to notice that some parent class has done
@@ -82,7 +85,7 @@ foreach my $class (@reverse_mro) {
                 # instead, we probably need some way of signaling this to the
                 # programmer. A compile-time error would be good.
                 push @duplicate_constructor_args 
-                  => "Arg $name in $thing already used in $other_class";
+                  => "Arg '$name' in '$thing' already used in '$other_class'";
             }
             $constructor_args{$name} = $class;
         }
@@ -109,8 +112,8 @@ the code safer, albeit at the cost of some annoyance.
 ## Step 4 Err out on unknown keys
 
 
-After previous step, if we have any extra keys passed to `new()` which cannot
-be allocated to a slot, throw an exception this works because by the time we
+After the previous step, if we have any extra keys passed to `new()` which cannot
+be allocated to a slot, throw an exception. This works because by the time we
 get to the final class, all keys should be accounted for. Stops the issue of
 `Class->new(feild => 4)` when the slot is `slot $field :param = 3;`
 
@@ -147,7 +150,7 @@ my $self = bless \@slot_values => $class;
 
 ## Step 6 `ADJUST`
 
-Call all `ADJUST` phasers from parent to childre (no need to validate here because
+Call all `ADJUST` phasers from parent to children (no need to validate here because
 everything should be checked at this point).
 
 ```perl
@@ -167,9 +170,9 @@ MOP stuff
 
 ```perl
 class MOP {
-    method get_slots_with_new_attributes($class_or_role) {
+    method get_slots_with_param_attributes($class_or_role) {
         return
-          grep { $self->has_attribute( 'new', $_ ) }
+          grep { $self->has_attribute( ':param', $_ ) }
           get_all_slots($class_or_role);
     }
 
@@ -180,11 +183,11 @@ class MOP {
         my $constructor_args_processed = 0;
         while (@slots) {
             my $slot = shift @slots;
-            if ( $self->has_attribute( 'new', $slot ) ) {
+            if ( $self->has_attribute( ':param', $slot ) ) {
                 push @ordered => $slots;
                 my @remaining;
                 foreach my $slot (@slots) {
-                    if ( $self->has_attribute( 'new', $slot ) ) {
+                    if ( $self->has_attribute( ':param', $slot ) ) {
                         push @ordered => $slot;
                     }
                     else {
