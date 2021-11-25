@@ -24,7 +24,7 @@ To visualize that, let's look at the slots and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
 1. `my $num_caches = 0;` 
-2. `slot    $cache      :handles(qw/exists delete/) = Hash::Ordered->new;`
+2. `slot    $cache      :handles(exists, delete) = Hash::Ordered->new;`
 3. `slot    $max_size   :param  :reader             = 20;`
 4. `slot    $created    :reader                     = time;`
 
@@ -33,7 +33,7 @@ that no attributes are allowed and it's initialized with any default value as
 soon as the class is compiled.
 
 The second slot holds an instance of `Hash::Ordered` and the
-`handles(qw/exists delete/)` says "delegate these methods to the object
+`handles(exists, delete)` says "delegate these methods to the object
 contained in `$cache`".
 
 The third slot uses `:param` to say "you may pass this as a parameter to
@@ -110,7 +110,7 @@ class Soldier {
     slot $id            :param;             # required in constructor
     slot $name          :param = undef;     # optional in constructor
     slot $rank          :param = 'recruit'; # optional in constructor, defaults to 'recruit'
-    slot $serial_number :param('sn');
+    slot $serial_number :param(sn);
 }
 
 # usage
@@ -138,7 +138,7 @@ optional name, if desired.
 class SomeClass {
     slot $id            :param :reader;
     slot $name          :param = undef;
-    slot $serial_number :param('sn') :reader('serial');
+    slot $serial_number :param(sn) :reader(serial);
 }
 
 my $thing = SomeClass->new(...)
@@ -159,12 +159,12 @@ case to allow `->method` for reading and `->method($new_value)` for writing:
 class SomeClass {
     slot $id            :param :writer;
     slot $name          :param = undef;
-    slot $serial_number :reader :writer('serial');
+    slot $serial_number :reader :writer(serial);
 }
 
 my $thing = SomeClass->new(...);
 $thing->set_id($new_id);
-$thing->serial_number($new_serial);
+$thing->serial($new_serial);
 say $thing->serial_number;
 $thing->id($new_id);                    # no such method error
 ```
@@ -196,10 +196,10 @@ set a new name for the slot. Of course, you can always use
 individually.
 
 ```perl
-slot $id :name('ident')              # name is now "ident"
-         :reader                     # ->ident()
-         :writer                     # ->set_ident($value)
-         :predicate(is_registered);  # ->is_registered
+slot $id :name(ident)                # name is now "ident"
+          :reader                     # ->ident()
+          :writer                     # ->set_ident($value)
+          :predicate(is_registered);  # ->is_registered
 ```
 
 ### `:handles(%@*)`
@@ -210,7 +210,7 @@ mappings, or the special `*` token.
 
 #### List of Identifiers and Identifier:Identifier Mappings
 
-A list of identifiers says "these methods will be handled by this object.
+A list of identifiers says "these methods will be handled by this object".
 
 ```perl
 use DateTime;
@@ -247,7 +247,7 @@ For example, here's how you would fake inheriting from `DateTime`.
 ```perl
 class DateTime::Improved {
     use DateTime;
-    slot $args :params;
+    slot $args :param;
     slot $datetime :handles(*);
 
     ADJUST {
