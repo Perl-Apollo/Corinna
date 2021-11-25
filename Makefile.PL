@@ -16,14 +16,18 @@ my %WriteMakefileArgs = (
     TEST_REQUIRES => {
         'Test::Most'           => '0.37',
         'Keyword::DEVELOPMENT' => '0.07',
+        'YAML::Tiny'           => '0',
     },
     PREREQ_PM => {
+        'DateTime'               => 0,
+        'Hash::Ordered'          => 0,
         'Object::Pad'            => '0.52',
         'Moose'                  => '2.2014',
         'Moo'                    => '2.005003',
         'Syntax::Keyword::Try'   => '0.25',
         'Template::Tiny::Strict' => '1.18',
         'Regexp::Common'         => '2017060201',
+        'Type::Tiny'             => 0,
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES    => 'Corinna-RFC-Writer-*' },
