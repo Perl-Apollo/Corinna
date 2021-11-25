@@ -155,7 +155,7 @@ foreach my $class (@reverse_mro) {
     my @roles = roles_from_class($class);
     foreach my $thing ( $class, @roles ) {
 
-        # the prefix is just pseudo-code.to show the idea
+        # the prefix is just pseudo-code to show the idea
         $thing::ADJUST();    # phaser, not a method
     }
 }
