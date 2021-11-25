@@ -159,7 +159,9 @@ everything should be checked at this point).
 foreach my $class (@reverse_mro) {
     my @roles = roles_from_class($class);
     foreach my $thing ( $class, @roles ) {
-        $thing::ADJUST ( $self, %arg_for );    # phaser, not a method
+
+        # the prefix is just pseudo-code.to show the idea
+        $thing::ADJUST();    # phaser, not a method
     }
 }
 ```

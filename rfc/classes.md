@@ -60,10 +60,10 @@ class Person {
 And here's how you would use this class.
 
 ```perl
-my $villain = Person->new( title => 'Dr.', name => 'Zacharary Smith' );
+my $villain = Person->new( title => 'Dr.', name => 'Zachary Smith' );
 my $boy     = Person->new( name => 'Will Robinson' );
 
-say $villain->name;   # Dr. Zacharary Smith
+say $villain->name;   # Dr. Zachary Smith
 say $boy->name;       # Will Robinson
 ```
 
@@ -110,8 +110,8 @@ And using it.
 
 ```perl
 say Person->num_people;     # 0
-my $villain = Person->new( title => 'Dr.', name => 'Zacharary Smith' );
-say $villain->name;         # Dr. Zacharary Smith
+my $villain = Person->new( title => 'Dr.', name => 'Zachary Smith' );
+say $villain->name;         # Dr. Zachary Smith
 say Person->num_people;     # 1
 say $villain->num_people;   # 1 class methods can be called on instances
                             # but instance methods can't be called from classnames or methods
@@ -142,7 +142,7 @@ optionally add a version number to the name of the class you're inheriting
 from to show the minimum allowed version of the class.
 
 ```perl
-class Customer :isa(Person) :version(v2.1.0) {
+class Customer :isa(Person 3.14) :version(v2.1.0) {
     slot $customer_id :param;
 
     method name :overrides () {
@@ -193,8 +193,7 @@ Corinna allows roles to be consumed via `does`. Here's a simple role.
 
 ```perl
 role RoleStringify {
-    use overload '""' => 'to_string';
-    method to_string;
+    method to_string() { return $self->name }
 }
 ```
 
@@ -202,13 +201,13 @@ And a class consuming it.
 
 ```perl
 class Customer :isa(Person) :does(RoleStringify) {
-    slot $name  :param;              # must be passed to customer (:param)
-    slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
+    slot $customer_id :param;
 
-    method name () {                # instance method
-        return defined $title ? "$title $name" : $name;
+    method name :overrides () {
+        my $name = $self->next::method();
+        $name .= " (#$customer_id)";
+        return $name;
     }
-    method to_string() { return $self->name }
 }
 ```
 
@@ -216,11 +215,8 @@ Usage.
 
 ```perl
 my $customer = Customer->new( name => 'Ford Prefect', customer_id => 42 );
-say $customer;      # Ford Prefect (#42)
+say $customer->to_string();      # Ford Prefect (#42)
 ```
-
-Note that in the above example, we have overloading being transferred from the
-role to the consuming class.
 
 Multiple roles may be consumed.
 
