@@ -115,7 +115,7 @@ class Soldier {
 
 # usage
 my $thing = Soldier->new(
-    is   => $required,
+    id   => $required,
     name => $optional_name, # this k/v pair can be omitted entirely
     rank => $optional_rank,
     sn   => $some_value,
