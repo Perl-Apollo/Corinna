@@ -4,7 +4,7 @@ use v5.26.0;
 use lib 'lib';
 use Object::Pad;
 
-class Corinna::RFC::Config::Reader does Corinna::RFC::Role::File {
+class Corinna::RFC::Config::Reader :does(Corinna::RFC::Role::File) {
     use Syntax::Keyword::Try;
     use Storable 'dclone';
     use Object::Types qw(ArrayRef HashRef Str Dict);

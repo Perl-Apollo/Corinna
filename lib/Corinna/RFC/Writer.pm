@@ -2,7 +2,7 @@ use Object::Pad 0.52;
 
 package Corinna::RFC::Writer v0.1.0; # tooling needs this to pick up the version number
 
-class Corinna::RFC::Writer does Corinna::RFC::Role::File {
+class Corinna::RFC::Writer :does(Corinna::RFC::Role::File) {
     use Carp 'croak';
     use File::Basename 'basename';
     use File::Spec::Functions qw(catfile catdir);
