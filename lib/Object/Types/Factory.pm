@@ -116,12 +116,12 @@ role Object::Types::Role::Core {
 }
 
 # now create our type classes
-class Object::Types::Concrete::Any does Object::Types::Role::Core {
+class Object::Types::Concrete::Any :does(Object::Types::Role::Core) {
     method _validate ($value, $var_name) { return 1 }
 }
 
 
-class Object::Types::Concrete::Int does Object::Types::Role::Core {
+class Object::Types::Concrete::Int :does(Object::Types::Role::Core) {
     use Regexp::Common;
 
     method _validate ($value, $var_name) {
@@ -130,7 +130,7 @@ class Object::Types::Concrete::Int does Object::Types::Role::Core {
     }
 }
 
-class Object::Types::Concrete::Num does Object::Types::Role::Core {
+class Object::Types::Concrete::Num :does(Object::Types::Role::Core) {
     use Regexp::Common;
 
     method _validate ($value, $var_name) {
@@ -139,7 +139,7 @@ class Object::Types::Concrete::Num does Object::Types::Role::Core {
     }
 }
 
-class Object::Types::Concrete::Str does Object::Types::Role::Core {
+class Object::Types::Concrete::Str :does(Object::Types::Role::Core) {
 
     # our version requires at least one white-space character
     method _validate( $value, $var_name ) {
@@ -148,7 +148,7 @@ class Object::Types::Concrete::Str does Object::Types::Role::Core {
     }
 }
 
-class Object::Types::Concrete::Regex does Object::Types::Role::Core {
+class Object::Types::Concrete::Regex :does(Object::Types::Role::Core) {
     has $regex :param;
 
     method _validate ($value, $name) {
@@ -157,7 +157,10 @@ class Object::Types::Concrete::Regex does Object::Types::Role::Core {
     }
 }
 
-class Object::Types::Concrete::Enum does Object::Types::Role::Core, Object::Types::Role::Elements {
+class Object::Types::Concrete::Enum
+  :does(Object::Types::Role::Core)
+  :does(Object::Types::Role::Elements)
+{
     use Carp;
 
     BUILD {
@@ -166,7 +169,7 @@ class Object::Types::Concrete::Enum does Object::Types::Role::Core, Object::Type
         }
     }
 
-    method _validate ($value, $name) {
+    method _validate( $value, $name ) {
         if ( $self->has_types ) {
             foreach my $element ( $self->elements->@* ) {
                 if ( !ref $element ) {
@@ -187,7 +190,7 @@ class Object::Types::Concrete::Enum does Object::Types::Role::Core, Object::Type
     }
 }
 
-class Object::Types::Concrete::ArrayRef does Object::Types::Role::Core {
+class Object::Types::Concrete::ArrayRef :does(Object::Types::Role::Core) {
     method _validate ($value, $name) {
         return unless 'ARRAY' eq ref $value;
         my $contains = $self->contains or return 1;    # it can contain anything
@@ -201,11 +204,14 @@ class Object::Types::Concrete::ArrayRef does Object::Types::Role::Core {
     }
 }
 
-class Object::Types::Concrete::HashRef does Object::Types::Role::Core, Object::Types::Role::Elements {
+class Object::Types::Concrete::HashRef
+  :does(Object::Types::Role::Core)
+  :does(Object::Types::Role::Elements)
+{
     # restricted hashes only allow the keys declared in the types
-    has $restricted :param = 0;
+    has $restricted : param = 0;
 
-    method _quote_key ($key) {
+    method _quote_key($key) {
         my $quoted_key = $key;
         if ( $key =~ /'/ && $key =~ /"/ ) {
             $quoted_key =~ s/'/\'/;
@@ -219,7 +225,7 @@ class Object::Types::Concrete::HashRef does Object::Types::Role::Core, Object::T
         return $quoted_key;
     }
 
-    method _validate ($value, $name) {
+    method _validate( $value, $name ) {
         return unless 'HASH' eq ref $value;
         my $contains = $self->contains;
         if ( !$contains && !keys $self->element_hash->%* ) {
@@ -240,20 +246,27 @@ class Object::Types::Concrete::HashRef does Object::Types::Role::Core, Object::T
 
             # fail if we have missing keys
             foreach my $key ( keys $elements->%* ) {
-                if ( !exists $value->{$key} && !$elements->{$key}->isa('Object::Types::Concrete::Optional') ) {
+                if (   !exists $value->{$key}
+                    && !$elements->{$key}
+                    ->isa('Object::Types::Concrete::Optional') )
+                {
                     $key = $self->_quote_key($key);
                     my $var_name = "$name\{$key}";
-                    return $self->_report_error("Validation for '$var_name' failed for $type_name with missing key: $key");
+                    return $self->_report_error(
+"Validation for '$var_name' failed for $type_name with missing key: $key"
+                    );
                 }
             }
         }
-        KEY: foreach my $key (@keys) {
+      KEY: foreach my $key (@keys) {
             my $quoted_key = $self->_quote_key($key);
             my $var_name   = "$name\{$quoted_key}";
             if ($elements) {
                 if ( !exists $elements->{$key} ) {
                     if ($restricted) {
-                        return $self->_report_error("Validation for '$var_name' failed for restricted $type_name with illegal key: '$key'");
+                        return $self->_report_error(
+"Validation for '$var_name' failed for restricted $type_name with illegal key: '$key'"
+                        );
                     }
                     else {    # not a restricted hash, so ignore unknown keys
                         next KEY;
@@ -264,7 +277,8 @@ class Object::Types::Concrete::HashRef does Object::Types::Role::Core, Object::T
                     # We have different types of values specified for every
                     # key
                     $success = 0
-                      unless $elements->{$key}->validate( $value->{$key}, $var_name );
+                      unless $elements->{$key}
+                      ->validate( $value->{$key}, $var_name );
                 }
             }
             else {
@@ -276,14 +290,14 @@ class Object::Types::Concrete::HashRef does Object::Types::Role::Core, Object::T
     }
 }
 
-class Object::Types::Concrete::Maybe does Object::Types::Role::Core {
+class Object::Types::Concrete::Maybe :does(Object::Types::Role::Core) {
     method _validate( $value, $name ) {
         return 1 if !defined $value;    # and it can be empty
         return $self->contains->validate( $value, "$name" );
     }
 }
 
-class Object::Types::Concrete::Optional does Object::Types::Role::Core {
+class Object::Types::Concrete::Optional :does(Object::Types::Role::Core) {
     method _validate ($value, $name) {
         return 1 if !defined $value;    # and it can be empty
         return $self->contains->validate( $value, "$name" );
@@ -293,11 +307,11 @@ class Object::Types::Concrete::Optional does Object::Types::Role::Core {
 
 # We use a parent class for the role target methods because otherwise, we get
 # method collisions
-class Object::Types::Concrete::_Coerce does Object::Types::Role::Core {
+class Object::Types::Concrete::_Coerce :does(Object::Types::Role::Core) {
     method _validate( $value, $name ) { }
 }
 
-class Object::Types::Concrete::Coerce isa Object::Types::Concrete::_Coerce {
+class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
     require Carp;
     has $via : param;
 
