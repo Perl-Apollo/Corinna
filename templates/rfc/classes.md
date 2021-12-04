@@ -7,23 +7,10 @@ data) or `my` (class data), and methods use the `method` keyword instead of
 Methods are not subroutines. Corinna cannot call methods without an invocant
 and cannot call subroutines with an invocant.
 
-Corinna classes cannot inherit from non-Corinna classes, but the special
-`handles(*)` syntax allows this to be simulated. See 
-["Delegate All Unknown Methods"](attributes.md#62362-delegate-all-unknown-methods) for more information.
-
-```perl
-class DateTime::Improved {
-    use DateTime;
-    slot $args :param; 
-    slot $datetime :handles(*);
-
-    ADJUST {
-        $datetime = DateTime->new(...);
-    }
-
-    # more code here
-}
-```
+For the MVP, Corinna classes cannot inherit from non-Corinna classes. It
+remains unclear in practice how problematic this will be. Using
+`:handles` to explicitly delegate to methods you need will help. Remember that
+composition is preferred over inheritance.
 
 # Discussion
 

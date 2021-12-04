@@ -86,7 +86,6 @@ edit this file directly. Please edit
 * `......` 6.2.3.5 `:name(optional_identifier)`
 * `......` 6.2.3.6 `:handles(%@*)`
 * `........` 6.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings
-* `........` 6.2.3.6.2 Delegate All Unknown Methods
 
 # [Section: 7: Methods](methods.md)
 

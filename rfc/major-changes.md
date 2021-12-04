@@ -17,9 +17,16 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# December 4, 2021
+
+- We have removed the special `:handles(*)` syntax. It was proving too
+  problematic and, in fact, would not have allowed us to simulate inheritance
+  because once you enter the delegate, you can't override its methods because
+  it's not in your inheritance hierarchy.
+
 # November 23, 2021
 
-- Clarify that the `handles(*)` delegation will not auto-delegate to methods
+- Clarify that the `:handles(*)` delegation will not auto-delegate to methods
   beginning with underscores to avoid those becoming part of the public
   interface. Of course, internally you can still call those methods directly
   on the slot variable calling the object.
