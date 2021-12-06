@@ -17,6 +17,15 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# December 6, 2021
+
+- After considerable discussion, `slot` has been renamed to `field`. A few
+  people objected to "slot" because it's an unusual term (borrowed from Lisp).
+  Some non-native English speakers pointed out that "slot" is also harder for
+  them to understand, while "field" is very clear. There was discussion about
+  confusion with the little-used "fields" pragma, but it was generally agreed
+  this would be unlikely.
+
 # December 4, 2021
 
 - We have removed the special `:handles(*)` syntax. It was proving too

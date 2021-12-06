@@ -5,7 +5,7 @@ For Corinna, we have two new phasers, `ADJUST` and `DESTRUCT`.
 
 The `ADJUST` phaser is called just after object construction (`new(..)`) but
 before the object is returned. This allows the developer to apply additional
-logic which cannot be cleanly represented by merely assigning values to slots.
+logic which cannot be cleanly represented by merely assigning values to fields.
 
 All class and instance data is available in the `ADJUST` phaser.
 

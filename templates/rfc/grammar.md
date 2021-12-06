@@ -33,28 +33,28 @@ ACCESS_LEVEL  ::= ':' { 'private' | 'overrides' | 'common' }
 SIGNATURE     ::= # currently allowed Perl signatures
 ```
 
-# Slot Grammar
+# Field Grammar
 
-"Slots" in Corinna parlance are the variables where class and instance data are stored.
+"Fields" in Corinna parlance are the variables where class and instance data are stored.
 
 For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding variable names. `PERL_EXPRESSION` means what it says. `IDENTIFIER` is a valid Perl identifier.
 
 **Note** `SHARED` (class data) is still in flux.
 
 ```
-SLOT            ::= INSTANCE | SHARED ';'
-SHARED          ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
-INSTANCE        ::= 'slot'    SLOT_DEFINITION
-SLOT_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
-DEFAULT         ::= '=' PERL_EXPRESSION
-ATTRIBUTE       ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
-ATTRIBUTES      ::= { ATTRIBUTE }
-HANDLES         ::= 'handles' '(' 
-                                    IDENTIFIER { ',' IDENTIFIER }    # list of methods this slot handles
-                                 |  PAIR { ',' PAIR }                # map of methods (to, from) this slot handles
-                                 | '*'                               # this slot handles all unknown methods, but inheritance takes precedence
+FIELD            ::= INSTANCE | SHARED ';'
+SHARED           ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
+INSTANCE         ::= 'field'    FIELD_DEFINITION
+FIELD_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
+DEFAULT          ::= '=' PERL_EXPRESSION
+ATTRIBUTE        ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
+ATTRIBUTES       ::= { ATTRIBUTE }
+HANDLES          ::= 'handles' '(' 
+                                    IDENTIFIER { ',' IDENTIFIER }    # list of methods this field handles
+                                 |  PAIR { ',' PAIR }                # map of methods (to, from) this field handles
+                                 | '*'                               # this field handles all unknown methods, but inheritance takes precedence
                               ')'
-PAIR            ::= IDENTIFIER  ':' IDENTIFIER
-MODIFIER        ::= '(' IDENTIFIER ')'
-IDENTIFIER      ::= [:alpha:] {[:alnum:]}
+PAIR             ::= IDENTIFIER  ':' IDENTIFIER
+MODIFIER         ::= '(' IDENTIFIER ')'
+IDENTIFIER       ::= [:alpha:] {[:alnum:]}
 ```

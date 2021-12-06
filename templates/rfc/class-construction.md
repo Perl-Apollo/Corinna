@@ -20,8 +20,8 @@ Also, roles get an ADJUST phaser now
 3. Walk through classes in reverse MRO order. Croak() if any attribute
    name is reused
 4. After previous step, if we have any extra keys passed to new() which cannot be
-   allocated to a slot, throw an exception
-5. For the internal NEW phaser, assign all values to their correct slots in
+   allocated to a field, throw an exception
+5. For the internal NEW phaser, assign all values to their correct fields in
    reverse mro order
 6. Call all ADJUST phasers in reverse MRO order (no need to validate here because
    everything should be checked at this point)
@@ -75,13 +75,13 @@ foreach my $class (@reverse_mro) {
     my @roles = grep { ! $seen_roles{$_} } roles_from_class($class);
 	@seen_roles{ @roles } = 1;
     foreach my $thing ( $class, @roles ) {
-        foreach my $name ( get_slots_with_param_attribute($thing) ) {
+        foreach my $name ( get_fields_with_param_attribute($thing) ) {
             if ( my $other_class = $constructor_args{$name} ) {
                 # XXX Warning! This may be a bad thing
                 # If you don't happen to notice that some parent class has done
-                # `slot $cutoff :param = 42;`
+                # `field $cutoff :param = 42;`
                 # then you might accidentally write:
-                # `slot $cutoff :param = DateTime->now->add(days => 7);`
+                # `field $cutoff :param = DateTime->now->add(days => 7);`
                 # instead, we probably need some way of signaling this to the
                 # programmer. A compile-time error would be good.
                 push @duplicate_constructor_args 
@@ -97,14 +97,14 @@ if (my $error = join '  ' => @duplicate_constructor_args) {
 ```
 
 **Note**: "reused" constructor arguments refers to the public name for the
-slot. You can reuse `slot $message;` in subclasses because it's not public.
-However, you cannot reuse `slot $message :param;` in a subclass because the
-slot name default to `message`.  Instead, you would need to rename it: `slot
+field. You can reuse `field $message;` in subclasses because it's not public.
+However, you cannot reuse `field $message :param;` in a subclass because the
+field name default to `message`.  Instead, you would need to rename it: `field
 $message :param :name(client_message);`.
 
 We have this restriction to enforce encapsulation of logic in a class. If the
-parent class has `slot $error :param;` and expects that to contain an error
-_object_ and a child class has a `slot $error :param;` and expects that to
+parent class has `field $error :param;` and expects that to contain an error
+_object_ and a child class has a `field $error :param;` and expects that to
 contain an error _string_, you're in trouble. Until such time that we can
 squeeze types into Corinna (and to Perl in general), this restriction makes
 the code safer, albeit at the cost of some annoyance.
@@ -113,9 +113,9 @@ the code safer, albeit at the cost of some annoyance.
 
 
 After the previous step, if we have any extra keys passed to `new()` which cannot
-be allocated to a slot, throw an exception. This works because by the time we
+be allocated to a field, throw an exception. This works because by the time we
 get to the final class, all keys should be accounted for. Stops the issue of
-`Class->new(feild => 4)` when the slot is `slot $field :param = 3;`
+`Class->new(feild => 4)` when the field is `field $field :param = 3;`
 
 ```perl
 my @bad_keys;
@@ -129,23 +129,23 @@ if (@bad_keys) {
 
 ## Step 5 `new()`
 
-For the internal NEW phaser, assign all values to their correct slots from
+For the internal NEW phaser, assign all values to their correct fields from
 parent to child.
 
 ```perl
-my @slot_values;
+my @field_values;
 foreach my $this_class (@reverse_mro) {
     my @roles = roles_from_class($class);
     foreach my $thing ( $class, @roles ) {
-        foreach my $slot_name ( get_slots_in_initialization_order($thing) ) {
-            push @slot_values => $arg_for{$slot_name};
+        foreach my $field_name ( get_fields_in_initialization_order($thing) ) {
+            push @field_values => $arg_for{$field_name};
         }
     }
 }
 
 # PSEUDOCODE! In no way is this meant to suggest that this will be the
 # underlying representation of Corinna objects.
-my $self = bless \@slot_values => $class;
+my $self = bless \@field_values => $class;
 ```
 
 ## Step 6 `ADJUST`
@@ -170,34 +170,34 @@ MOP stuff
 
 ```perl
 class MOP {
-    method get_slots_with_param_attributes($class_or_role) {
+    method get_fields_with_param_attributes($class_or_role) {
         return
           grep { $self->has_attribute( ':param', $_ ) }
-          get_all_slots($class_or_role);
+          get_all_fields($class_or_role);
     }
 
-    method get_slots_in_initialization_order($class_or_role) {
-        # get_all_slots($class_or_role) should return them in declaration order
-        my @slots = get_all_slots($class_or_role);
+    method get_fields_in_initialization_order($class_or_role) {
+        # get_all_fields($class_or_role) should return them in declaration order
+        my @fields = get_all_fields($class_or_role);
         my @ordered;
         my $constructor_args_processed = 0;
-        while (@slots) {
-            my $slot = shift @slots;
-            if ( $self->has_attribute( ':param', $slot ) ) {
-                push @ordered => $slots;
+        while (@fields) {
+            my $field = shift @fields;
+            if ( $self->has_attribute( ':param', $field ) ) {
+                push @ordered => $fields;
                 my @remaining;
-                foreach my $slot (@slots) {
-                    if ( $self->has_attribute( ':param', $slot ) ) {
-                        push @ordered => $slot;
+                foreach my $field (@fields) {
+                    if ( $self->has_attribute( ':param', $field ) ) {
+                        push @ordered => $field;
                     }
                     else {
-                        push @remaining => $slot;
+                        push @remaining => $field;
                     }
                 }
-                @slots = @remaining;
+                @fields = @remaining;
             }
             else {
-                push @ordered => $slot;
+                push @ordered => $field;
             }
         }
     }

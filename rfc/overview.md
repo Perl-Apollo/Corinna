@@ -108,11 +108,11 @@ creates four new keywords to support everything:
 
 * `class`
 * `role`
-* `slot`
+* `field`
 * `method`
 
 To get the full power of modern OO, we leverage attributes to modify those
-keywords: `slot $customer_name :reader;`
+keywords: `field $customer_name :reader;`
 
 None of the keywords are exposed outside the context of a class, helping to
 further ensure the backwards-compatibility of our proposal.
@@ -122,10 +122,10 @@ further ensure the backwards-compatibility of our proposal.
 Currently, Corinna's syntax is almost entirely backwards-compatible because
 the code does not parse on older Perls that `use strict`. This is helped
 tremendously by requiring a postfix block syntax which encapsulates the
-changes, rather than the standard `class Foo :is(Bar); slot ...` syntax.
+changes, rather than the standard `class Foo :is(Bar); field ...` syntax.
 
 ```
-$ perl -Mstrict -Mwarnings -E 'class Foo { slot $x; }'
+$ perl -Mstrict -Mwarnings -E 'class Foo { field $x; }'
 Global symbol "$x" requires explicit package name (did you forget to declare "my $x"?) at -e line 1.
 syntax error at -e line 1, near "; }"
 Execution of -e aborted due to compilation errors.
@@ -136,8 +136,8 @@ will get runtime failures with strange error messages due to indirect object
 syntax:
 
 ```
-$ perl -e 'class Foo { slot $x }'
-Can't call method "slot" on an undefined value at -e line 1.
+$ perl -e 'class Foo { field $x }'
+Can't call method "field" on an undefined value at -e line 1.
 ```
 
 In an unlikely case, if your older code uses `strict` but you have an empty
@@ -216,9 +216,9 @@ class Cache::LRU :version(v0.1.0) {
     use Carp 'croak';
 
     my $num_caches                         = 0;
-    slot $cache    :handles(exists delete) = Hash::Ordered->new;
-    slot $max_size :param  :reader         = 20;
-    slot $created  :reader                 = time;
+    field $cache    :handles(exists delete) = Hash::Ordered->new;
+    field $max_size :param  :reader         = 20;
+    field $created  :reader                 = time;
 
     ADJUST { # called after new()
         $num_caches++;
@@ -267,7 +267,7 @@ leading to mysterious bugs. Calling `$self->feild` is a runtime failure. In
 Corinna, accessing an non-existent `$feild` is a compile-time failure:
 
 ```perl
-slot $field;
+field $field;
 
 method foo () {
     say $feild; # compile-time failure, baby!
@@ -293,7 +293,7 @@ In Moo/se, it's hard to create attributes in such a way that you don't
 publicly expose them in some way. This means that they become part of your
 contract and if you need to change them later, too bad. In Corinna, we expose
 _no_ attributes by default. You have to explicitly do that. This is because,
-unlike Moo/se's `has`, the `slot` in Corinna declares the slot and nothing
+unlike Moo/se's `has`, the `field` in Corinna declares the field and nothing
 else.
 
 ## 2.10.5 No MRO Pain
@@ -320,7 +320,7 @@ no true methods. It's tied to a blessed hashref, making it easy to violate
 encapsulation (and this is needed because without public readers/writers, the
 instance needs to reach into the hashref to get its data). The syntax is still
 a bit clumsy, requiring readers/writers to be declared separately from their
-slots.
+fields.
 
 We actually find [Zydeco](https://metacpan.org/pod/Zydeco) and
 [Dios](https://metacpan.org/pod/Dios) interesting, but the scope of those

@@ -89,7 +89,7 @@ down to four new keywords:
 
 * `class`
 * `role`
-* `slot`
+* `field`
 * `method`
 
 Everything which tweaks those behaviors should be a modifier.

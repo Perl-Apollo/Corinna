@@ -59,8 +59,8 @@ role SomeRole {
 }
 ```
 
-Any slots declared in the role are completely private unless standard
-slot attributes are used.
+Any fields declared in the role are completely private unless standard
+field attributes are used.
 
 ```perl
 role SomeRole {
@@ -69,7 +69,7 @@ role SomeRole {
 }
 ```
 
-Roles may _not_ access the slots or methods of the class the
+Roles may _not_ access the fields or methods of the class the
 role is consumed into unless those have already been exposed in the public
 interface.
 

@@ -48,7 +48,7 @@ edit this file directly. Please edit
 
 * `..` 3.1 Class and Role Grammar
 * `..` 3.2 Method Grammar
-* `..` 3.3 Slot Grammar
+* `..` 3.3 Field Grammar
 
 # [Section: 4: Classes](classes.md)
 
@@ -75,10 +75,10 @@ edit this file directly. Please edit
 # [Section: 6: Attributes](attributes.md)
 
 * `..` 6.1 Overview 
-* `..` 6.2 Slot Creation
-* `....` 6.2.1 Slot Initialization
-* `....` 6.2.2 Slot Destruction
-* `....` 6.2.3 Slot Attributes
+* `..` 6.2 Field Creation
+* `....` 6.2.1 Field Initialization
+* `....` 6.2.2 Field Destruction
+* `....` 6.2.3 Field Attributes
 * `......` 6.2.3.1 `:param(optional_identifier)`
 * `......` 6.2.3.2 `:reader(optional_identifier)`
 * `......` 6.2.3.3 `:writer(optional_identifier)`
@@ -129,7 +129,7 @@ edit this file directly. Please edit
 
 * `..` 11.1 Open issues for the RFC
 * `....` 11.1.1 Corinna v Other objects
-* `....` 11.1.2 Multiple Variables Types In A Slot
+* `....` 11.1.2 Multiple Variables Types In A Field
 * `....` 11.1.3 Twigils?
 * `....` 11.1.4 Overridding Attributes
 * `....` 11.1.5 `can`, `does`, and `isa`

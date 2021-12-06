@@ -9,7 +9,7 @@ class Corinna::RFC::Writer :does(Corinna::RFC::Role::File) {
     use Corinna::RFC::Config::Reader;
     use Template::Tiny::Strict;
 
-    # TODO Replace `has` with `slot`
+    # TODO Replace `has` with `field`
     has $FILE    :param(file);
     has $VERBOSE :param(verbose) = 0;
     has $CONFIG;

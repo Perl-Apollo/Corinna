@@ -20,18 +20,18 @@ Thus, anyone could simply ask if `$thing isa OBJECT` and find out of it's
 Corinna or not. This would be very useful if they want to use the MOP and
 discover it doesn't work on a regular blessed reference.
 
-## 11.1.2 Multiple Variables Types In A Slot
-Can slots have more than one kind of variable?
+## 11.1.2 Multiple Variables Types In A Field
+Can fields have more than one kind of variable?
 
 ```perl
-has ($x, @y);
+field ($x, @y);
 ```
 
 If so, do we disallow attributes?
 
 ## 11.1.3 Twigils?
 ```perl
-has $:x;
+field $:x;
 
 method inc ($x) {
     $:x += $x;
@@ -57,7 +57,7 @@ A method can override a parent method explicitly to avoid a warning:
 override method move($x,$y) {...}
 ```
 
-Should methods generated via slot attributes be allowed to override parents?
+Should methods generated via field attributes be allowed to override parents?
 If so, how do we signal this?
 
 ## 11.1.5 `can`, `does`, and `isa`

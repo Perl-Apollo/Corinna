@@ -1,9 +1,9 @@
-use Object::Pad 0.52;
+use Object::Pad 0.56;
 
 class Corinna::Example::Person {
     use Time::HiRes 'time';
 
-    # TODO Rename `has` to `slot`
+    # TODO Rename `has` to `field`
     has $name  :param;              # must be passed to customer (:param)
     has $title :param = undef;      # optionally passed to constructor     (:param, but with default)
     has $created :reader;           # cannot be passed to constructor (no :param)
@@ -16,7 +16,7 @@ class Corinna::Example::Person {
     ADJUST   {
         $num_people++;
 
-        # TODO Allow `slot $created = time;` (or similar) to allow default at instantiation time
+        # TODO Allow `field $created = time;` (or similar) to allow default at instantiation time
         $created = time;
     }
 

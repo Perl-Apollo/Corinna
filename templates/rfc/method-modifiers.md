@@ -85,7 +85,7 @@ Method modifiers can be used to add behavior to a method that Corinna
 generates for you, such as an attribute accessor:
 
 ```perl
-slot $size :reader :writer;
+field $size :reader :writer;
 
 method set_size :before ($size) {
     Carp::cluck('Someone is setting size');
@@ -97,7 +97,6 @@ prechecking on a method call. For example:
 
 ```perl
 method set_size :before ($size) {
-
     die 'Cannot set size while the person is growing'
         if $self->is_growing;
 }

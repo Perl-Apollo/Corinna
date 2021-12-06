@@ -12,7 +12,7 @@ edit this file directly. Please edit
 ---
 
 # 4.1 Overview
-Corinna classes are single-inheritance, data is declared with `slot` (instance
+Corinna classes are single-inheritance, data is declared with `field` (instance
 data) or `my` (class data), and methods use the `method` keyword instead of
 `sub`. All methods require signatures, even methods who take no arguments.
 
@@ -22,21 +22,20 @@ and cannot call subroutines with an invocant.
 For the MVP, Corinna classes cannot inherit from non-Corinna classes. It
 remains unclear in practice how problematic this will be. Using
 `:handles` to explicitly delegate to methods you need will help. Remember that
-composition is preferred over inheritance.
 
 # 4.2 Discussion
 As per [the grammar](grammar.md), the smallest possible class is `class A
 {}` and you could instantiate with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
 
-Here's a somewhat more interesting class. `slot` declares a slot (data) and the
+Here's a somewhat more interesting class. `field` declares a field (data) and the
 `/:\w+/` attributes provide additional behavior. See
 [attributes](attributes.md) for more information.
 
 ```perl
 class Person {
-    slot $name  :param;              # must be passed to constructor (:param)
-    slot $title :param = undef;      # optionally passed to constructor (:param, but with default)
+    field $name  :param;              # must be passed to constructor (:param)
+    field $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
     method name () {                 # instance method
         return defined $title ? "$title $name" : $name;
@@ -54,7 +53,7 @@ say $villain->name;   # Dr. Zachary Smith
 say $boy->name;       # Will Robinson
 ```
 
-In the above, that the `$name` and `$title` slots are completely
+In the above, that the `$name` and `$title` fields are completely
 encapsulated. If you want to expose them to the outside world, you would use
 the `:reader` and `:writer` attributes.
 
@@ -78,9 +77,9 @@ Let's make the class more interesting.
 ```perl
 class Person {
     use DateTime;
-    slot $name  :param;                    # must be passed to customer (:param)
-    slot $title :param = undef;            # optionally passed to constructor (:param, but with default)
-    slot $created      = DateTime->now;    # cannot be passed to constructor (no :param)
+    field $name  :param;                    # must be passed to customer (:param)
+    field $title :param = undef;            # optionally passed to constructor (:param, but with default)
+    field $created      = DateTime->now;    # cannot be passed to constructor (no :param)
     my $num_people = 0;                    # class data, defaults to 0 (common, with hand-rolled reader method)
     method num_people :common () { $num_people }
 
@@ -130,7 +129,7 @@ from to show the minimum allowed version of the class.
 
 ```perl
 class Customer :isa(Person 3.14) :version(v2.1.0) {
-    slot $customer_id :param;
+    field $customer_id :param;
 
     method name :overrides () {
         my $name = $self->next::method();
@@ -188,7 +187,7 @@ And a class consuming it.
 
 ```perl
 class Customer :isa(Person) :does(RoleStringify) {
-    slot $customer_id :param;
+    field $customer_id :param;
 
     method name :overrides () {
         my $name = $self->next::method();
@@ -242,8 +241,8 @@ In Corinna, methods and subs are not the same thing. Here's a silly example.
 ```perl
 class Iterator::Number {
     use List::Util 'sum';
-    slot $i = 0;
-    slot @numbers;   # no attributes allowed on non-scalars
+    field $i = 0;
+    field @numbers;   # no attributes allowed on non-scalars
 
     method push ($num)    { push @numbers => $num    }
     method pop            { pop  @numbers            }
