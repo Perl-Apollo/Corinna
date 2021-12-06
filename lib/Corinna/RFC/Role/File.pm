@@ -1,4 +1,4 @@
-use Object::Pad;
+use Object::Pad 0.58;
 
 role Corinna::RFC::Role::File {
     method _slurp($file) {

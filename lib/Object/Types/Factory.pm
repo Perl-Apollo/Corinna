@@ -4,7 +4,7 @@ use warnings;
 use Carp;
 no warnings 'uninitialized';
 
-use Object::Pad;
+use Object::Pad 0.58;
 
 ## no critic (ProhibitMultiplePackages)
 

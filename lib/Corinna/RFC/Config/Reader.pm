@@ -2,7 +2,7 @@
 
 use v5.26.0;
 use lib 'lib';
-use Object::Pad;
+use Object::Pad 0.58;
 
 class Corinna::RFC::Config::Reader :does(Corinna::RFC::Role::File) {
     use Syntax::Keyword::Try;

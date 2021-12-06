@@ -1,4 +1,4 @@
-use Object::Pad 0.52;
+use Object::Pad 0.58;
 
 package Corinna::RFC::Writer v0.1.0; # tooling needs this to pick up the version number
 

@@ -2,10 +2,10 @@
 
 use utf8;
 use Test::Most;
-use Object::Pad;
+use Object::Pad 0.58;
 use File::Temp 'tempfile';
 
-class Example does Corinna::RFC::Role::File {
+class Example :does(Corinna::RFC::Role::File) {
     method write_it( $filename, $string ) {
         $self->_splat( $filename, $string );
     }
