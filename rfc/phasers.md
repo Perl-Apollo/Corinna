@@ -43,6 +43,61 @@ One possible use of a destruction object is that it could check if a
 stack trace of where it went out of scope. This would be very useful for
 debugging.
 
+## 9.2.1 Deterministic Destruction
+Currently, `DESTROY` run on standard Perl objects tends to destroy your state
+in random order. It's easy to try to use the object in `DESTROY` and find that
+it's incomplete.
+
+In Corinna, fields are indended to be destroyed in reverse order of
+declaration, instance fields and then class (common) fields, from parent to
+child. Consider the following (note that the syntax for `:common` might
+change):
+
+```perl
+class Parent {
+    field $one;
+    field $two;
+    field $three :common;
+}
+
+class Child :isa(Parent) {
+    field $four;
+    field $five :common;
+    field $six;
+}
+```
+
+The destruction order should be guaranteed to be:
+
+1. `$six`
+2. `$four`
+3. `$five` # class data
+4. `$two`
+5. `$one`
+6. `$three` # class data
+
+## 9.2.2 Incomplete Destruction
+Sometimes you have code that *must* use a `DESTRUCT`, but it's unclear if the
+object has been set up properly (perhaps it through an exception in `ADJUST`,
+for example). Running `DESTRUCT` on data that doesn't exist is fraught with
+bugs. The following  is one way of handling that:
+
+```perl
+class MyClass {
+    field $constructed;
+
+    ADJUST {
+        ...
+        $constructed = 1;
+    }
+
+    DESTRUCT {
+        return unless $constructed;
+        ...
+    }
+}
+```
+
 # 9.3 Phaser Call Order
 Class `ADJUST` phasers are called on the root class before its roles `ADJUST`
 phasers which are called before child `ADJUST` phasers and its roles phaswers.

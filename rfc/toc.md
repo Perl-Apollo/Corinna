@@ -112,6 +112,8 @@ edit this file directly. Please edit
 
 * `..` 9.1 `ADJUST`
 * `..` 9.2 `DESTRUCT`
+* `....` 9.2.1 Deterministic Destruction
+* `....` 9.2.2 Incomplete Destruction
 * `..` 9.3 Phaser Call Order
 
 # [Section: 10: Method Modifiers](method-modifiers.md)
