@@ -19,6 +19,15 @@ Instead, we'll cover major changes here.
 
 # December 8, 2021
 
+- Injected `$class` and `$self` variables are now documented as being
+  immutable. That prevents this bug:
+
+```perl
+method foo () {
+    $self = 42;
+}
+```
+
 - Class data and methods are agreed to be declared with `:common`
 
 

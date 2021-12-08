@@ -6,9 +6,9 @@ they override a parent method.
 # Instance Methods
 
 Instance methods are defined via `method $identifier (@args) { ... }`.  They
-automatically have `$class` and `$self` variables injected into them. `$class`
-contains the name of the class from which this method was called. `$self` is
-an instance of the current class.
+automatically have immutable `$class` and `$self` variables injected into
+them. `$class` contains the name of the class from which this method was
+called. `$self` is an instance of the current class.
 
 ```perl
 method name () {
@@ -22,8 +22,8 @@ instance and class methods.
 # Class Methods
 
 Class methods are defined via `method $identifier :common (@args) { ... }`.
-They automatically have a `$class` variable injected into them. This contains
-the name of the class from which this method was called.
+They automatically have an immutable `$class` variable injected into them.
+This contains the name of the class from which this method was called.
 
 ```perl
 method foo :common () {

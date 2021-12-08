@@ -55,7 +55,7 @@ an alternate constructor (the behavior replaces Moo/se `BUILDARGS`).
 
 ```perl
 method from_name :common ($name) {    # ':common ' means it's a class method
-    $class->new( name => $name );     # all methods have $class injected.
+    $class->new( name => $name );     # all methods have an immutable $class variable injected.
 }
 my $boy = Person->from_name('Will Robinson');
 say $boy->name; # Will Robinson
@@ -158,9 +158,9 @@ The compile-time error is to prevent cases like the method above, where
 `$self->next::method()` would ordinarily generate a runtime exception because
 the method does not exist.
 
-On line 2, we see two interesting things. First is the `$self` variable automatically
-injected into the body of the method. There is also a `$class` variable availabe, but
-it's not shown in this example.
+On line 2, we see two interesting things. First is the immutable `$self`
+variable automatically injected into the body of the method. There is also a
+`$class` variable availabe, but it's not shown in this example.
 
 Next is the `next::method` part. Usually we see that as part of the C3 mro. It's here because of the
 [SUPER-bug in Perl](http://modernperlbooks.com/mt/2009/09/when-super-isnt.html).
