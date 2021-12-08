@@ -4,6 +4,42 @@ Instead, we'll cover major changes here.
 
 # Change Log
 
+# December 8, 2021
+
+- Class data and methods are agreed to be declared with `:common`
+
+    field $foo :common;              # class data
+    method bar :common () { ... }    # class method
+
+- Class data (declared with `:common` can accept defaults (see the next
+  change) and only allows the `:reader` attribute with it.
+
+- Field initialization no longer allows `=`.  You must wrap the default in
+  curly braces (an anonymous sub). This is because of this problem:
+
+    field $colors = [qw/blue white red/];
+
+Every `$color` would get a reference to the same anonymous array. Instead, write
+it like this:
+
+    field $colors { [qw/blue white red/] };
+
+With that, you can change the colors of a particular instance without changing
+the others. Yes, you could do `$foo = [qw/blue white black/]'` in a method,
+but if someone did `$foo->[-1] = 'black';`, they might wonder why all other
+instances had their value changed.
+
+We realize this change might seem strange, but we're hopeful people will get
+used to it.
+
+As of this writing, we do not plan to inject `$class` or `$self` into that
+block. That avoids this bug:
+
+    field $color { $self->get_colors };
+
+Because initialization happens when the instance construction might not be
+complete, some fields may not be properly defined, leading to obscure bugs.
+
 # December 6, 2021
 
 - After considerable discussion, `slot` has been renamed to `field`. A few

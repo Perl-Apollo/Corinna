@@ -87,9 +87,9 @@ foreach my $class (@reverse_mro) {
             if ( my $other_class = $constructor_args{$name} ) {
                 # XXX Warning! This may be a bad thing
                 # If you don't happen to notice that some parent class has done
-                # `field $cutoff :param = 42;`
+                # `field $cutoff :param { 42 };`
                 # then you might accidentally write:
-                # `field $cutoff :param = DateTime->now->add(days => 7);`
+                # `field $cutoff :param { DateTime->now->add(days => 7) };`
                 # instead, we probably need some way of signaling this to the
                 # programmer. A compile-time error would be good.
                 push @duplicate_constructor_args 
@@ -122,7 +122,7 @@ the code safer, albeit at the cost of some annoyance.
 After the previous step, if we have any extra keys passed to `new()` which cannot
 be allocated to a field, throw an exception. This works because by the time we
 get to the final class, all keys should be accounted for. Stops the issue of
-`Class->new(feild => 4)` when the field is `field $field :param = 3;`
+`Class->new(feild => 4)` when the field is `field $field :param { 3 };`
 
 ```perl
 my @bad_keys;
