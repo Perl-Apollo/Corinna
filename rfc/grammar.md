@@ -56,7 +56,7 @@ FIELD            ::= INSTANCE | SHARED ';'
 SHARED           ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE         ::= 'field'    FIELD_DEFINITION
 FIELD_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
-DEFAULT          ::= '=' PERL_EXPRESSION
+DEFAULT          ::= '{' PERL_EXPRESSION '}'
 ATTRIBUTE        ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
 ATTRIBUTES       ::= { ATTRIBUTE }
 HANDLES          ::= 'handles' '(' 

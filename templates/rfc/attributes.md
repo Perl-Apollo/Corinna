@@ -23,14 +23,14 @@ The minimal MVP grammar for fields and attributes can be found
 To visualize that, let's look at the fields and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
-1. `my $num_caches = 0;` 
-2. `field    $cache      :handles(exists, delete) = Hash::Ordered->new;`
-3. `field    $max_size   :param  :reader             = 20;`
-4. `field    $created    :reader                     = time;`
+1. `field $num_caches :common                  { 0 };` 
+2. `field $cache      :handles(exists, delete) { Hash::Ordered->new} ;`
+3. `field $max_size   :param  :reader          { 20 };`
+4. `field $created    :reader                  { time };`
 
-The first field is a standard `my` variable and is used for class data. Note
-that no attributes are allowed and it's initialized with any default value as
-soon as the class is compiled.
+The first field is class data. This is data shared by all instances of this
+class (and by the class itself). Note that it's initialized with any default
+value as soon as the class is compiled.
 
 The second field holds an instance of `Hash::Ordered` and the
 `handles(exists, delete)` says "delegate these methods to the object
@@ -41,26 +41,29 @@ the contructor", however, the `= 20` tells us that this will be the default if
 not passed. If there is no default, `:param` means we must pass this value to
 the contructor.
 
-The fourth field should, at this point, be self-explanatory.
+The fourth field should, at this point, be self-explanatory, but its value is
+always initialized at instantiation time, ensuring that every instance has its
+value of `$created` calculated separately.
 
 # Field Creation
 
-Field creation done by declaring `field` or `my`, the field variable, and an
-optional default value.
+Field creation done by declaring `field`, field variable, and an optional
+default value.
 
 ```perl
-field $answer = 42;                 # instance data, defaults to 42
-field %results_for;                 # instance data, no default
-my @colors = qw(red green blue);   # class data, default to qw(red green blue)
+field $answer { 42 };                           # instance data, defaults to 42
+field %results_for;                             # instance data, no default
+field @colors :common { qw(red green blue) };   # class data, default to qw(red green blue)
 ```
 
 For scalar fields declared with `field` (and only for scalar fields), you can add
 attributes after the declaration and before the optional default, if any.
 
-We do not (yet) support attributes for class data. We also do not support
-attributes for array or hash fields because these automatically flatten into
-lists and it's not clear what the semantics of readers and writers would be,
-nor how you would pass them in the constructor.
+For class data, for the MVP, only the `:reader` parameter may be used with
+`:common`. This is because all instances share this data and using `:param`
+and `:writer` to mutate it causes global action-at-a-distance. If you want
+that behavior, you must write methods to support it. We do this to ensure that
+you think carefully about this decision.
 
 Note that all fields are completely encapsulated, but if they're exposed to the
 outside world via `:reader`, `:writer`, or some other parameter, their _name_
@@ -77,11 +80,11 @@ Note that all fields are initialized from top to bottom. So you can do
 this:
 
 ```perl
-field $x :param = 42;
-field $answer = $x;
+field $x :param { 42 };
+field $answer   { $x };
 ```
 
-`my` variables with defaults will be initialized at compile time, while
+`:common` fields with defaults will be initialized at compile time, while
 all instance attributes will be initialized at object construction.
 
 ## Field Destruction
@@ -107,9 +110,9 @@ identifier and will be used as the parameter name.
 
 ```perl
 class Soldier {
-    field $id            :param;             # required in constructor
-    field $name          :param = undef;     # optional in constructor
-    field $rank          :param = 'recruit'; # optional in constructor, defaults to 'recruit'
+    field $id            :param;               # required in constructor
+    field $name          :param { undef };     # optional in constructor
+    field $rank          :param { 'recruit' }; # optional in constructor, defaults to 'recruit'
     field $serial_number :param(sn);
 }
 
@@ -137,7 +140,7 @@ optional name, if desired.
 ```perl
 class SomeClass {
     field $id            :param :reader;
-    field $name          :param = undef;
+    field $name          :param { undef };
     field $serial_number :param(sn) :reader(serial);
 }
 
@@ -158,7 +161,7 @@ case to allow `->method` for reading and `->method($new_value)` for writing:
 ```perl
 class SomeClass {
     field $id            :param :writer;
-    field $name          :param = undef;
+    field $name          :param { undef };
     field $serial_number :reader :writer(serial);
 }
 
@@ -175,8 +178,8 @@ been _defined_. Of course, you may change the name.
 
 ```perl
 class SomeClass {
-    field $id            :predicate(is_initialized) :param = undef;
-    field $name          :predicate :param = undef;
+    field $id            :predicate(is_initialized) :param { undef };
+    field $name          :predicate                 :param { undef };
     field $serial_number;
 }
 
@@ -214,7 +217,7 @@ A list of identifiers says "these methods will be handled by this object".
 
 ```perl
 use DateTime;
-field $datetime :handles(now, today) = 'DateTime';
+field $datetime :handles(now, today) { 'DateTime' };
 ```
 
 Now, when you call `->now` or `->today` on the object, those will be

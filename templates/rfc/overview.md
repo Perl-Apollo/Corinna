@@ -213,10 +213,10 @@ class Cache::LRU :version(v0.1.0) {
     use Hash::Ordered;
     use Carp 'croak';
 
-    my $num_caches                         = 0;
-    field $cache    :handles(exists delete) = Hash::Ordered->new;
-    field $max_size :param  :reader         = 20;
-    field $created  :reader                 = time;
+    field $num_caches :common                 { 0 };
+    field $cache      :handles(exists delete) { Hash::Ordered->new };
+    field $max_size   :param  :reader         { 20 };
+    field $created    :reader                 { time };
 
     ADJUST { # called after new()
         $num_caches++;
