@@ -205,15 +205,15 @@ field $id :name(ident)                # name is now "ident"
           :predicate(is_registered);  # ->is_registered
 ```
 
-### `:handles(%@*)`
+### `:handles(...)`
 
 This attribute is used to delegate methods to the object contained in this
-field. You may pass it either a list of identifiers and identifier:identifier
-mappings, or the special `*` token.
+field. You may pass it either a list of IDENTIFIERs and/or
+IDENTIFIER:IDENTIFIER mappings.
 
 #### List of Identifiers and Identifier:Identifier Mappings
 
-A list of identifiers says "these methods will be handled by this object".
+A list of identifiers says "these methods will be handled by this object."
 
 ```perl
 use DateTime;
@@ -224,10 +224,10 @@ Now, when you call `->now` or `->today` on the object, those will be
 delegated to the `DateTime` class. Note that because class names are not
 "first class" in Perl, we regrettably treat the classname as a string.
 
-You can rename delegated methods by providing identifiers for the 
-method the attribute will handle and for the delegated object's original 
-method name, separated by a colon.  In the following example, we are 
-renaming `exists` to `has_key`, but retaining the other method name.
+You can rename delegated methods by providing identifiers for the method the
+attribute will handle and for the delegated object's original method name,
+separated by a colon.  In the following example, we are renaming `exists` to
+`has_key`, but retaining the `delete` method.
 
 ```
 use Hash::Ordered;

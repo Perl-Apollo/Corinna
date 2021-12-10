@@ -84,7 +84,7 @@ edit this file directly. Please edit
 * `......` 6.2.3.3 `:writer(optional_identifier)`
 * `......` 6.2.3.4 `:predicate(optional_identifier)`
 * `......` 6.2.3.5 `:name(optional_identifier)`
-* `......` 6.2.3.6 `:handles(%@*)`
+* `......` 6.2.3.6 `:handles(...)`
 * `........` 6.2.3.6.1 List of Identifiers and Identifier:Identifier Mappings
 
 # [Section: 7: Methods](methods.md)
