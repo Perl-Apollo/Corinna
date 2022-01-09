@@ -60,7 +60,7 @@ methods can only override class methods.
 
 # 7.5 Abstract Methods
 Abstract methods are declared as forward declarations. That is, methods
-without a method body.
+without a method body and without a signature.
 
 ```perl
 method foo;
@@ -98,18 +98,19 @@ method foo :private () {...}
 method bar :private :common () {...}
 ```
 
-Private methods can only be called from methods defined in the namespace and file at _compile time_
+Private methods can only be called from methods defined in the same
+namespace and file at _compile time._
 
 * Private methods are not inherited
 * If a class or role has a `:private` method with the name matching the name of
   the method being called, the dispatch is to that method.
-* Even if a subclass has a public or private method with the same signature,
+* Even if a parent class has a public or private method with the same signature,
   the methods in a class will call its private method, not the inherited one
 * Roles and classes cannot call each other's private methods
 
 Note that this means:
 
-* For the MVP, roles cannot require private methods
+* Roles cannot require private methods
 * A role's private methods can never conflict with another role or class's private methods
 * You cannot use `:overrides` and `:private` on the same method
 
@@ -128,43 +129,19 @@ role SomeRole {
     method role_method () { $self->do_it }
     method do_it :private () { say "SomeRole" }
 }
-class SomeClass does SomeRole {
+class SomeClass :does(SomeRole) {
     method class_method () { $self->do_it }
     method do_it :private () { say "SomeClass" }
 }
 my $object = SomeClass->new;
-say $object->class_method;
-say $object->role_method;
+say $object->class_method; # prints "SomeClass"
+say $object->role_method;  # prints "SomeRole"
 ```
 
-The above `do_it` role does not conflict because it's not provided by the role.
+The above `do_it` methods do not conflict because it's not provided by the role.
 It's strictly internal. Further, it cannot be aliased, excluded, or renamed by
 the consumer. This gives role authors the ability to write a role and have
-fine-grained control over its behavior. This is in sharp contrast to Moo/se:
-
-```perl
-#!/usr/bin/env perl
-use Less::Boilerplate;
-
-package Some::Role {
-    use Moose::Role;
-    use Less::Boilerplate;
-    sub role_method ($self) { $self->_foo }
-    sub _foo ($self)        { say __PACKAGE__ }
-}
-
-package Some::Class {
-    use Moose;
-    use Less::Boilerplate;
-    with 'Some::Role' => { -exclude => '_foo' };
-    sub _foo ($self) { say __PACKAGE__ }
-}
-
-Some::Class->role_method;
-```
-
-The above prints `Some::Class` even though the role author may have been
-expecting `Some::Role`. So private methods are a huge win here.
+fine-grained control over its behavior.
 
 
 ---
