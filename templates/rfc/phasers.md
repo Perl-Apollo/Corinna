@@ -70,7 +70,7 @@ The destruction order should be guaranteed to be:
 global destruction. In the future, if Corinna classes can become "first class"
 in the Perl language, if a class can fall out of scope prior to global
 destruction, then yes, class data can be destroyed prior to global
-construction (e.g, for an anonymous class created a runtime).
+construction (e.g, for an anonymous class created at runtime).
 
 ## Incomplete Destruction
 
