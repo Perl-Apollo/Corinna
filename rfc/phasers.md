@@ -76,6 +76,12 @@ The destruction order should be guaranteed to be:
 5. `$one`
 6. `$three` # class data
 
+**Important**: at the current time, class data will only be destroyed in
+global destruction. In the future, if Corinna classes can become "first class"
+in the Perl language, if a class can fall out of scope prior to global
+destruction, then yes, class data can be destroyed prior to global
+construction (e.g, for an anonymous class created a runtime).
+
 ## 9.2.2 Incomplete Destruction
 Sometimes you have code that *must* use a `DESTRUCT`, but it's unclear if the
 object has been set up properly (perhaps it through an exception in `ADJUST`,
