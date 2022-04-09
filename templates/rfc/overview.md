@@ -263,15 +263,15 @@ discovered](https://www.reddit.com/r/perl/comments/nyuid5/were_starting_the_rfc_
 
 ## Compile-time failures
 
-In Moo/se and alternatives, calling `$self->{feild}` is often a silent failure
-leading to mysterious bugs. Calling `$self->feild` is a runtime failure. In
-Corinna, accessing an non-existent `$feild` is a compile-time failure:
+In Moo/se and alternatives, calling `$self->{field}` is often a silent failure
+leading to mysterious bugs. Calling `$self->field` is a runtime failure. In
+Corinna, accessing an non-existent `$field` is a compile-time failure:
 
 ```perl
 field $field;
 
 method foo () {
-    say $feild; # compile-time failure, baby!
+    say $field; # compile-time failure, baby!
 }
 ```
 
