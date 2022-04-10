@@ -115,7 +115,7 @@ the code safer, albeit at the cost of some annoyance.
 After the previous step, if we have any extra keys passed to `new()` which cannot
 be allocated to a field, throw an exception. This works because by the time we
 get to the final class, all keys should be accounted for. Stops the issue of
-`Class->new(feild => 4)` when the field is `field $field :param { 3 };`
+`Class->new(field => 4)` when the field is `field $field :param { 3 };`
 
 ```perl
 my @bad_keys;
