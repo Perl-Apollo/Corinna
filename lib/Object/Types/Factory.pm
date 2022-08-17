@@ -19,7 +19,7 @@ sub create {
 
 # Set up the core roles we need
 role Object::Types::Role::Elements {
-    requires _is_type;
+    method _is_type;
 
     # TODO: I assume that has $foo = []; is getting the same reference per instance. This should be fixed.
     has $elements     :reader :param = undef;
@@ -51,7 +51,7 @@ role Object::Types::Role::Core {
     our @CARP_NOT;
 
     # TODO allow roles to require protected/trusted methods. This should not be part of the API
-    requires _validate;
+    method _validate;
 
     has $non_fatal :param         = 0;
     has $contains  :param :reader = undef; # does => 'Object::Types::Role::Core',

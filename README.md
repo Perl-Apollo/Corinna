@@ -15,7 +15,7 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 3. [Grammar](rfc/grammar.md)
 4. [Classes](rfc/classes.md)
 5. [Class Construction](rfc/class-construction.md)
-6. [Attributes](rfc/attributes.md)
+6. [Fields](rfc/attributes.md)
 7. [Methods](rfc/methods.md)
 8. [Roles](rfc/roles.md)
 9. [Phasers](rfc/phasers.md)
