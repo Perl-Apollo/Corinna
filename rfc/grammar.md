@@ -61,13 +61,13 @@ For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding varia
 
 ```
 FIELD            ::= 'field' ( 
-                              SCALAR MODIFIERS? DEFAULT?
-                            | ( ARRAY | HASH ) ':common'? DEFAULT?  # only the :common modifier is
+                              SCALAR ATTRIBUTES? DEFAULT?
+                            | ( ARRAY | HASH ) ':common'? DEFAULT?  # only the :common attribute is
                                                                     # currently supported for array/hash fields
                      )
 DEFAULT          ::= '{' PERL_EXPRESSION '}'
-MODIFIERS        ::= { MODIFIER }
-MODIFIER         ::= ':' (
+ATTRIBUTES       ::= { ATTRIBUTE }
+ATTRIBUTE        ::= ':' (
                               'param'     NAME?   # allowed in constructor
                             | 'name'      NAME?   # alternate name (defaults to field name minus the sigil)
                             | 'reader'    NAME?   # $field method to read the field

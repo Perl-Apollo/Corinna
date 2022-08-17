@@ -17,7 +17,7 @@ Can fields have more than one kind of variable?
 field ($x, @y);
 ```
 
-If so, do we disallow modifiers?
+If so, do we disallow attributes?
 
 ## Twigils?
 
@@ -49,7 +49,7 @@ A method can override a parent method explicitly to avoid a warning:
 override method move($x,$y) {...}
 ```
 
-Should methods generated via `field` modifiers be allowed to override parents?
+Should methods generated via `field` attributes be allowed to override parents?
 If so, how do we signal this?
 
 ## `can`, `does`, and `isa`

@@ -17,8 +17,8 @@ documentation](https://metacpan.org/dist/Moose/view/lib/Moose/Manual/MethodModif
 
 ---
 
-Corinna provides a feature called "method modifiers". You can also think
-of these as "hooks" or "advice".
+Corinna provides a feature called "method modifiers" via attributes. You can
+also think of these as "hooks" or "advice".
 
 It's probably easiest to understand this feature with a few examples:
 
