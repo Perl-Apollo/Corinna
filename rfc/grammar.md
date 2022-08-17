@@ -34,7 +34,7 @@ NAMESPACE      ::= IDENTIFIER { '::' IDENTIFIER }
 DECLARATION    ::= ':abstract'? PARENT? ROLES? VERSION?
 PARENT         ::= ':isa(' NAMESPACE ')'
 ROLES          ::= ':does(' NAMESPACE { ',' NAMESPACE } ','? ')'
-IDENTIFIER     ::= [:alpha:] {[:alnum:]}
+IDENTIFIER     ::= [_:alpha:] {[_:alnum:]}
 VERSION        ::= ':version(' VERSION_NUMBER ')
 VERSION_NUMBER ::= # all allowed Perl version numbers
 BLOCK          ::= # Perl +/- Extras
@@ -83,7 +83,6 @@ HANDLES          ::= 'handles' '('
                      ')'
 PAIR             ::= IDENTIFIER  ':' IDENTIFIER
 NAME             ::= '(' IDENTIFIER ')'
-IDENTIFIER       ::= [:alpha:] {[:alnum:]}
 ```
 
 
