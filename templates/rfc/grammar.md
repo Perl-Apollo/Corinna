@@ -1,5 +1,15 @@
 To make this more manageable and not define a grammar for all of Perl, we will break the grammar out into separate components for simplicity.
 
+Note that due to the adoption of the [KIM
+syntax](https://ovid.github.io/articles/language-design-consistency.html)
+(keyword, identifier, modifier), we only introduce four new keywords to the
+Perl language:
+
+* `class`
+* `role`
+* `field`
+* `method`
+
 # Class and Role Grammar
 
 The primary grammar looks like:
@@ -8,7 +18,7 @@ The primary grammar looks like:
 Corinna        ::= CLASS | ROLE
 CLASS          ::= 'class' NAMESPACE DECLARATION? BLOCK
 ROLE           ::= 'role' NAMESPACE ROLES? BLOCK
-NAMESPACE      ::= IDENTIFIER { '::' IDENTIFIER } 
+NAMESPACE      ::= IDENTIFIER { '::' IDENTIFIER }
 DECLARATION    ::= ':abstract'? PARENT? ROLES? VERSION?
 PARENT         ::= ':isa(' NAMESPACE ')'
 ROLES          ::= ':does(' NAMESPACE { ',' NAMESPACE } ','? ')'
@@ -39,22 +49,28 @@ SIGNATURE     ::= # currently allowed Perl signatures
 
 For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding variable names. `PERL_EXPRESSION` means what it says. `IDENTIFIER` is a valid Perl identifier.
 
-**Note** `SHARED` (class data) is still in flux.
-
 ```
 FIELD            ::= INSTANCE | SHARED ';'
 SHARED           ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
 INSTANCE         ::= 'field'    FIELD_DEFINITION
-FIELD_DEFINITION ::= SCALAR ATTRIBUTES? DEFAULT?  | { ARRAY | HASH } DEFAULT? 
+FIELD_DEFINITION ::= SCALAR MODIFIERS? DEFAULT?  | { ARRAY | HASH } DEFAULT?
 DEFAULT          ::= '{' PERL_EXPRESSION '}'
-ATTRIBUTE        ::= ':' ( 'param' MODIFIER? | 'reader' MODIFIER? | 'writer' MODIFIER? |  'predicate' MODIFIER?  | HANDLES )
-ATTRIBUTES       ::= { ATTRIBUTE }
-HANDLES          ::= 'handles' '(' 
+MODIFIERS        ::= { MODIFIER }
+MODIFIER         ::= ':' (
+                              'param'     NAME?   # allowed in constructor
+                            | 'name'      NAME?   # alternate name (defaults to field name minus the sigil)
+                            | 'reader'    NAME?   # $field method to read the field
+                            | 'writer'    NAME?   # set_$field method to write the field
+                            | 'predicate' NAME?   # is_$field method to test if field is defined
+                            | 'common'            # identifies field as class method
+                            | HANDLES
+                         )
+HANDLES          ::= 'handles' '('
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this field handles
                                  |  PAIR { ',' PAIR }                # map of methods (to, from) this field handles
                                  | '*'                               # this field handles all unknown methods, but inheritance takes precedence
                               ')'
 PAIR             ::= IDENTIFIER  ':' IDENTIFIER
-MODIFIER         ::= '(' IDENTIFIER ')'
+NAME             ::= '(' IDENTIFIER ')'
 IDENTIFIER       ::= [:alpha:] {[:alnum:]}
 ```
