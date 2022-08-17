@@ -19,8 +19,8 @@ Instead, we'll cover major changes here.
 
 # August 17, 2022
 
-- `field` attributes are now formally known as `modifiers`. The grammar and
-  RFCs have been updated to reflect this.
+- `field` attributes are now formally known as attributes. Previously this was
+  ambiguous. The grammar and RFCs have been updated to reflect this.
 
 # December 8, 2021
 

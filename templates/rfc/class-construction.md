@@ -75,7 +75,7 @@ foreach my $class (@reverse_mro) {
     my @roles = grep { ! $seen_roles{$_} } roles_from_class($class);
 	@seen_roles{ @roles } = 1;
     foreach my $thing ( $class, @roles ) {
-        foreach my $name ( get_fields_with_param_modifiers($thing) ) {
+        foreach my $name ( get_fields_with_param_attributes($thing) ) {
             if ( my $other_class = $constructor_args{$name} ) {
                 # XXX Warning! This may be a bad thing
                 # If you don't happen to notice that some parent class has done
@@ -170,9 +170,9 @@ MOP stuff
 
 ```perl
 class MOP {
-    method get_fields_with_param_modifiers($class_or_role) {
+    method get_fields_with_param_attributes($class_or_role) {
         return
-          grep { $self->has_modifier( ':param', $_ ) }
+          grep { $self->has_attribute( ':param', $_ ) }
           get_all_fields($class_or_role);
     }
 
@@ -183,11 +183,11 @@ class MOP {
         my $constructor_args_processed = 0;
         while (@fields) {
             my $field = shift @fields;
-            if ( $self->has_modifier( ':param', $field ) ) {
+            if ( $self->has_attribute( ':param', $field ) ) {
                 push @ordered => $fields;
                 my @remaining;
                 foreach my $field (@fields) {
-                    if ( $self->has_modifier( ':param', $field ) ) {
+                    if ( $self->has_attribute( ':param', $field ) ) {
                         push @ordered => $field;
                     }
                     else {

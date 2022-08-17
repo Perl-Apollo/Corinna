@@ -78,7 +78,7 @@ edit this file directly. Please edit
 * `..` 6.2 Field Creation
 * `....` 6.2.1 Field Initialization
 * `....` 6.2.2 Field Destruction
-* `....` 6.2.3 Field Modifiers
+* `....` 6.2.3 Field Attributes
 * `......` 6.2.3.1 `:param(optional_identifier)`
 * `......` 6.2.3.2 `:reader(optional_identifier)`
 * `......` 6.2.3.3 `:writer(optional_identifier)`

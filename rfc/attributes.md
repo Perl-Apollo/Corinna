@@ -25,14 +25,14 @@ and provides *tons* of different behavior, some of which later turned out to
 be a bad idea, such as `lazy_build`, which adds a several methods you may not
 need and possibly didn't realize you were asking for.
 
-In Corinna, additional behavior is defined via field _modifiers_ and these
+In Corinna, additional behavior is defined via field _attributes_ and these
 have been carefully designed to be as composable as possible. It's very
-difficult to create any combination of "illegal" modifiers.
+difficult to create any combination of "illegal" attributes.
 
-The minimal MVP grammar for fields and modifiers can be found
+The minimal MVP grammar for fields and attributes can be found
 [here](grammar.md#field-grammar).
 
-To visualize that, let's look at the fields and their modifiers from the
+To visualize that, let's look at the fields and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
 1. `field $num_caches :common                  { 0 };` 
@@ -68,7 +68,7 @@ field @colors :common { qw(red green blue) };   # class data, default to qw(red 
 ```
 
 For scalar fields declared with `field` (and only for scalar fields), you can add
-modifiers after the declaration and before the optional default, if any.
+attributes after the declaration and before the optional default, if any.
 
 For class data, for the MVP, only the `:reader` parameter may be used with
 `:common`. This is because all instances share this data and using `:param`
@@ -79,7 +79,7 @@ you think carefully about this decision.
 Note that all fields are completely encapsulated, but if they're exposed to the
 outside world via `:reader`, `:writer`, or some other parameter, their _name_
 defaults to the variable name, minus the leading punctuation. This will become
-more clear as you read about the individual modifiers.
+more clear as you read about the individual attributes.
 
 If field name generation would cause another method to be overwritten, this is
 a compile-time error (unless we can later think of an easy syntax for
@@ -95,18 +95,18 @@ field $answer   { $x };
 ```
 
 `:common` fields with defaults will be initialized at compile time, while
-all instance modifiers will be initialized at object construction.
+all instance attributes will be initialized at object construction.
 
 ## 6.2.2 Field Destruction
 When an instance goes out of scope, instance fields will be destroyed in
 reverse order of declaration. When a class goes out of scope (currently only
 in global destruction), the same is true for class fields.
 
-## 6.2.3 Field Modifiers
-The modifiers we support for the MVP are as follows. Only variables declared
-with `field` may take modifiers. Note that while we allow `field` variables to
+## 6.2.3 Field Attributes
+The attributes we support for the MVP are as follows. Only variables declared
+with `field` may take attributes. Note that while we allow `field` variables to
 be something _other_ than a scalar, those other fields can only use the
-`:common` modifier.
+`:common` attribute.
 
 ### 6.2.3.1 `:param(optional_identifier)`
 This value for this field _may_ be passed in the constructor. If there is no
@@ -142,7 +142,7 @@ method, parent and child classes must have distinct constructor arguments.
 
 ### 6.2.3.2 `:reader(optional_identifier)`
 By default, all fields are private to the class. You may optionally expose a
-field for reading by providing a `:reader` modifier. You may specify an
+field for reading by providing a `:reader` attribute. You may specify an
 optional name, if desired.
 
 ```perl
@@ -160,7 +160,7 @@ say $thing->name;   # no such method error
 
 ### 6.2.3.3 `:writer(optional_identifier)`
 By default, all fields are private to the class. You may optionally expose
-a field for writing by providing a `:writer` modifier. You may specify an optional
+a field for writing by providing a `:writer` attribute. You may specify an optional
 name, if desired. Note that a `:writer` has `set_` prepended to the name. If you explicity
 set the name of the writer to the name of the field, there will be a special
 case to allow `->method` for reading and `->method($new_value)` for writing:
@@ -200,7 +200,7 @@ By default, the name of a field is the name of the variable minus the
 punctuation. However, this name might be unsuitable for public exposure, or
 may conflict with a parent class's methods. Use `name(optional_identifier)` to
 set a new name for the field. Of course, you can always use
-`optional_identifier` with the _other_ modifiers to change their names
+`optional_identifier` with the _other_ attributes to change their names
 individually.
 
 ```perl
@@ -211,7 +211,7 @@ field $id :name(ident)                # name is now "ident"
 ```
 
 ### 6.2.3.6 `:handles(...)`
-This modifier is used to delegate methods to the object contained in this
+This attribute is used to delegate methods to the object contained in this
 field. You may pass it either a list of IDENTIFIERs and/or
 IDENTIFIER:IDENTIFIER mappings.
 
@@ -228,7 +228,7 @@ delegated to the `DateTime` class. Note that because class names are not
 "first class" in Perl, we regrettably treat the classname as a string.
 
 You can rename delegated methods by providing identifiers for the method the
-modifier will handle and for the delegated object's original method name,
+field value will handle and for the delegated object's original method name,
 separated by a colon.  In the following example, we are renaming `exists` to
 `has_key`, but retaining the `delete` method.
 
@@ -239,7 +239,7 @@ field $cache :handles(
 ) = Hash::Ordered->new;
 ```
 ### 6.3.1.1 `:common`
-The `:commmon` modifier allows a field variable to be declared at the class
+The `:commmon` attribute allows a field variable to be declared at the class
 level (e.g., "class data") and its value is shared across all instances. Be
 aware that its use, while not discouraged, effectively becomes "global data"
 for the class and as such may be dangerous to use due to one instance changing

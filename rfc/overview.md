@@ -111,7 +111,7 @@ creates four new keywords to support everything:
 * `field`
 * `method`
 
-To get the full power of modern OO, we leverage modifiers to modify those
+To get the full power of modern OO, we leverage attributes to modify those
 keywords: `field $customer_name :reader;`
 
 None of the keywords are exposed outside the context of a class, helping to
