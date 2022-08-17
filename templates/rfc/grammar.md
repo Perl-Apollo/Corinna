@@ -67,7 +67,7 @@ MODIFIER         ::= ':' (
                          )
 HANDLES          ::= 'handles' '('
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this field handles
-                                 |  PAIR { ',' PAIR }                # map of methods (to, from) this field handles
+                                 |  PAIR       { ',' PAIR }          # map of methods (to, from) this field handles
                                  | '*'                               # this field handles all unknown methods, but inheritance takes precedence
                               ')'
 PAIR             ::= IDENTIFIER  ':' IDENTIFIER
