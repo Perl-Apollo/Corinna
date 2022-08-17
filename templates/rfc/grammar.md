@@ -39,7 +39,7 @@ The method grammar (skipping some bits to avoid defining a grammar for Perl):
 METHOD        ::= 'method' ACCESS_LEVELS SIGNATURE '{' (perl code) '}'
 SIGNATURE     ::= IDENTIFIER '(' current sub argument structure + extra work from Dave Mitchell ')'
 ACCESS_LEVELS ::= ACCESS_LEVEL { ACCESS_LEVEL }
-ACCESS_LEVEL  ::= ':' { 'private' | 'overrides' | 'common' }
+ACCESS_LEVEL  ::= ':' ( 'private' | 'overrides' | 'common' )
 SIGNATURE     ::= # currently allowed Perl signatures
 ```
 
@@ -50,10 +50,10 @@ SIGNATURE     ::= # currently allowed Perl signatures
 For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding variable names. `PERL_EXPRESSION` means what it says. `IDENTIFIER` is a valid Perl identifier.
 
 ```
-FIELD            ::= INSTANCE | SHARED ';'
-SHARED           ::= 'my' { SCALAR | ARRAY | HASH } DEFAULT?
-INSTANCE         ::= 'field'    FIELD_DEFINITION
-FIELD_DEFINITION ::= SCALAR MODIFIERS? DEFAULT?  | { ARRAY | HASH } DEFAULT?
+FIELD            ::= 'field' ( 
+                              SCALAR MODIFIERS? DEFAULT?
+                            | ( ARRAY | HASH ) DEFAULT? 
+                     )
 DEFAULT          ::= '{' PERL_EXPRESSION '}'
 MODIFIERS        ::= { MODIFIER }
 MODIFIER         ::= ':' (
@@ -64,12 +64,12 @@ MODIFIER         ::= ':' (
                             | 'predicate' NAME?   # is_$field method to test if field is defined
                             | 'common'            # identifies field as class method
                             | HANDLES
-                         )
+                     )
 HANDLES          ::= 'handles' '('
                                     IDENTIFIER { ',' IDENTIFIER }    # list of methods this field handles
                                  |  PAIR       { ',' PAIR }          # map of methods (to, from) this field handles
                                  | '*'                               # this field handles all unknown methods, but inheritance takes precedence
-                              ')'
+                     ')'
 PAIR             ::= IDENTIFIER  ':' IDENTIFIER
 NAME             ::= '(' IDENTIFIER ')'
 IDENTIFIER       ::= [:alpha:] {[:alnum:]}
