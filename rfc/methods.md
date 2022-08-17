@@ -1,4 +1,4 @@
-Prev: [Attributes](attributes.md)   
+Prev: [Fields](attributes.md)   
 Next: [Roles](roles.md)
 
 ---
@@ -146,5 +146,5 @@ fine-grained control over its behavior.
 
 ---
 
-Prev: [Attributes](attributes.md)   
+Prev: [Fields](attributes.md)   
 Next: [Roles](roles.md)

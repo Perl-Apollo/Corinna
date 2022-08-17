@@ -1,5 +1,5 @@
 Prev: [Classes](classes.md)   
-Next: [Attributes](attributes.md)
+Next: [Fields](attributes.md)
 
 ---
 
@@ -212,4 +212,4 @@ class MOP {
 ---
 
 Prev: [Classes](classes.md)   
-Next: [Attributes](attributes.md)
+Next: [Fields](attributes.md)

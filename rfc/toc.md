@@ -72,7 +72,7 @@ edit this file directly. Please edit
 * `....` 5.2.6 Step 6 `ADJUST`
 * `..` 5.3 MOP Pseudocode
 
-# [Section: 6: Attributes](attributes.md)
+# [Section: 6: Fields](attributes.md)
 
 * `..` 6.1 Overview 
 * `..` 6.2 Field Creation
