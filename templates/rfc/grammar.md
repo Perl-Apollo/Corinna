@@ -52,7 +52,8 @@ For simplicity: `SCALAR`, `ARRAY`, and `HASH` refer to their corresponding varia
 ```
 FIELD            ::= 'field' ( 
                               SCALAR MODIFIERS? DEFAULT?
-                            | ( ARRAY | HASH ) DEFAULT? 
+                            | ( ARRAY | HASH ) ':common'? DEFAULT?  # only the :common modifier is
+                                                                    # currently supported for array/hash fields
                      )
 DEFAULT          ::= '{' PERL_EXPRESSION '}'
 MODIFIERS        ::= { MODIFIER }

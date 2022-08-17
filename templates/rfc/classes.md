@@ -18,8 +18,8 @@ As per [the grammar](grammar.md), the smallest possible class is `class A
 it's there. Note that you do not need to specify a constructor.
 
 Here's a somewhat more interesting class. `field` declares a field (data) and the
-`/:\w+/` attributes provide additional behavior. See
-[attributes](attributes.md) for more information.
+`/:\w+/` modifiers provide additional behavior. See
+[modifiers](attributes.md) for more information.
 
 ```perl
 class Person {
@@ -44,7 +44,7 @@ say $boy->name;       # Will Robinson
 
 In the above, that the `$name` and `$title` fields are completely
 encapsulated. If you want to expose them to the outside world, you would use
-the `:reader` and `:writer` attributes.
+the `:reader` and `:writer` modifiers.
 
 We have a `Person` class with a required name and an optional
 title. The constructor is `new` and accepts an even-sized list of key/value
@@ -104,7 +104,7 @@ say Person->num_people;     # 0
 ## Versions
 
 Just add the version number after the class name as a `:version(...)`
-attribute. This should accept any standard version number.
+modifier. This should accept any standard version number.
 
 ```perl
 class My::Class :version(3.14) {
@@ -114,7 +114,7 @@ class My::Class :version(3.14) {
 
 ## Inheritance
 
-Corinna supports single inheritance via the `:isa` attribute. You may
+Corinna supports single inheritance via the `:isa` modifier. You may
 optionally add a version number to the name of the class you're inheriting
 from to show the minimum allowed version of the class.
 
@@ -236,7 +236,7 @@ In Corinna, methods and subs are not the same thing. Here's a silly example.
 class Iterator::Number {
     use List::Util 'sum';
     field $i { 0 };
-    field @numbers;   # no attributes allowed on non-scalars
+    field @numbers;   # only the `:common` modifier allowed on non-scalars
 
     method push ($num)    { push @numbers => $num    }
     method pop            { pop  @numbers            }

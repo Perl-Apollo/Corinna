@@ -49,7 +49,7 @@ role SomeRole {
 ```
 
 Any fields declared in the role are completely private unless standard
-field attributes are used.
+field modifiers are used.
 
 ```perl
 role SomeRole {

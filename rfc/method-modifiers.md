@@ -91,7 +91,7 @@ definition of those methods.
 
 ## 10.3.1 Before and after Modifiers
 Method modifiers can be used to add behavior to a method that Corinna
-generates for you, such as an attribute accessor:
+generates for you, such as an field accessor:
 
 ```perl
 field $size :reader :writer;
