@@ -1,5 +1,5 @@
 Prev: [Quotes](quotes.md)   
-Next: [README](/README.md)
+Next: [MVP](mvp.md)
 
 ---
 
@@ -151,4 +151,4 @@ method foo :overrides ($bar, $baz) { ... }
 ---
 
 Prev: [Quotes](quotes.md)   
-Next: [README](/README.md)
+Next: [MVP](mvp.md)

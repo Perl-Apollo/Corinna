@@ -151,6 +151,20 @@ edit this file directly. Please edit
 # [Section: 13: Changes](major-changes.md)
 
 
+# [Section: 14: MVP](mvp.md)
+
+* `..` 14.1 MMVP
+* `..` 14.2 The Seven Stages
+* `....` 14.2.1 1. Classes
+* `....` 14.2.2 2. Class inheritance - class :isa() attr
+* `....` 14.2.3 3. Roles, and class/role :does() attr
+* `....` 14.2.4 4. Various "convenience" attributes -
+* `....` 14.2.5 5. Slot initialiser blocks
+* `....` 14.2.6 6. MOP
+* `....` 14.2.7 7. Method modifiers (around, before, after)
+* `..` 14.3 Missing Features
+* `..` 14.4 Potentially Breaking Changes
+
 
 ---
 
