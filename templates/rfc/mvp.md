@@ -35,14 +35,34 @@ No roles, no class/slot/method attrs, no MOP.
 
 ## 2. Class inheritance - class :isa() attr
 
+Single-inheritance only.
+
+
+```
+class Employee :isa(Person) {
+    field $employee_id :param;
+}
+```
+
 ## 3. Roles, and class/role :does() attr
 
-The current implementation of required methods is to simply create a forward
-declaration: `method foo;` without listing the signature. Signatures are
-currently not introspectable, so we cannot use them to verify that the correct
-required method is present, so we only use the name. Including a signature in
-the forward declaration might be self-documenting, but for now, we'd prefer to
-omit it because this might impact forward compatibility.
+```
+role Role::Created {
+    field $created :reader { time };
+}
+
+class SomeClass :does(Role::Created) {
+    ...
+}
+```
+
+Note: for roles, the current implementation of required methods is to simply
+create a forward declaration: `method foo;` without listing the signature.
+Signatures are currently not introspectable, so we cannot use them to verify
+that the correct required method is present, so we only use the name.
+Including a signature in the forward declaration might be self-documenting,
+but for now, we'd prefer to omit it because this might impact forward
+compatibility.
 
 ## 4. Various "convenience" attributes -
 
@@ -55,11 +75,22 @@ method :overrides()
 
 At this stage, most of the basics are in place and we have a useful system.
 
-## 5. Slot initialiser blocks
+## 5. Field initialiser blocks
+
+A postfix `{ expression }` block on a field can set its default value.
+
+```
+field $answer :param { 42 };
+```
 
 ## 6. MOP
 
+The metaobject protocol, similar to `Class::MOP`.
+
 ## 7. Method modifiers (around, before, after)
+
+The behave similarly to the `around`, `before`, and `after` method modifiers
+from Moo/se.
 
 # Missing Features
 

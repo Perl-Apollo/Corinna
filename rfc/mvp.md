@@ -44,13 +44,33 @@ This will include `ADJUST` and `ADJUSTPARAMS` phasers.
 No roles, no class/slot/method attrs, no MOP.
 
 ## 14.2.2 2. Class inheritance - class :isa() attr
+Single-inheritance only.
+
+
+```
+class Employee :isa(Person) {
+    field $employee_id :param;
+}
+```
+
 ## 14.2.3 3. Roles, and class/role :does() attr
-The current implementation of required methods is to simply create a forward
-declaration: `method foo;` without listing the signature. Signatures are
-currently not introspectable, so we cannot use them to verify that the correct
-required method is present, so we only use the name. Including a signature in
-the forward declaration might be self-documenting, but for now, we'd prefer to
-omit it because this might impact forward compatibility.
+```
+role Role::Created {
+    field $created :reader { time };
+}
+
+class SomeClass :does(Role::Created) {
+    ...
+}
+```
+
+Note: for roles, the current implementation of required methods is to simply
+create a forward declaration: `method foo;` without listing the signature.
+Signatures are currently not introspectable, so we cannot use them to verify
+that the correct required method is present, so we only use the name.
+Including a signature in the forward declaration might be self-documenting,
+but for now, we'd prefer to omit it because this might impact forward
+compatibility.
 
 ## 14.2.4 4. Various "convenience" attributes -
 ```
@@ -62,9 +82,20 @@ method :overrides()
 
 At this stage, most of the basics are in place and we have a useful system.
 
-## 14.2.5 5. Slot initialiser blocks
+## 14.2.5 5. Field initialiser blocks
+A postfix `{ expression }` block on a field can set its default value.
+
+```
+field $answer :param { 42 };
+```
+
 ## 14.2.6 6. MOP
+The metaobject protocol, similar to `Class::MOP`.
+
 ## 14.2.7 7. Method modifiers (around, before, after)
+The behave similarly to the `around`, `before`, and `after` method modifiers
+from Moo/se.
+
 # 14.3 Missing Features
 Obviously, quite a few features are missing from this RFC of Corinna. Our
 intent is to roll them out as quickly as is feasible, but to ensure the
