@@ -127,13 +127,6 @@ class Corinna::RFC::Writer :does(Corinna::RFC::Role::File) {
             );
             delete $rfc->{value};
             $rfc->{name}   = delete $rfc->{key};
-
-            # XXX This is ugly and I should probably create a config file to
-            # allow a name map.
-            if ( 'Attributes' eq $rfc->{name} ) {
-                $rfc->{name} = 'Fields';
-            }
-
             $rfc->{source} = catfile( $CONFIG->{main}{template_dir},
                 $CONFIG->{main}{rfc_dir}, $FILEname );
             $rfc->{file}     = catfile( $CONFIG->{main}{rfc_dir}, $FILEname );
