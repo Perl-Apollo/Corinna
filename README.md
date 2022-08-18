@@ -23,7 +23,7 @@ This is to track the RFC for the Corinna MVP OOP proposal.
 11. [Questions](rfc/questions.md)
 12. [Quotes](rfc/quotes.md)
 13. [Changes](rfc/major-changes.md)
-14. [MVP](rfc/mvp.md)
+14. [P5P MVP](rfc/mvp.md)
 
 
 **Important**: All of the above represent works in progress. Please do not

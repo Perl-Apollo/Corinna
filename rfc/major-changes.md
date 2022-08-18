@@ -1,5 +1,5 @@
 Prev: [Quotes](quotes.md)   
-Next: [MVP](mvp.md)
+Next: [P5P MVP](mvp.md)
 
 ---
 
@@ -151,4 +151,4 @@ method foo :overrides ($bar, $baz) { ... }
 ---
 
 Prev: [Quotes](quotes.md)   
-Next: [MVP](mvp.md)
+Next: [P5P MVP](mvp.md)

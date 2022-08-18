@@ -151,7 +151,7 @@ edit this file directly. Please edit
 # [Section: 13: Changes](major-changes.md)
 
 
-# [Section: 14: MVP](mvp.md)
+# [Section: 14: P5P MVP](mvp.md)
 
 * `..` 14.1 MMVP
 * `..` 14.2 The Seven Stages

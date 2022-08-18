@@ -1,7 +1,7 @@
 # MMVP
 
-A Corinna MVP has been accepted and work on integrating Corinna into the Perl
-core has begun.
+The Corinna MVP has been accepted by The Perl Steering Committee and work on
+integrating Corinna into the Perl core has begun.
 
 This is an MMVP (Minimally Minimal Viable Product). This is written after
 guidance provided by the Perl Steering committee. This addresses a few
@@ -28,8 +28,8 @@ with it.
 
 ## 1. Classes
 
-Initial `use feature 'class'` to add basic `class`, `field`, abd `method` keywords.
-This wll include `ADJUST` and `ADJUSTPARAMS` phasers.
+Initial `use feature 'class'` to add basic `class`, `field`, and `method` keywords.
+This will include `ADJUST` and `ADJUSTPARAMS` phasers.
 
 No roles, no class/slot/method attrs, no MOP.
 
