@@ -89,7 +89,7 @@ The metaobject protocol, similar to `Class::MOP`.
 
 ## 7. Method modifiers (around, before, after)
 
-The behave similarly to the `around`, `before`, and `after` method modifiers
+They behave similarly to the `around`, `before`, and `after` method modifiers
 from Moo/se.
 
 # Missing Features
