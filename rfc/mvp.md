@@ -93,7 +93,7 @@ field $answer :param { 42 };
 The metaobject protocol, similar to `Class::MOP`.
 
 ## 14.2.7 7. Method modifiers (around, before, after)
-The behave similarly to the `around`, `before`, and `after` method modifiers
+They behave similarly to the `around`, `before`, and `after` method modifiers
 from Moo/se.
 
 # 14.3 Missing Features
