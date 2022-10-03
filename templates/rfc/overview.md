@@ -377,7 +377,7 @@ There are numerous things we could do in the future.
   lexicals](https://www.sunstarsys.com/essays/perl7-sealed-lexicals))
 * Types (focused on correctness and readability, but this is a cross-cutting
   concern)
-* Declare Authority (`class Foo authority cpan:OVID { ... }`)
+* Declare Authority (`class Foo :authority(cpan:OVID) { ... }`)
 * Nested classes
 * Anonymous classes
 * Multidispatch
