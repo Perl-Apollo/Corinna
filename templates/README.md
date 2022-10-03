@@ -67,7 +67,7 @@ We're doing this:
 
 ```perl
 class Foo :isa(Bar) :does(SomeRole) :version(v1.2.3) {
-    method some_method :override () {
+    method some_method :overrides () {
         ...
     }
 }
