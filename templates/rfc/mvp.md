@@ -31,7 +31,7 @@ with it.
 Initial `use feature 'class'` to add basic `class`, `field`, and `method` keywords.
 This will include `ADJUST` and `ADJUSTPARAMS` phasers.
 
-No roles, no class/slot/method attrs, no MOP.
+No roles, no class/field/method attributes, no MOP.
 
 ## 2. Class inheritance - class :isa() attr
 
