@@ -47,7 +47,7 @@ itself. If you've not already done so, I strongly recommend reading [The Lisp
 Curse](http://winestockwebdesign.com/Essays/Lisp_Curse.html). That explains
 our mess in spades.
 
-We're trying to solve the ever-present problem of "what OOP system do I
+We're trying to solve the ever-present problem with "what OOP system do I
 use?" coupled with "Perl looks ancient."
 
 Existing syntax is hurting Perl, not helping it. While we don't propose
@@ -145,7 +145,7 @@ class or role body, you will also get errors due to indirect object syntax
 because Perl will think the block delimiters, `{ ... }` are a hashref and not
 a block.
 
-In an edge case, if you have `class Foo { ... }` and you _already_ have a class by
+In an edge case, if have `class Foo { ... }` and you _already_ have a class by
 that name defined (and loaded) elsewhere, then Perl will try an indirect
 object method call and that might succeed, leading to strange errors:
 
@@ -174,7 +174,7 @@ impacted, but we have defined a regular grammar for Corinna, making parsing
 much easier.
 
 The maintainer of [Data::Printer](https://metacpan.org/pod/Data::Printer) has
-already stated his willingness to help with showing Corinna object internals for
+already willingness to help with showing Corinna object internals for
 debugging.
 
 Paul "LeoNerd" Evans intends to release `Feature::Compat::Class` along the
@@ -184,7 +184,7 @@ would allow Corinna to be accessible to Perls as old as v5.18.0 (the earliest
 Perl version that supports Object::Pad).
 
 ## 2.6.3 Feature Guard
-For newer Perls, Corinna is not intended to be available by default. Instead,
+For newer Perl's, Corinna is not intended to be available by default. Instead,
 it will start with a feature guard:
 
 ```perl
@@ -326,7 +326,7 @@ fields.
 We actually find [Zydeco](https://metacpan.org/pod/Zydeco) and
 [Dios](https://metacpan.org/pod/Dios) interesting, but the scope of those
 projects is probably far larger than what could go into the core (and we
-haven't reviewed them thoroughly enough to be sure they're appropriate).
+haven't reviewed them thoroughly enough to sure they're appropriate).
 
 # 2.12 Open Issues
 The astute reader will note that between this and the
@@ -337,7 +337,7 @@ construction](https://gist.github.com/Ovid/accb0c7c8444bdd150b5c7509809477f),
 we have not defined objects, classes, or methods. Some terms are so common
 that repeating definitions everywhere would take months.
 
-Other things are missing, such as the exact nature of the destruction object that
+Other things, such as the exact nature of the destruction object that
 `DESTRUCT` takes, or whether or not `DESTRUCT` is even a phaser. We're torn on
 this.
 
@@ -355,7 +355,7 @@ to a bad design.
 # 2.13 Scope for future work
 Corinna v.0.1.0 is intended to be "the simplest thing that can possibly work."
 By "possibly work," we mean "is useful enough for a production environment."
-However, the list of things we _could_ add to Corinna is extensive and
+However, it the list of things we _could_ add to Corinna is extensive and
 should likely be guided by the new RFC process after the initial exposure to
 Corinna gives people an idea of how effective OO can be.
 
@@ -368,7 +368,7 @@ There are numerous things we could do in the future.
   lexicals](https://www.sunstarsys.com/essays/perl7-sealed-lexicals))
 * Types (focused on correctness and readability, but this is a cross-cutting
   concern)
-* Declare Authority (`class Foo authority cpan:OVID { ... }`)
+* Declare Authority (`class Foo :authority(cpan:OVID) { ... }`)
 * Nested classes
 * Anonymous classes
 * Multidispatch

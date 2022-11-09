@@ -54,7 +54,7 @@ Cons:
 A method can override a parent method explicitly to avoid a warning:
 
 ```perl
-override method move($x,$y) {...}
+method move($x,$y) :overrides {...}
 ```
 
 Should methods generated via `field` attributes be allowed to override parents?

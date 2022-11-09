@@ -14,18 +14,18 @@ edit this file directly. Please edit
 # 4.1 Overview
 Corinna classes are single-inheritance, data is declared with `field` (instance
 data) or `my` (class data), and methods use the `method` keyword instead of
-`sub`. All methods require signatures, even methods who take no arguments.
+`sub`. All methods require signatures, even methods which take no arguments.
 
 Methods are not subroutines. Corinna cannot call methods without an invocant
 and cannot call subroutines with an invocant.
 
 For the MVP, Corinna classes cannot inherit from non-Corinna classes. It
 remains unclear in practice how problematic this will be. Using
-`:handles` to explicitly delegate to methods you need will help. Remember that
+`:handles` to explicitly delegate to methods you need will help. Remember that.
 
 # 4.2 Discussion
 As per [the grammar](grammar.md), the smallest possible class is `class A
-{}` and you could instantiate with `my $object = A->new`. Not very useful, but
+{}` and you could instantiate it with `my $object = A->new`. Not very useful, but
 it's there. Note that you do not need to specify a constructor.
 
 Here's a somewhat more interesting class. `field` declares a field (data) and the
@@ -53,20 +53,20 @@ say $villain->name;   # Dr. Zachary Smith
 say $boy->name;       # Will Robinson
 ```
 
-In the above, that the `$name` and `$title` fields are completely
+In the above, the `$name` and `$title` fields are completely
 encapsulated. If you want to expose them to the outside world, you would use
 the `:reader` and `:writer` attributes.
 
 We have a `Person` class with a required name and an optional
 title. The constructor is `new` and accepts an even-sized list of key/value
 pairs. Per the [class construction specification](class-construction.md),
-duplicate keys to the constructor are not allowed. Nor is a hash reference. If
-you wish to provide an an alternate set of arguments to the constructor, write
+providing duplicate keys to the constructor is not allowed. Nor is a hash reference. If
+you wish to provide an alternate set of arguments to the constructor, write
 an alternate constructor (the behavior replaces Moo/se `BUILDARGS`).
 
 ```perl
-method from_name :common ($name) {    # ':common ' means it's a class method
-    $class->new( name => $name );     # all methods have an immutable $class variable injected.
+method from_name :common ($name) {    # ':common' means it's a class method
+    $class->new( name => $name );     # all methods have an immutable $class variable injected
 }
 my $boy = Person->from_name('Will Robinson');
 say $boy->name; # Will Robinson
@@ -77,13 +77,13 @@ Let's make the class more interesting.
 ```perl
 class Person {
     use DateTime;
-    field $name  :param;                               # must be passed to customer (:param)
+    field $name  :param;                               # must be passed to constructor (:param)
     field $title :param          { undef };            # optionally passed to constructor (:param, but with default)
     field $created               { DateTime->now };    # cannot be passed to constructor (no :param)
-    field $num_people :common    { 0 };                # class data, defaults to 0 (common, with hand-rolled reader method)
+    field $num_people :common    { 0 };                # class data, defaults to 0 (:common, with hand-rolled reader method)
     method num_people :common () { $num_people }
 
-    ADJUST   { $num_people++ }                         # called after new(), but before returned to consumer (BUILD)
+    ADJUST   { $num_people++ }                         # called after new(), but before returning to consumer (BUILD)
     DESTRUCT { $num_people-- }                         # destructor
 
     method name () {
@@ -171,11 +171,11 @@ On line 2, we see two interesting things. First is the immutable `$self`
 variable automatically injected into the body of the method. There is also a
 `$class` variable availabe, but it's not shown in this example.
 
-Next is the `next::method` part. Usually we see that as part of the C3 mro. It's here because of the
+Next is the `next::method` part. Usually we see that as part of the [C3 Method Resolution Order](https://en.wikipedia.org/wiki/C3_linearization). It's here because of the
 [SUPER-bug in Perl](http://modernperlbooks.com/mt/2009/09/when-super-isnt.html).
 
 ## 4.2.3 Roles
-Corinna allows roles to be consumed via `does`. Here's a simple role.
+Corinna allows roles to be consumed via `:does`. Here's a simple role.
 
 ```perl
 role RoleStringify {
@@ -216,7 +216,7 @@ Role semantics will be covered more thoroughly in [roles](roles.md).
 
 ## 4.2.4 Abstract Classes
 Abstract classes are classes which are designed to be subclassed and not
-instantiated directly. They are declared by using an `:abstract` moddifier in
+instantiated directly. They are declared by using an `:abstract` modifier in
 the definition:
 
 ```perl
@@ -242,7 +242,7 @@ In Corinna, methods and subs are not the same thing. Here's a silly example.
 class Iterator::Number {
     use List::Util 'sum';
     field $i { 0 };
-    field @numbers;   # only the `:common` attribute allowed on non-scalars
+    field @numbers;   # only the `:common` attribute is allowed on non-scalars
 
     method push ($num)    { push @numbers => $num    }
     method pop            { pop  @numbers            }

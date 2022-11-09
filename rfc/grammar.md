@@ -40,8 +40,8 @@ VERSION_NUMBER ::= # all allowed Perl version numbers
 BLOCK          ::= # Perl +/- Extras
 ```
 
-We recommend [semantic versioning](https://semver.org/), but in we allow all
-existing Perl version formats to facilitate upgarding existing modules.
+We recommend [semantic versioning](https://semver.org/), but we allow all
+existing Perl version formats to facilitate upgrading existing modules.
 
 # 3.2 Method Grammar
 The method grammar (skipping some bits to avoid defining a grammar for Perl):

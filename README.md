@@ -8,7 +8,50 @@ edit this file directly. Please edit
 
 ---
 
-This is to track the RFC for the Corinna MVP OOP proposal.
+# Bringing Modern OOP to the Perl Core
+
+```perl
+class Cache::LRU :version(v0.1.0) {
+    use Hash::Ordered;
+    use Carp 'croak';
+
+    field $num_caches :common                 { 0 };
+    field $cache      :handles(exists delete) { Hash::Ordered->new };
+    field $max_size   :param  :reader         { 20 };
+    field $created    :reader                 { time };
+
+    ADJUST { # called after new()
+        $num_caches++;
+        if ( $max_size < 1 ) {
+            croak(...);
+        }
+    }
+    DESTRUCT { $num_caches-- }
+
+    method num_caches :common () { $num_caches }
+
+    method set ( $key, $value ) {
+        if ( $self->exists($key) ) {
+            $self->delete($key);
+        }
+        elsif ( $cache->keys > $max_size ) {
+            $cache->shift;
+        }
+        $cache->set( $key, $value );  # new values in front
+    }
+
+    method get($key) {
+        if ( $self->exists($key) ) {
+            my $value = $cache->get($key);
+            $self->set( $key, $value );  # put it at the front
+            return $value;
+        }
+        return;
+    }
+}
+```
+
+This repository is to track the RFC for the Corinna MVP OOP proposal.
 
 1. [Table of Contents](rfc/toc.md)
 2. [Overview](rfc/overview.md)
@@ -79,7 +122,7 @@ We're doing this:
 
 ```perl
 class Foo :isa(Bar) :does(SomeRole) :version(v1.2.3) {
-    method some_method :override () {
+    method some_method :overrides () {
         ...
     }
 }
