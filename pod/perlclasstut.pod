@@ -1,0 +1,190 @@
+=encoding utf8
+
+=for comment
+Consistent formatting of this file is achieved with:
+  perl ./Porting/podtidy pod/perlootut.pod
+
+=head1 NAME
+
+perlclasstut - Object-Oriented Programming via the C<class> keyword
+
+=head1 DESCRIPTION
+
+With the release of Perl version X, the Perl language has a new object system.
+Originally code-named L<Corinna|https://github.com/Ovid/Cor/>, this new object
+system is a result of years of collaboration within the Perl community to
+bring a modern, easy-to-use object system that still feels like Perl. If
+you're looking for information about Perl's original object system, see
+L<perlobj> (and later, L<perloot> to see object systems built on top of the
+legacy sytem).
+
+Note that the following assumes you understand Perl and have a beginner's
+knowledge of object-oriented programming. You should understand classes,
+instances of those classes, inheritance, and methods. We'll cover the rest.
+
+Further, for simplicity, we'll often refer to "object-oriented programming" as
+OOP.
+
+=head1 OBJECT-ORIENTED FUNDAMENTALS
+
+There are many ways to describe object systems. Some focus on the
+implementation ("structs with behavior"), but we'll focus on the purpose.
+Objects are experts about a problem domain. You construct with with the
+information it needs to operation. For example, consider the case of an LRU
+cache. An LRU cash is a type of cache that keeps cache size down by deleting
+the least-recently-used cache entry. Let's construct a hypothetical cache:
+
+    my $cache = Cache::LRU->new( max_size => 20 );
+
+In the above example, we will assume that C<max_size> is the maximum number of
+entries in the cache. Adding a 21st unique entry will cause the "least
+recently used" entry to be ejected from the cache.
+
+And then you can tell the object to do something, by calling "methods" on the
+object. Let's save an item in the cache and retrieve it.
+
+    $cache->set( $customer_id => $customer );
+    my $cached_customer = $cache->get($customer_id);
+
+How does it work internally? You don't care. You should trust the object to
+I<do the right thing>. Read the docs. That's the published interface.
+
+As for that weird C<< -> >> to call methods, we'll get to that. Instead, we'll
+build the C<Cache::LRU> class so you can see how this works, but after we have
+described a few fundamentals.
+
+=head1 The Four Keywords
+
+    use feature 'class';
+
+When you use the C<class> feature, four new keywords are introduced into the
+local scope.
+
+=over 4
+
+=item * C<class>
+
+Declare a class.
+
+=item * C<method>
+
+Declare a method
+
+=item * C<field>
+
+Declare a field (data for the class)
+
+=item * C<role>
+
+Declare a role.
+
+=back
+
+Note the use of the word "Declare" for all of those definitions. Use of the
+C<class> feature introduces a declarative way of writing OOP code in Perl.
+It's both concise and expressive. And because you're declaring your intent
+instead of manually wiring all of the bits together, there are fewer chances
+for bugs.
+
+For full information for each of these keywords, you can type
+C<perldoc -f method> (or whatever keyword you wish to know about). We will
+only be giving a brief overview here.
+
+Note that the general syntax for each of these keywords is:
+
+    KEYWORD IDENTIFIER MODIFIERS? DEFINITION?
+
+For example:
+
+    class Employee :isa(Person) {
+        ...
+    }
+
+In the above, C<class> is the KEYWORD, C<Employee> is the identifier (the
+unique name of the thing), C<:isa(Person) is an I<optional> modifier that
+assigns additional properties to the thing you've identified (in this case,
+C<Employee> inherits from C<Person>), and the postfix block is the definition
+of the class.
+
+Note that C<class>, contrary to the original RFC, does not require a
+postfix-block, even though we'll show some examples using it.
+
+=head2 C<class>
+
+The C<class> keyword declares a class I<and> the namespace for that class. In
+future versions of Perl, it's possible we'll have private classes which are
+lexically bound, so do not make assumptions about the implementation.
+
+Let's get started on our C<Cache::LRU> class.
+
+     use feature 'class'; # from now on, this will be assumed
+     class Cache::LRU {};
+     # or
+     class Cache::LRU;
+
+The above shows declaring a class and you can now make a new instance of it:
+
+    my $cache = Cache::LRU->new;
+    if ( $cache->isa('Cache::LRU') ) { # true
+        ...
+    }
+    else {
+        # we never get to here
+    }
+
+Of course, that's all you can do. It's useless without methods, but let's talk
+a bit more about what you.
+
+Note that the C<new> method is provided for you. Do not declare your own
+C<new> method in the class.
+
+=head3 Versions
+
+Any valid v-string may be used to declare the class version. This should be
+after the identifier:
+
+    class Cache::LRU v0.1;
+    my $cache = Cache::LRU->new;
+    say $cache->VERSION; # prints v0.1
+
+=head3 Inheritance
+
+In OOP, sometimes you want a class to I<inherit> from another class. This
+means that your class will I<extend> the behavior of the parent class (er,
+that's the simple explanation. We'll keep it simple).
+
+For example, a C<Cat> might inherit from C<Mammal>. In OOP, we often say that
+a C<Cat> I<isa> C<Mammal>. You do this with the C<:isa(...)> modifier. 
+
+    class Cat :isa(Mammal);
+
+Note that objects declared with C<class> are single-inheritance only. As an
+alternative to multiple inheritance, we provide roles. More on that later.
+
+=head3 Abstract Classes
+
+In OOP, an abstract class is a class that cannot be instantiated. Instead,
+another class must inherit from the abstract class and provide the full
+functionality. In the "Inheritance" example above, the C<Mammal> class might
+be abstract, so we declare it with the C<:abstract> modifier.
+
+    class Mammal :abstract {
+        ...
+    }
+
+Any attempt to instantiate an abstract class is a fatal error.
+
+    my $mammal = Mammal->new; # boom
+
+=head2 C<field>
+
+
+
+=head2 C<method>
+
+
+
+=head2 C<role>
+
+
+=cut
