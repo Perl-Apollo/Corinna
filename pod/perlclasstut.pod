@@ -338,7 +338,7 @@ runtime error.
 
 Now that we know how to contruct a basic object, we probably want to do things
 with it. To do that, we write methods. Methods use the C<method> keyword
-instead of C<sub>. They also take argument lists. Let's look at an
+instead of C<sub>. They also take argument lists. Let's look at a
 "transposable" point class (i.e. I<X,Y> --> I<Y,X>).
 
     class Point {
@@ -465,10 +465,8 @@ So let's write one.
         method to_hash () {
             my %entries;
             foreach my $key ($cache->keys) {
-                my $value = $cache->get($key);
-                my $ref = !defined $value ? 'UNDEF'
-                  :           !ref $value ? 'SCALAR'
-                  :            ref $value;
+                my $value      = $cache->get($key);
+                my $ref        = defined $value ? (ref $value || 'SCALAR') : 'UNDEF';
                 $entries{$key} = $ref;
             }
             return {
