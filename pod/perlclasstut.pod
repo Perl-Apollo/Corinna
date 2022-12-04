@@ -1,0 +1,711 @@
+=encoding utf8
+
+=for comment
+Consistent formatting of this file is achieved with:
+  perl ./Porting/podtidy pod/perlootut.pod
+
+=head1 NAME
+
+perlclasstut - Object-Oriented Programming via the C<class> keyword
+
+=head1 DISCLAIMER
+
+This tutorial is a rough work-in-progress and only covers features of the
+new object syntax that are well-defined. The implementation is ongoing and
+while most of the basics are mapped out, there are some edge cases still 
+being nailed down. We will not discuss those here.
+
+=head1 DESCRIPTION
+
+With the release of Perl version X, the Perl language has added a new object system.
+Originally code-named L<Corinna|https://github.com/Ovid/Cor/>, the new object
+system is a result of years of collaboration between the Corinna team and the
+Perl community to bring a modern, easy-to-use object system that still feels
+like Perl. If you're looking for information about Perl's original object
+system, see L<perlobj> (and later, L<perloot> to see object systems built on
+top of the legacy system).
+
+Note that the following assumes you understand Perl and have a beginner's
+knowledge of object-oriented programming. You should understand classes,
+instances, inheritance, and methods. We'll cover the rest. Also, this is only
+an introduction, not a full manual.
+
+Further, for simplicity, we'll often refer to "object-oriented programming" as
+OOP.
+
+The legacy object system in Perl remains and no code will be broken by this
+change.
+
+=head1 OBJECT-ORIENTED FUNDAMENTALS
+
+There are many ways to describe object systems. Some focus on the
+implementation ("structs with behavior"), but we'll focus on the purpose.
+Objects are experts about a problem domain. You construct them with the
+information they need to do their job. For example, consider the case of an LRU
+cache. An LRU cache is a type of cache that keeps cache size down by deleting
+the least-recently-used cache entry. Let's construct a hypothetical cache:
+
+    my $cache = Cache::LRU->new( max_size => 20 );
+
+In the above example, we will assume that C<max_size> is the maximum number of
+entries in the cache. Adding a 21st unique entry will cause the "least
+recently used" entry to be ejected from the cache.
+
+And then you can tell the object to do something, by calling "methods" on the
+object. Let's save an item in the cache and retrieve it.
+
+    $cache->set( $customer_id => $customer );
+
+    my $cached_customer = $cache->get($customer_id);
+
+How does it work internally? You don't care. You should trust the object to
+I<do the right thing>. Read the docs. That's the published interface.
+
+In this tutorial, we'll build the C<Cache::LRU> class so you can see how this
+works, but after we have described a few fundamentals.
+
+=head1 The Four Keywords
+
+    use feature 'class';
+
+When you use the C<class> feature, four new keywords are introduced into the
+current scope.
+
+=over 4
+
+=item * C<class>
+
+Declare a class.
+
+=item * C<method>
+
+Declare a method
+
+=item * C<field>
+
+Declare a field (data for the class)
+
+=item * C<role>
+
+Declare a role.
+
+=back
+
+Note the use of the word "declare" for all of those definitions. Use of the
+C<class> feature allows a declarative way of writing OOP code in Perl.  It's
+both concise and expressive. Because you're declaring your intent instead of
+manually wiring all of the bits together, there are fewer opportunities for
+bugs.
+
+That the general syntax for each of these keywords is:
+
+    KEYWORD IDENTIFIER MODIFIERS? DEFINITION?
+
+For example:
+
+    class Employee :isa(Person) {
+        ...
+    }
+
+In the above, C<class> is the KEYWORD, C<Employee> is the IDENTIFIER (the
+unique name of the thing), C<:isa(Person)> is an I<optional> MODIFIER that
+assigns additional properties to the thing you've identified (in this case,
+C<Employee> inherits from C<Person>), and the postfix block is the DEFINITION
+of the class.
+
+Note that, like the C<package> declarator, C<class> does not require a
+postfix-block, even though we'll show some examples using it.
+
+Also, modifiers are almost always regular Perl attributes, with an exception
+made for declaring the class version.
+
+=head2 C<class>
+
+The C<class> keyword declares a class I<and> the namespace for that class. In
+future versions of Perl, it's possible we'll have private classes which are
+lexically bound, so do not make assumptions about the implementation.
+
+Let's get started on our C<Cache::LRU> class.
+
+     use feature 'class'; # from now on, this will be assumed
+
+     class Cache::LRU {};
+     # or
+     class Cache::LRU;
+
+The above shows declaring a class and you can now make a new instance of it:
+
+    my $cache = Cache::LRU->new;
+
+    if ( $cache->isa('Cache::LRU') ) { # true
+        ...
+    }
+    else {
+        # we never get to here
+    }
+
+Of course, that's all you can do. It's kinda useless, but we'll cover more
+in a bit.
+
+Note that the C<new> method is provided for you automatically. Do not declare
+your own C<new> method in the class.
+
+=head3 Versions
+
+Any valid v-string may be used to declare the class version. This should be
+after the identifier:
+
+    class Cache::LRU v0.1;
+    my $cache = Cache::LRU->new;
+    say $cache->VERSION; # prints v0.1
+
+Note: due to how the Perl grammar works, the version declaration must come
+before any attributes.
+
+=head3 Inheritance
+
+In OOP, sometimes you want a class to I<inherit> from another class. This
+means that your class will I<extend> the behavior of the parent class (er,
+that's the simple explanation. We'll keep it simple).
+
+For example, a C<Cat> might inherit from C<Mammal>. In OOP, we often say that
+a C<Cat> I<isa> C<Mammal>. You do this with the C<:isa(...)> modifier. 
+
+    class Cat :isa(Mammal);
+
+Note that objects declared with C<class> are single-inheritance only. As an
+alternative to multiple inheritance, we provide roles. More on that later.
+
+=head3 Abstract Classes
+
+In OOP, an abstract class is a class that cannot be instantiated. Instead,
+another class must inherit from the abstract class and provide the full
+functionality. In the "Inheritance" example above, the C<Mammal> class might
+be abstract, so we declare it with the C<:abstract> modifier.
+
+    class Mammal :abstract {
+        ...
+    }
+
+Any attempt to instantiate an abstract class is a fatal error.
+
+    my $mammal = Mammal->new; # boom
+
+Methods declared with a forward declaration (i.e. any method whose name is
+declared, but without any corresponding code block) must be provide by a
+subclass, either via direct implementation or via a role. At the present time,
+forward declarations of methods do not take signatures due to more work being
+needed to make signatures introspectable.
+
+    class Mammal :abstract {
+        method eat; # must be declared in a subclass at compile-time
+    }
+
+=head3 Multiple Modifiers
+
+Note that modifiers may not be duplicated, but the order in which they're specified
+does not matter.
+
+    class Mammal v1.0 :abstract :isa(Animalia);
+
+    class Mammal v1.0 :isa(Animalia) :abstract; # same thing
+
+(With apologies to the biology fans who know that biological taxonomy is both
+misrepresented here and more complex than this simple hierarchy).
+
+=head2 C<field>
+
+The C<field> keyword allows you to create data storage for your class. You can
+create instance data and class data. This data is stored in normal Perl
+variables, but with special syntax to bind them to the class.
+
+=head2 Instance Data
+
+Classes are not very useful without data. In our C<Cache::LRU> class, we have
+a C<max_size> field to indicate how many cache entries we can have.  Let's
+declare that field, provide a "reader" for that field, and a default value of
+20.
+
+Underneath the hood, we'll also use the
+L<Hash::Ordered|https://metacpan.org/pod/Hash::Ordered> module to provide the
+actual caching. Note that C<Hash::Ordered> is written using legacy Perl, but
+you shouldn't (and don't) have to care about that.
+
+    class Cache::LRU {
+        use Hash::Ordered;
+
+        field $cache            { Hash::Ordered->new };
+
+        field $max_size :reader { 20 };
+    }
+
+    my $cache = Cache::LRU->new;
+    say $cache->max_size;    # 20
+
+In the above example, both C<$cache> and C<$max_size> are I<instance
+variables>, which are unique to every instance of the class. They are never
+available outside the class. For each of them, we have an optional postfix
+block to assign a default value to those fields. If you omit the block,
+those fields will contain the value C<undef> unless your class assigns a value
+to them.
+
+Unlike Perl's legacy OOP system, you cannot use C<< $cache->{cache} >>, C<<
+$cache->{'$class'} >> or any other tricks to get at this data. It's completely
+encapsulated. However, in case of emergency, the meta-object protocol (MOP)
+will allow access to this data (but that's beyond the scope of this tutorial).
+
+So how can we read the C<max_size> data? Because we used the C<:reader>
+attribute (also called a "modifier"). By default, the C<:reader> modifier
+removes the C<$> sigil from the variable name and that becomes the name of a
+read-only method. So declaring C<< field $foo :reader >> will create a C<foo>
+method that will return the value contained in C<$foo>. However, you can
+change the name of the method:
+
+    field $max_size :reader(max_entries);
+
+Naturally, we provide a corresponding C<:writer> modifier
+
+    field $rank :reader :writer;
+
+By default, the C<:writer> modifier will prepend a C<set_> to the method name,
+so the above allows:
+
+    say $object->rank;             # returns the value of $rank
+
+    $object->set_rank('General');  # sets the value of $rank.
+
+B<Important>: being able to mutate an object (i.e. change the values
+of its fields via writer methods) is often a dangerous thing, as
+other code using that object may have already made decisions or assumptions
+based on the previous value of that field. If that previous value is no longer
+valid, those decisions or assumptions may now be inconsistent or incorrect.
+
+Each writer method returns its own invocant to allow chaining:
+
+    $object->set_rank('General')
+           ->set_name('Toussaint Louverture');
+
+Though it's discouraged, you can set the name of the writer to the same name as the
+reader:
+
+    field $rank :writer(rank) :reader;
+
+This allows for a common Perl convention of creating a single reader/writer method
+by overloading the behaviour of the method based on whether or not it is passed an argument:
+
+    say $object->rank;         # returns the value of $rank
+    $object->rank('General');  # sets the value of $rank.
+
+Obviously, the C<rank> method now does two entirely separate things,
+which can be confusing and error-prone, but this technique is
+ingrained in Perl OOP culture, so we support this edge case.
+
+Having a default of 20 for C<max_size> is useful, but we need to allow the
+programmer to say what the max size is. We do this with the C<:param>
+modifier.
+
+    field $max_size :reader :param { 20 };
+
+This tells the class that this value may be passed as a named parameter to the
+contructor.
+
+    my $cache = Cache::LRU->new( max_size => 100 );
+    say $cache->max_size; # 100
+
+It's important to remember that every constructor parameter is required to be
+passed to the constructor if a default is not provided. Thus, if we  have
+this:
+
+    class NamedPoint {
+        field ( $x, $y ) :param :reader {0};
+        field $name      :param :reader;
+    }
+
+The above would allow you to do any of these:
+
+    my $point = NamedPoint->new( name => 'Origin' );
+    my $point = NamedPoint->new( name => 'Origin', x => 3 );
+    my $point = NamedPoint->new( name => 'Origin', x => 3, y => 3.14 );
+
+But not this:
+
+    my $point = NamedPoint->new( x => 23, y => 42 );   # Missing 'name' initializer
+
+If a field is required, but not passed to the constructor, you will get a fatal
+runtime error.
+
+=head2 C<method>
+
+Now that we know how to contruct a basic object, we probably want to do things
+with it. To do that, we write methods. Methods use the C<method> keyword
+instead of C<sub>. They also take argument lists. Let's look at a
+"transposable" point class (i.e. I<X,Y> --> I<Y,X>).
+
+    class Point {
+        field ( $x, $y ) :reader :param;
+
+        method invert () {
+            ( $x, $y ) = ( $y, $x );
+        }
+
+        method to_string () {
+            return sprintf "(%d, %d)" => $x, $y;
+        }
+    }
+
+    my $point = Point->new( x => 23, y => 42 );
+    say $point->to_string; # (23, 42)
+
+    $point->invert;
+    say $point->to_string; # (42, 23)
+
+In the above, you can see that methods have direct access to field variables.
+However, they also have C<$self> injected in them. So you could also write C<invert>
+as follows:
+
+        method invert () {
+            ( $x, $y ) = ( $self->y, $self->x );
+        }
+
+However, method calls are not only slower than direct variable access, but
+it's more typing. Plus, if we don't use C<:reader> for a given field, we have
+no method to call.
+
+Putting all of this together, we get the following as a very basic
+C<Cache::LRU> class:
+
+    use feature 'class';
+    class Cache::LRU {
+        use Hash::Ordered;
+
+        field $cache                   { Hash::Ordered->new };
+        field $max_size :param :reader { 20 };
+
+        method set ( $key, $value ) {
+            if ( $cache->exists($key) ) {
+                # we delete the key because we're going to (re)set
+                # the value for this key later, after which this
+                # key will be the one most recently used
+                $cache->delete($key);
+            }
+            elsif ( $cache->keys >= $max_size ) {
+                # remove the oldest key
+                $cache->pop;
+            }
+
+            # new values are added to the front of the ordered hash
+            $cache->set( $key, $value );
+        }
+
+        method get($key) {
+            if ( $cache->exists($key) ) {
+                my $value = $cache->get($key);
+
+                # move the key to the front of the cache
+                # (note the use of the $self variable)
+                $self->set( $key, $value );
+
+                return $value;
+            }
+            return;
+        }
+    }
+
+With the above, we have a working LRU cache. It doesn't have a lot of
+features, but it shows you the core of writing OOP code with the C<class>
+feature. We have a powerful, well-encapsulated declarative means of writing
+objects without having to wire together all of the various bits and pieces.
+
+=head2 C<role>
+
+The new C<class> syntax only provides for single inheritance. Sometimes you
+need additional behavior that you would like to "transparently" provide. For
+example, you might want two or more unrelated classes to be able to
+serialize themselves to JSON, even though each class itself has nothing to do
+with JSON. Let's do that with our C<Cache::LRU> class.
+
+To provide functionality shared across unrelated classes, we use the C<role>
+keyword. A role is similar to a class, but it cannot be instantiated. Instead,
+it is "consumed" by a class and the class provides the specifics of the role behavior. Roles
+can both provide methods and exclude methods. For our JSON role, it might look
+like this:
+
+    use feature 'class';
+
+    role Role::Serializable::JSON {
+        use JSON::PP 'encode_json';  # provided in core Perl since v5.13.9
+
+        method to_hash;   # forward declaration: the class must provide this
+
+        method to_json () {
+            encode_json( $self->to_hash );
+        }
+    }
+
+And you can use this in your class with the C<:does> attribute.
+
+    class Cache::LRU :does(Role::Serializable::JSON) {
+        ...
+    }
+
+But our class fails at compile-time because it doesn't have a C<to_hash> method.
+So let's write one.
+
+    class Cache::LRU  v0.1.0  :does(Role::Serializable::JSON) {
+        use Hash::Ordered;
+        use Carp 'croak';
+
+        field $cache                   { Hash::Ordered->new };
+        field $max_size :param :reader { 20 };
+
+        method set ( $key, $value ) {...}
+
+        method get($key) {...}
+
+        method to_hash () {
+            my %entries;
+            foreach my $key ($cache->keys) {
+                my $value      = $cache->get($key);
+                my $ref        = defined $value ? (ref $value || 'SCALAR') : 'UNDEF';
+                $entries{$key} = $ref;
+            }
+            return {
+                max_size => $max_size,
+                entries => \%entries,
+            }
+        }
+    }
+
+In the above, the C<method to_hash;> forward declaration defines a method that
+the C<Role::Serializable::JSON> role requires the consuming class to provide.
+It can do so by either having the method defined in the class or consuming it
+from another role.
+
+The C<method to_json> provided by the role will be "flattened" into the
+C<Cache::LRU> class almost as if it had been written there. However, fields
+defined in the class are always lexically scoped (like a C<my> or C<state>
+variable) and so are not directly accessible to the role method.
+
+With that, can do this:
+
+    my $cache = Cache::LRU->new(max_size => 5);
+    $cache->set( first  => undef );
+    $cache->set( second => 'bob' );
+    $cache->set( third  => { foo => 'bar' } );
+    say $cache->to_json;
+
+And we should get output similar to the following:
+
+    {"max_size":5,"entries":{"first":"UNDEF","third":"HASH","second":"SCALAR"}}
+
+You can also consume multiple roles:
+
+    class Foo :does(Role1) :does(Role2) {
+        ...
+    }
+
+Roles may declare fields, but those field variables are private to that role.
+This protects against the case where a class and a role might both define
+C<< field $x >>.
+
+If any method defined directly in the class has the same name as a method
+provided by a role, a compile-time error will result. If two roles have
+duplicate method names, this will also cause a compile-time failure if they're
+consumed together. Traditionally, roles have syntax for "excluding" or
+"aliasing" methods, but this is not (yet) provided by the new mechanism. In
+practice, we find this is rarely an issue, but as roles are more widely shared,
+this will need to be addressed.
+
+As a workaround, you can create a new object that consumes the role and store
+that object in a field, or you can use interstitial base classes that consume the
+role. Neither solution is great. 
+
+=head1 Miscellaneous
+
+=head2 Non-scalar Fields
+
+You can declare arrays and hashes as fields, with or without defaults:
+
+    field @colors { qw/green yellow red/ };
+    field %seen;
+
+However, array and hash fields B<cannot> have modifiers:
+
+    field %seen :reader;  # compile-time error
+    field @array :param;  # compile-time error
+    field %hash :writer;  # compile-time error
+
+=head2 Class Data, Methods, and Phasers
+
+Class data and methods are shared by all instances of a given class. They are
+declared with the C<:common> attribute. For example, let's say you're making a
+game and you only allow 20 point objects to be created. How do you track how
+many are created? You don't. That's the responsibility of the class. Let's use
+class data for this.
+
+    class Point {
+        field $num_points :common :reader { 0 }; # all classes share this
+        field ( $x, $y ) :param  :reader;
+
+        ADJUST {
+            $num_points++;
+            if ( $num_points > 20 ) {
+                die "No more than 20 points may be created at any time";
+            }
+        }
+
+        DESTRUCT { $num_points-- }
+    }
+
+In the above, C<ADJUST> is a phaser (like C<BEGIN> or C<END>), which is called
+I<every time a class is instantiated>. You can have multiple C<ADJUST> phasers
+and they are called in order declared. So you could also write the above
+C<ADJUST> as follows:
+
+        ADJUST { $num_points++ }
+
+        ADJUST {
+            if ( $num_points > 20 ) {
+                die "No more than 20 points may be created at any time";
+            }
+        }
+
+The C<DESTRUCT> phaser behaves similarly to C<ADJUST>, but only fires when the
+reference count of the object drops to zero (in other words, when it goes out
+of scope).
+
+We can now do this:
+
+    say Point->num_points;   # 0
+
+    my $point1 = Point->new( x => 2, y => 4 );
+    say Point->num_points;   # 1
+    # or
+    say $point1->num_points; # 1
+
+    my $point2 = Point->new; # accepts defaults
+    say Point->num_points;   # 2
+    undef $point1;           # triggers DESTRUCT
+    say $point1->num_points; # 1
+
+There's a lot more to say about C<ADJUST> and C<DESTRUCT>, but some of the
+finer points are sill being nailed down.
+
+=head2 Types?
+
+In Moose, you can declare attributes like this:
+
+    has limit => (
+        is  => 'rw',
+        isa => 'Int',
+    );
+
+With that, you can cannot pass anything but an integer to the constructor, nor
+can you later do C<< $object->limit('unlimited') >>. Sadly, we do not have this
+at the present time for the class syntax, but there is a work around:
+L<Types::Standard|https://metacpan.org/pod/Types::Standard> and C<ADJUST>.
+Note that this workaround is only safe for immutable objects. Mutable objects
+will (for the time being) have to jump through more hoops to ensure type
+safety.
+
+The following trivial example shows the potential, but obviously, there's a
+lot more you could do with C<Types::Standard> to make this more robust.
+
+    class Point {
+        use Types::Standard qw(is_Int);
+
+        field ( $x, $y ) :reader :param;
+
+        ADJUST {
+            my @errors;
+            is_Int($x) or push @errors => "x must be an integer, not $x.";
+            is_Int($y) or push @errors => "y must be an integer, not $y.";
+            if (@errors) {
+                die join ', ' => @errors;
+            }
+        }
+    }
+
+With the above, you can guarantee that your C<Point> object only has integer
+values for C<$x> and C<$y>.
+
+=head1 Putting It All Together
+
+    use feature 'class';
+    role Role::Serializable::JSON {
+        use JSON::PP 'encode_json'; # provided in core Perl since v5.13.9
+        method to_hash; # the class must provide this
+
+        method to_json () {
+            encode_json($self->to_hash);
+        }
+    }o
+    class Cache::LRU v0.1.0 :does(Role::Serializable::JSON) {
+        use Hash::Ordered;
+        use Carp 'croak';
+
+        field $num_caches :common :reader { 0 };
+        field $cache                      { Hash::Ordered->new };
+        field $max_size   :param  :reader { 20 };
+        field $created    :reader         { time };
+
+        ADJUST { # called after new()
+            $num_caches++;
+            if ( $max_size < 1 ) {
+                croak(...);
+            }
+        }
+
+        DESTRUCT { $num_caches-- }
+
+        method set ( $key, $value ) {
+            if ( $cache->exists($key) ) {
+                $cache->delete($key);
+            }
+            elsif ( $cache->keys > $max_size ) {
+                $cache->pop;
+            }
+            $cache->set( $key, $value );  # new values in front
+        }
+
+        method get($key) {
+            if ( $cache->exists($key) ) {
+                my $value = $cache->get($key);
+                $self->set( $key, $value );
+                return $value;
+            }
+            return;
+        }
+
+        method to_hash () {
+            my %entries;
+            foreach my $key ($cache->keys) {
+                my $value = $cache->get($key);
+                my $ref = !defined $value ? 'UNDEF'
+                  :           !ref $value ? 'SCALAR'
+                  :            ref $value;
+                $entries{$key} = $ref;
+            }
+            return {
+                max_size   => $max_size,
+                entries    => \%entries,
+                created    => $created,
+                num_caches => $num_caches,
+            }
+        }
+    }
+
+=head1 Conclusion
+
+I hope you've enjoyed this far-too-brief introduction to the new C<class>
+keyword. This has been the result of years of design effort from the Corinna
+design team and the Perl community at large.
+
+This work is dedicated to the memory of Jeff Goff and David Adler, two
+prominent members of the Perl community who were wonderful people and left
+this life far too soon.
+
+=head1 Contributors
+
+Paul "LeoNerd" Evans and Damian Conway both were kind enough to help with
+some of my silly mistakes.
