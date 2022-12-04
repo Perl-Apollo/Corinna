@@ -72,7 +72,7 @@ ATTRIBUTE        ::= ':' (
                             | 'name'      NAME?   # alternate name (defaults to field name minus the sigil)
                             | 'reader'    NAME?   # $field method to read the field
                             | 'writer'    NAME?   # set_$field method to write the field
-                            | 'predicate' NAME?   # is_$field method to test if field is defined
+                            | 'predicate' NAME?   # has_$field method to test if field is defined
                             | 'common'            # identifies field as class method
                             | HANDLES
                      )
