@@ -681,9 +681,7 @@ values for C<$x> and C<$y>.
             my %entries;
             foreach my $key ($cache->keys) {
                 my $value = $cache->get($key);
-                my $ref = !defined $value ? 'UNDEF'
-                  :           !ref $value ? 'SCALAR'
-                  :            ref $value;
+                my $ref        = defined $value ? (ref $value || 'SCALAR') : 'UNDEF';
                 $entries{$key} = $ref;
             }
             return {
