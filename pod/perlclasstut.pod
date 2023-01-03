@@ -22,7 +22,7 @@ Originally code-named L<Corinna|https://github.com/Ovid/Cor/>, the new object
 system is a result of years of collaboration between the Corinna team and the
 Perl community to bring a modern, easy-to-use object system that still feels
 like Perl. If you're looking for information about Perl's original object
-system, see L<perlobj> (and later, L<perloot> to see object systems built on
+system, see L<perlobj> (and later, L<perlootut> to see object systems built on
 top of the legacy system).
 
 Note that the following assumes you understand Perl and have a beginner's
