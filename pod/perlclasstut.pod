@@ -639,7 +639,8 @@ values for C<$x> and C<$y>.
         method to_json () {
             encode_json($self->to_hash);
         }
-    }o
+    }
+
     class Cache::LRU v0.1.0 :does(Role::Serializable::JSON) {
         use Hash::Ordered;
         use Carp 'croak';
