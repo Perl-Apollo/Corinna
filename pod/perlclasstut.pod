@@ -129,7 +129,7 @@ Let's get started on our C<Cache::LRU> class.
 
      use feature 'class'; # from now on, this will be assumed
 
-     class Cache::LRU {};
+     class Cache::LRU {}
      # or
      class Cache::LRU;
 
