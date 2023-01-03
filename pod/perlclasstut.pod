@@ -307,7 +307,7 @@ modifier.
     field $max_size :reader :param { 20 };
 
 This tells the class that this value may be passed as a named parameter to the
-contructor.
+constructor.
 
     my $cache = Cache::LRU->new( max_size => 100 );
     say $cache->max_size; # 100
@@ -336,7 +336,7 @@ runtime error.
 
 =head2 C<method>
 
-Now that we know how to contruct a basic object, we probably want to do things
+Now that we know how to construct a basic object, we probably want to do things
 with it. To do that, we write methods. Methods use the C<method> keyword
 instead of C<sub>. They also take argument lists. Let's look at a
 "transposable" point class (i.e. I<X,Y> --> I<Y,X>).
