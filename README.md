@@ -30,23 +30,18 @@ class Cache::LRU :version(v0.1.0) {
 
     method num_caches :common () { $num_caches }
 
-    method set ( $key, $value ) {
-        if ( $self->exists($key) ) {
-            $self->delete($key);
+    method set( $key, $value ) {
+        $cache->unshift( $key, $value );    # new values in front
+        if ( $cache->keys > $max_size ) {
+            $cache->pop;
         }
-        elsif ( $cache->keys > $max_size ) {
-            $cache->shift;
-        }
-        $cache->set( $key, $value );  # new values in front
     }
 
     method get($key) {
-        if ( $self->exists($key) ) {
-            my $value = $cache->get($key);
-            $self->set( $key, $value );  # put it at the front
-            return $value;
-        }
-        return;
+        return unless $cache->exists($key);
+        my $value = $cache->get($key);
+        $self->set( $key, $value );         # put it at the front
+        return $value;
     }
 }
 ```
