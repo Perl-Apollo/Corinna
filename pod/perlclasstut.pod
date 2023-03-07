@@ -381,33 +381,18 @@ C<Cache::LRU> class:
         field $cache                   { Hash::Ordered->new };
         field $max_size :param :reader { 20 };
 
-        method set ( $key, $value ) {
-            if ( $cache->exists($key) ) {
-                # we delete the key because we're going to (re)set
-                # the value for this key later, after which this
-                # key will be the one most recently used
-                $cache->delete($key);
-            }
-            elsif ( $cache->keys >= $max_size ) {
-                # remove the oldest key
+        method set( $key, $value ) {
+            $cache->unshift( $key, $value );    # new values in front
+            if ( $cache->keys > $max_size ) {
                 $cache->pop;
             }
-
-            # new values are added to the front of the ordered hash
-            $cache->set( $key, $value );
         }
 
         method get($key) {
-            if ( $cache->exists($key) ) {
-                my $value = $cache->get($key);
-
-                # move the key to the front of the cache
-                # (note the use of the $self variable)
-                $self->set( $key, $value );
-
-                return $value;
-            }
-            return;
+            return unless $cache->exists($key);
+            my $value = $cache->get($key);
+            $self->set( $key, $value );         # put it at the front
+            return $value;
         }
     }
 
