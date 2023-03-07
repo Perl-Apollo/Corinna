@@ -644,23 +644,18 @@ values for C<$x> and C<$y>.
 
         DESTRUCT { $num_caches-- }
 
-        method set ( $key, $value ) {
-            if ( $cache->exists($key) ) {
-                $cache->delete($key);
-            }
-            elsif ( $cache->keys > $max_size ) {
+        method set( $key, $value ) {
+            $cache->unshift( $key, $value );    # new values in front
+            if ( $cache->keys > $max_size ) {
                 $cache->pop;
             }
-            $cache->set( $key, $value );  # new values in front
         }
 
         method get($key) {
-            if ( $cache->exists($key) ) {
-                my $value = $cache->get($key);
-                $self->set( $key, $value );
-                return $value;
-            }
-            return;
+            return unless $cache->exists($key);
+            my $value = $cache->get($key);
+            $self->set( $key, $value );         # put it at the front
+            return $value;
         }
 
         method to_hash () {
