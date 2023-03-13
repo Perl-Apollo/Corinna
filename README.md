@@ -82,6 +82,9 @@ This is not a tutorial on OO programming. That could easily fill a book. It's
 assumed you're already very familiar with Perl's built-in OO. It's very useful
 if you're also familiar with Moo/se.
 
+However, [here's a basic tutorial for Corinna if you'd like to skip the
+detail](https://github.com/Ovid/Cor/blob/master/pod/perlclasstut.pod).
+
 ## Principle of Parsimony
 
 Many things in the proposal are _deliberately_ restrictive, such as Corinna
