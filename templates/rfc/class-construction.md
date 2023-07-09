@@ -47,13 +47,9 @@ Keys are not references (duh).
 ```perl
 my %arg_for;
 while (@args) {
-    my ( $key, $value ) = splice @args, 0, 2;
-    if ( ref $key ) {
-        croak("'$key' must not be a ref");
-    }
-    if ( exists $arg_for{$key} ) {
-        croak("duplicate key '$key' detected");
-    }
+    my ( $key, $value ) = (shift @args, shift @args);
+    ref $key and croak qq{'$key' must not be a ref};
+    exists $arg_for{$key} and croak qq{duplicate key '$key' detected};
     $arg_for{$key} = $value;
 }
 ```
@@ -73,7 +69,7 @@ my @duplicate_constructor_args;
 my %seen_roles;
 foreach my $class (@reverse_mro) {
     my @roles = grep { ! $seen_roles{$_} } roles_from_class($class);
-	@seen_roles{ @roles } = 1;
+    @seen_roles{ @roles } = (1) x @roles;
     foreach my $thing ( $class, @roles ) {
         foreach my $name ( get_fields_with_param_attributes($thing) ) {
             if ( my $other_class = $constructor_args{$name} ) {
@@ -120,7 +116,8 @@ get to the final class, all keys should be accounted for. Stops the issue of
 ```perl
 my @bad_keys;
 foreach my $key ( keys %arg_for ) {
-    push @bad_keys => $key unless exists $constructor_args{$key};
+    exists $constructor_args{$key}
+        or push @bad_keys, $key;
 }
 if (@bad_keys) {
     croak(...);
