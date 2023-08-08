@@ -140,6 +140,30 @@ Stevan "damnit" Little is writing [Stella](https://github.com/stevan/Stella),
 an actor model written with `class`. So far, he's been very pleased with how
 easy `class` is to work with.
 
+## Is a class and a package the same thing?
+
+Not quite. A `class` keyword declares a class _and_ a namespace. A `package`
+keyword just declares the namespace. They both have the same scoping rules.
+
+What this means, however, is that you can use `class` similarly to how you
+would use a `package`.
+
+For example, if you have a file named `lib/My/Awesome/Class.pm`, you won't need
+a `package` statement inside if you use `class` instead:
+
+```perl
+use experimental 'class';
+
+class My::Awesome::Class;
+# more code here ...
+```
+
+## You keep writing classes with a postfix block. Is that required?
+
+No, it's not. Like the `package` keyword, the postfix block is optional. I
+prefer it for the extremely clear scoping. You don't need to use it if you
+don't want to.
+
 ## Is there a tutorial?
 
 There's a tutorial at
