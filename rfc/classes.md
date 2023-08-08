@@ -113,11 +113,11 @@ say Person->num_people;     # 0
 `ADJUST` and `DESTRUCT` are [phasers](phasers.md).
 
 ## 4.2.1 Versions
-Just add the version number after the class name as a `:version(...)`
-attribute. This should accept any standard version number.
+Just add the version number after the class name. This should accept any
+standard version number.
 
 ```perl
-class My::Class :version(3.14) {
+class My::Class 3.14 {
     ...
 }
 ```
@@ -128,7 +128,7 @@ optionally add a version number to the name of the class you're inheriting
 from to show the minimum allowed version of the class.
 
 ```perl
-class Customer :isa(Person 3.14) :version(v2.1.0) {
+class Customer v2.1.0 :isa(Person 3.14) {
     field $customer_id :param;
 
     method name :overrides () {
@@ -207,7 +207,7 @@ say $customer->to_string();      # Ford Prefect (#42)
 Multiple roles may be consumed.
 
 ```perl
-class Customer :isa(Person) :does(RoleStringify, RoleJSON) :version(v1.2.3) {
+class Customer 1.2 :isa(Person) :does(RoleStringify, RoleJSON) {
     ...
 }
 ```

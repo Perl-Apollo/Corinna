@@ -209,14 +209,14 @@ roles):
 ```perl
 use feature 'class';
 
-class Cache::LRU :version(v0.1.0) {
+class Cache::LRU v0.1.0 {
     use Hash::Ordered;
     use Carp 'croak';
 
-    field $num_caches :common                 { 0 };
-    field $cache      :handles(exists delete) { Hash::Ordered->new };
-    field $max_size   :param  :reader         { 20 };
-    field $created    :reader                 { time };
+    field $num_caches :common                 = 0;
+    field $cache      :handles(exists delete) = Hash::Ordered->new;
+    field $max_size   :param  :reader         = 20;
+    field $created    :reader                 = time;
 
     ADJUST { # called after new()
         $num_caches++;
@@ -228,23 +228,18 @@ class Cache::LRU :version(v0.1.0) {
 
     method num_caches :common () { $num_caches }
 
-    method set ( $key, $value ) {
-        if ( $self->exists($key) ) {
-            $self->delete($key);
+    method set( $key, $value ) {
+        $cache->unshift( $key, $value );    # new values in front
+        if ( $cache->keys > $max_size ) {
+            $cache->pop;
         }
-        elsif ( $cache->keys > $max_size ) {
-            $cache->shift;
-        }
-        $cache->set( $key, $value );  # new values in front
     }
 
     method get($key) {
-        if ( $self->exists($key) ) {
-            my $value = $cache->get($key);
-            $self->set( $key, $value );  # put it at the front
-            return $value;
-        }
-        return;
+        return unless $cache->exists($key);
+        my $value = $cache->get($key);
+        $self->unshift( $key, $value );     # put it at the front
+        return $value;
     }
 }
 ```
