@@ -138,12 +138,17 @@ an acrtor model written with `class`. So far, he's been very pleased with how
 easy `class` is to work with.
 
 ## 15.1.7 Is there a tutorial?
-There's a tutorial at [perlclasstut.pod](https://github.com/Ovid/Cor/blob/master/pod/perlclasstut.pod).
+There's a tutorial at
+[perlclasstut.pod](https://github.com/Ovid/Cor/blob/master/pod/perlclasstut.pod).
 
 Note that this tutorial is for the full MVP. If you're reading this before the
 full MVP is released, some of the features in that tutorial won't yet be
 working. I don't know what version of Perl you have installed, so you'll need
 to consult your documentation.
+
+If you prefer, [here's a gist of the tutorial, formatted via
+markdown](https://gist.github.com/Ovid/4cc649c1eb3142b6a856d94c54b1d4ed). It's
+not guaranteed to be kept up-to-date.
 
 
 ---
