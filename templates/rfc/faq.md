@@ -64,7 +64,7 @@ class My::Class {
 ```
 
 That's a syntax error because we can't access the instance variable `$name`
-from a subroutine. They don't knwo what instance variables are. Or consider
+from a subroutine. They don't know what instance variables are. Or consider
 these;
 
 ```perl
@@ -128,7 +128,7 @@ shows that `class` is more powerful than your author suspected (I thought we'd
 need more features to get this far. I was wrong).
 
 Stevan "damnit" Little is writing [Stella](https://github.com/stevan/Stella),
-an acrtor model written with `class`. So far, he's been very pleased with how
+an actor model written with `class`. So far, he's been very pleased with how
 easy `class` is to work with.
 
 ## Is there a tutorial?
