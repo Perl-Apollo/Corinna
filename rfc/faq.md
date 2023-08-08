@@ -48,7 +48,7 @@ No, you can't. Sorry. You can try `Object::Pad`, not use `class`, or
 investigate composition over inheritance:
 
 ```perl
-class My::Class;
+class My::Class {
     use Some::Bless::Class;
 
     field $arg_for_blessed :param(arg);
