@@ -174,7 +174,7 @@ edit this file directly. Please edit
 * `....` 15.1.4 Will `class` break existing code?
 * `....` 15.1.5 How can I refactor existing objects with `class`?
 * `....` 15.1.6 Are there any interesting projects being written with `class`?
-* `....` 15.1.7 Is a class and a package the same thing?
+* `....` 15.1.7 Are a class and a package the same thing?
 * `....` 15.1.8 You keep writing classes with a postfix block. Is that required?
 * `....` 15.1.9 Is there a tutorial?
 

@@ -142,11 +142,11 @@ tutorial](https://chris.prather.org/menu/roguelike). It's pretty amazing and
 shows that `class` is more powerful than your author suspected (I thought we'd
 need more features to get this far. I was wrong).
 
-Stevan "damnit" Little is writing [Stella](https://github.com/stevan/Stella),
+Stevan "Damn it" Little is writing [Stella](https://github.com/stevan/Stella),
 an actor model written with `class`. So far, he's been very pleased with how
 easy `class` is to work with.
 
-## 15.1.7 Is a class and a package the same thing?
+## 15.1.7 Are a class and a package the same thing?
 Not quite. A `class` keyword declares a class _and_ a namespace. A `package`
 keyword just declares the namespace. They both have the same scoping rules.
 
