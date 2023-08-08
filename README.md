@@ -40,7 +40,7 @@ class Cache::LRU :version(v0.1.0) {
     method get($key) {
         return unless $cache->exists($key);
         my $value = $cache->get($key);
-        $self->set( $key, $value );         # put it at the front
+        $self->unshift( $key, $value );     # put it at the front
         return $value;
     }
 }
@@ -62,6 +62,7 @@ This repository is to track the RFC for the Corinna MVP OOP proposal.
 12. [Quotes](rfc/quotes.md)
 13. [Changes](rfc/major-changes.md)
 14. [P5P MVP](rfc/mvp.md)
+15. [FAQ](rfc/faq.md)
 
 
 **Important**: All of the above represent works in progress. Please do not
@@ -95,6 +96,10 @@ discover we don't need or want multiple inheritance, we would break existing
 code by taking it away.
 
 Any proposals to change the RFC must consider the principle of parsimony.
+
+**Note**: it's been brought to my attention that the [Principle of
+Parsimony](https://www.oxfordreference.com/display/10.1093/oi/authority.20110803100346221)
+is a phrase used in biology and has a different meaning. Oops.
 
 # KIM
 

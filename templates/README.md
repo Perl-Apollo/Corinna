@@ -30,23 +30,18 @@ class Cache::LRU :version(v0.1.0) {
 
     method num_caches :common () { $num_caches }
 
-    method set ( $key, $value ) {
-        if ( $self->exists($key) ) {
-            $self->delete($key);
+    method set( $key, $value ) {
+        $cache->unshift( $key, $value );    # new values in front
+        if ( $cache->keys > $max_size ) {
+            $cache->pop;
         }
-        elsif ( $cache->keys > $max_size ) {
-            $cache->shift;
-        }
-        $cache->set( $key, $value );  # new values in front
     }
 
     method get($key) {
-        if ( $self->exists($key) ) {
-            my $value = $cache->get($key);
-            $self->set( $key, $value );  # put it at the front
-            return $value;
-        }
-        return;
+        return unless $cache->exists($key);
+        my $value = $cache->get($key);
+        $self->unshift( $key, $value );     # put it at the front
+        return $value;
     }
 }
 ```
@@ -75,6 +70,9 @@ This is not a tutorial on OO programming. That could easily fill a book. It's
 assumed you're already very familiar with Perl's built-in OO. It's very useful
 if you're also familiar with Moo/se.
 
+However, [here's a basic tutorial for Corinna if you'd like to skip the
+detail](https://github.com/Ovid/Cor/blob/master/pod/perlclasstut.pod).
+
 ## Principle of Parsimony
 
 Many things in the proposal are _deliberately_ restrictive, such as Corinna
@@ -85,6 +83,10 @@ discover we don't need or want multiple inheritance, we would break existing
 code by taking it away.
 
 Any proposals to change the RFC must consider the principle of parsimony.
+
+**Note**: it's been brought to my attention that the [Principle of
+Parsimony](https://www.oxfordreference.com/display/10.1093/oi/authority.20110803100346221)
+is a phrase used in biology and has a different meaning. Oops.
 
 # KIM
 

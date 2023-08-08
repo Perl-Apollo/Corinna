@@ -1,5 +1,5 @@
 Prev: [Changes](major-changes.md)   
-Next: [README](/README.md)
+Next: [FAQ](faq.md)
 
 ---
 
@@ -117,4 +117,4 @@ being a perfect example).
 ---
 
 Prev: [Changes](major-changes.md)   
-Next: [README](/README.md)
+Next: [FAQ](faq.md)

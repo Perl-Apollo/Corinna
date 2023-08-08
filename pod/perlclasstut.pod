@@ -391,7 +391,7 @@ C<Cache::LRU> class:
         method get($key) {
             return unless $cache->exists($key);
             my $value = $cache->get($key);
-            $self->set( $key, $value );         # put it at the front
+            $self->unshift( $key, $value );     # put it at the front
             return $value;
         }
     }
@@ -645,7 +645,7 @@ values for C<$x> and C<$y>.
         DESTRUCT { $num_caches-- }
 
         method set( $key, $value ) {
-            $cache->unshift( $key, $value );    # new values in front
+            $cache->unshift( $key, $value );
             if ( $cache->keys > $max_size ) {
                 $cache->pop;
             }
@@ -654,7 +654,7 @@ values for C<$x> and C<$y>.
         method get($key) {
             return unless $cache->exists($key);
             my $value = $cache->get($key);
-            $self->set( $key, $value );         # put it at the front
+            $self->unshift( $key, $value );
             return $value;
         }
 
