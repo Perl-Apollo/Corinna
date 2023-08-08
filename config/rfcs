@@ -13,6 +13,7 @@ Questions=questions.md
 Quotes=quotes.md
 Changes=major-changes.md
 P5P MVP=mvp.md
+FAQ=faq.md
 
 [main]                             ; k/v pairs: $config->{main}{readme} = README.md
 template_dir=templates             ; where the templates are stored

@@ -165,6 +165,17 @@ edit this file directly. Please edit
 * `..` 14.3 Missing Features
 * `..` 14.4 Potentially Breaking Changes
 
+# [Section: 15: FAQ](faq.md)
+
+* `..` 15.1 Overview 
+* `....` 15.1.1 Why can't I inherit from blessed objects?
+* `....` 15.1.2 But I _need_ to inherit from a blessed object!
+* `....` 15.1.3 Why can't I use subroutines for methods?
+* `....` 15.1.4 Will `class` break existing code?
+* `....` 15.1.5 How can I rewrite existing objects with `class`?
+* `....` 15.1.6 Are there any interesting projects being written with `class`?
+* `....` 15.1.7 Is there a tutorial?
+
 
 ---
 
