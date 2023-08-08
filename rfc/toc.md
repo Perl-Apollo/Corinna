@@ -172,7 +172,7 @@ edit this file directly. Please edit
 * `....` 15.1.2 But I _need_ to inherit from a blessed object!
 * `....` 15.1.3 Why can't I use subroutines for methods?
 * `....` 15.1.4 Will `class` break existing code?
-* `....` 15.1.5 How can I rewrite existing objects with `class`?
+* `....` 15.1.5 How can I refactor existing objects with `class`?
 * `....` 15.1.6 Are there any interesting projects being written with `class`?
 * `....` 15.1.7 Is there a tutorial?
 

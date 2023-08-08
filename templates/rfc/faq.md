@@ -102,23 +102,32 @@ block and it should be perfectly safe:
 Otherwise, `class` objects can call methods on `bless` objects and vice-versa
 without problem.
 
-## How can I rewrite existing objects with `class`?
+## How can I refactor existing objects with `class`?
 
-Er, you probably shouldn't. If you wanted to experiment, keep this in mind: A
-`class` cannot inherit from `bless`ed objects, but as of this writing, a
-`bless`ed object _can_ inherit from a `class` object. So go to the root of
-your object hierarchy and look at converting that to a `class` and see what
-happens.
+Er, you probably shouldn't. Rewriting is okay, but refactoring is a different
+story.
+
+If you wanted to experiment, keep this in mind: a `class` cannot inherit from
+`bless`ed objects, but as of this writing, a `bless`ed object _can_ inherit
+from a `class` object. So go to the root of your object hierarchy and look at
+converting that to a `class` and see what happens.
 
 For any decent-sized system, you're going to have too many edge cases for this
 to be easy (or sane). For example, `class` constructors require an even-sized
 list of key/value pairs. Many other constructors don't. You may need to
 rethink your constructor strategy.
 
-At the end of the day, trying to gradually mix-and-match an OOP hierarchy from `bless`
-to `class` is like trying to use motorcycle parts to fix a car. Maybe you'll
-get lucky and it works, but probably not for larger codebases (at least, not
-without a lot of heavy lifting).
+At the end of the day, trying to gradually mix-and-match an OOP hierarchy from
+`bless` to `class` is like trying to use motorcycle parts to fix a car. Maybe
+you'll get lucky and it works, but probably not for larger codebases (at least,
+not without a lot of heavy lifting).
+
+The above is for refactoring. However, you could _rewrite_ existing objects via
+the new `class` syntax. If your tests are sane, that may not be too hard.
+However, if people are using your code, they may not be in a position to
+upgrade to v5.38.0. You could investigate
+[Feature::Compat::Class](https://metacpan.org/pod/Feature::Compat::Class), but
+read the docs carefully. There are potential compatibility issues.
 
 ## Are there any interesting projects being written with `class`?
 
