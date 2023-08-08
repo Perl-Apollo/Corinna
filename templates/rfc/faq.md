@@ -131,7 +131,7 @@ read the docs carefully. There are potential compatibility issues.
 
 ## Are there any interesting projects being written with `class`?
 
-Yes! Check out Chris "peregrin" Prather's [Rougelike
+Yes! Check out Chris "peregrin" Prather's [Roguelike
 tutorial](https://chris.prather.org/menu/roguelike). It's pretty amazing and
 shows that `class` is more powerful than your author suspected (I thought we'd
 need more features to get this far. I was wrong).
