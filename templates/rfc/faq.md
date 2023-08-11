@@ -177,3 +177,10 @@ to consult your documentation.
 If you prefer, [here's a gist of the tutorial, formatted via
 markdown](https://gist.github.com/Ovid/4cc649c1eb3142b6a856d94c54b1d4ed). It's
 not guaranteed to be kept up-to-date.
+
+## How do I know which `class` features my Perl supports?
+
+The experimental `class` feature was first added in Perl v5.38.0. You'll want
+to check `perldoc perlclass` for your version of Perl. You can also [read it
+online](https://perldoc.perl.org/perlclass), but be sure to select the correct
+version of Perl from the menu at the top.

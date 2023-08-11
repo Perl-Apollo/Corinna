@@ -177,6 +177,7 @@ edit this file directly. Please edit
 * `....` 15.1.7 Are a class and a package the same thing?
 * `....` 15.1.8 You keep writing classes with a postfix block. Is that required?
 * `....` 15.1.9 Is there a tutorial?
+* `....` 15.1.10 How do I know which `class` features my Perl supports?
 
 
 ---
