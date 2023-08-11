@@ -234,9 +234,8 @@ you shouldn't (and don't) have to care about that.
     class Cache::LRU {
         use Hash::Ordered;
 
-        field $cache            { Hash::Ordered->new };
-
-        field $max_size :reader { 20 };
+        field $cache            = Hash::Ordered->new;
+        field $max_size :reader = 20;
     }
 
     my $cache = Cache::LRU->new;
@@ -304,7 +303,7 @@ Having a default of 20 for C<max_size> is useful, but we need to allow the
 programmer to say what the max size is. We do this with the C<:param>
 modifier.
 
-    field $max_size :reader :param { 20 };
+    field $max_size :reader :param = 20;
 
 This tells the class that this value may be passed as a named parameter to the
 constructor.
@@ -317,7 +316,7 @@ passed to the constructor if a default is not provided. Thus, if we  have
 this:
 
     class NamedPoint {
-        field ( $x, $y ) :param :reader {0};
+        field ( $x, $y ) :param :reader = 0;
         field $name      :param :reader;
     }
 
@@ -378,8 +377,8 @@ C<Cache::LRU> class:
     class Cache::LRU {
         use Hash::Ordered;
 
-        field $cache                   { Hash::Ordered->new };
-        field $max_size :param :reader { 20 };
+        field $cache                   = Hash::Ordered->new;
+        field $max_size :param :reader = 20;
 
         method set( $key, $value ) {
             $cache->unshift( $key, $value );    # new values in front
@@ -440,8 +439,8 @@ So let's write one.
         use Hash::Ordered;
         use Carp 'croak';
 
-        field $cache                   { Hash::Ordered->new };
-        field $max_size :param :reader { 20 };
+        field $cache                   = Hash::Ordered->new;
+        field $max_size :param :reader = 20;
 
         method set ( $key, $value ) {...}
 
@@ -511,7 +510,7 @@ role. Neither solution is great.
 
 You can declare arrays and hashes as fields, with or without defaults:
 
-    field @colors { qw/green yellow red/ };
+    field @colors = qw/green yellow red/;
     field %seen;
 
 However, array and hash fields B<cannot> have modifiers:
@@ -529,7 +528,7 @@ many are created? You don't. That's the responsibility of the class. Let's use
 class data for this.
 
     class Point {
-        field $num_points :common :reader { 0 }; # all classes share this
+        field $num_points :common :reader = 0; # all classes share this
         field ( $x, $y ) :param  :reader;
 
         ADJUST {
@@ -630,10 +629,10 @@ values for C<$x> and C<$y>.
         use Hash::Ordered;
         use Carp 'croak';
 
-        field $num_caches :common :reader { 0 };
-        field $cache                      { Hash::Ordered->new };
-        field $max_size   :param  :reader { 20 };
-        field $created    :reader         { time };
+        field $num_caches :common :reader = 0;
+        field $cache                      = Hash::Ordered->new;
+        field $max_size   :param  :reader = 20;
+        field $created    :reader         = time;
 
         ADJUST { # called after new()
             $num_caches++;
