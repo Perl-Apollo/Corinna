@@ -325,7 +325,10 @@ class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
         # use the value from the original @_ array to ensure we have an alias
         # to the original variable. This allows the coercion to change the
         # calling data's value
-        $self->_validate( $_[0], $var_name ) && return 1;
+        {
+            no warnings 'experimental::args_array_with_signatures';    # we don't want a warning about @_ right now
+            $self->_validate( $_[0], $var_name ) && return 1;
+        }
         $value //= '<undef>';
         my $type_name = $self->type_name;
         $self->_report_error("Validation for '$var_name' failed for type $type_name with value '$value'");
@@ -334,6 +337,7 @@ class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
     method _validate( $value, $name ) {
         my $success = $self->contains->validate( $value, "$name" );
         if ($success) {
+            no warnings 'experimental::args_array_with_signatures';    # we don't want a warning about @_ right now
             $_[0] = $via->($value);
         }
         return $success;
