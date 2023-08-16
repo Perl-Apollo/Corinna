@@ -23,10 +23,10 @@ The minimal MVP grammar for fields and attributes can be found
 To visualize that, let's look at the fields and their attributes from the
 `Cache::LRU` class described in our [overview](overview.md).
 
-1. `field $num_caches :common                  { 0 };` 
-2. `field $cache      :handles(exists, delete) { Hash::Ordered->new} ;`
-3. `field $max_size   :param  :reader          { 20 };`
-4. `field $created    :reader                  { time };`
+1. `field $num_caches :common                  = 0;`
+2. `field $cache      :handles(exists, delete) = Hash::Ordered->new;`
+3. `field $max_size   :param  :reader          = 20;`
+4. `field $created    :reader                  = time;`
 
 The first field is class data. This is data shared by all instances of this
 class (and by the class itself). Note that it's initialized with any default
@@ -51,9 +51,9 @@ Field creation done by declaring `field`, field variable, and an optional
 default value.
 
 ```perl
-field $answer { 42 };                           # instance data, defaults to 42
-field %results_for;                             # instance data, no default
-field @colors :common { qw(red green blue) };   # class data, default to qw(red green blue)
+field $answer = 42;                           # instance data, defaults to 42
+field %results_for;                           # instance data, no default
+field @colors :common = qw(red green blue);   # class data, default to qw(red green blue)
 ```
 
 For scalar fields declared with `field` (and only for scalar fields), you can add
@@ -80,8 +80,8 @@ Note that all fields are initialized from top to bottom. So you can do
 this:
 
 ```perl
-field $x :param { 42 };
-field $answer   { $x };
+field $x :param = 42;
+field $answer   = $x;
 ```
 
 `:common` fields with defaults will be initialized at compile time, while
@@ -112,9 +112,9 @@ identifier and will be used as the parameter name.
 
 ```perl
 class Soldier {
-    field $id            :param;               # required in constructor
-    field $name          :param { undef };     # optional in constructor
-    field $rank          :param { 'recruit' }; # optional in constructor, defaults to 'recruit'
+    field $id            :param;             # required in constructor
+    field $name          :param = undef;     # optional in constructor
+    field $rank          :param = 'recruit'; # optional in constructor, defaults to 'recruit'
     field $serial_number :param(sn);
 }
 
@@ -142,7 +142,7 @@ optional name, if desired.
 ```perl
 class SomeClass {
     field $id            :param :reader;
-    field $name          :param { undef };
+    field $name          :param = undef;
     field $serial_number :param(sn) :reader(serial);
 }
 
@@ -163,7 +163,7 @@ case to allow `->method` for reading and `->method($new_value)` for writing:
 ```perl
 class SomeClass {
     field $id            :param :writer;
-    field $name          :param { undef };
+    field $name          :param = undef;
     field $serial_number :reader :writer(serial);
 }
 
@@ -180,8 +180,8 @@ been _defined_. Of course, you may change the name.
 
 ```perl
 class SomeClass {
-    field $id            :predicate(is_initialized) :param { undef };
-    field $name          :predicate                 :param { undef };
+    field $id            :predicate(is_initialized) :param = undef;
+    field $name          :predicate                 :param = undef;
     field $serial_number;
 }
 
@@ -219,7 +219,7 @@ A list of identifiers says "these methods will be handled by this object."
 
 ```perl
 use DateTime;
-field $datetime :handles(now, today) { 'DateTime' };
+field $datetime :handles(now, today) = 'DateTime';
 ```
 
 Now, when you call `->now` or `->today` on the object, those will be
@@ -248,5 +248,5 @@ value. Thus, we recommend that class data generally be "read only."
 
 ```
 field $foo    :commmon;
-field @colors :common { qw/red blue green/ };
+field @colors :common = qw/red blue green/;
 ```

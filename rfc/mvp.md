@@ -56,7 +56,7 @@ class Employee :isa(Person) {
 ## 14.2.3 3. Roles, and class/role :does() attr
 ```
 role Role::Created {
-    field $created :reader { time };
+    field $created :reader = time;
 }
 
 class SomeClass :does(Role::Created) {
@@ -86,7 +86,7 @@ At this stage, most of the basics are in place and we have a useful system.
 A postfix `{ expression }` block on a field can set its default value.
 
 ```
-field $answer :param { 42 };
+field $answer :param = 42;
 ```
 
 ## 14.2.6 6. MOP
