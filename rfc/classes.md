@@ -35,7 +35,7 @@ Here's a somewhat more interesting class. `field` declares a field (data) and th
 ```perl
 class Person {
     field $name  :param;              # must be passed to constructor (:param)
-    field $title :param { undef };    # optionally passed to constructor (:param, but with default)
+    field $title :param = undef;      # optionally passed to constructor (:param, but with default)
 
     method name () {                  # instance method
         return defined $title ? "$title $name" : $name;
@@ -77,10 +77,10 @@ Let's make the class more interesting.
 ```perl
 class Person {
     use DateTime;
-    field $name  :param;                               # must be passed to constructor (:param)
-    field $title :param          { undef };            # optionally passed to constructor (:param, but with default)
-    field $created               { DateTime->now };    # cannot be passed to constructor (no :param)
-    field $num_people :common    { 0 };                # class data, defaults to 0 (:common, with hand-rolled reader method)
+    field $name  :param;                             # must be passed to constructor (:param)
+    field $title :param          = undef;            # optionally passed to constructor (:param, but with default)
+    field $created               = DateTime->now;    # cannot be passed to constructor (no :param)
+    field $num_people :common    = 0;                # class data, defaults to 0 (:common, with hand-rolled reader method)
     method num_people :common () { $num_people }
 
     ADJUST   { $num_people++ }                         # called after new(), but before returning to consumer (BUILD)
@@ -241,7 +241,7 @@ In Corinna, methods and subs are not the same thing. Here's a silly example.
 ```perl
 class Iterator::Number {
     use List::Util 'sum';
-    field $i { 0 };
+    field $i = 0;
     field @numbers;   # only the `:common` attribute is allowed on non-scalars
 
     method push ($num)    { push @numbers => $num    }

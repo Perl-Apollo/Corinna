@@ -4,9 +4,9 @@ class Corinna::Example::Person {
     use Time::HiRes 'time';
 
     # TODO Rename `has` to `field`
-    has $name  :param;              # must be passed to customer (:param)
-    has $title :param = undef;      # optionally passed to constructor     (:param, but with default)
-    has $created :reader;           # cannot be passed to constructor (no :param)
+    field $name  :param;              # must be passed to customer (:param)
+    field $title :param = undef;      # optionally passed to constructor     (:param, but with default)
+    field $created :reader;           # cannot be passed to constructor (no :param)
 
     my $num_people = 0;              # class data, defaults to 0 (common, with hand-rolled reader method)
 

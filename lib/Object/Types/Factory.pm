@@ -22,9 +22,9 @@ role Object::Types::Role::Elements {
     method _is_type;
 
     # TODO: I assume that has $foo = []; is getting the same reference per instance. This should be fixed.
-    has $elements     :reader :param = undef;
-    has $element_hash :reader :param = undef;
-    has $has_types    :reader;
+    field $elements     :reader :param = undef;
+    field $element_hash :reader :param = undef;
+    field $has_types    :reader;
 
     ADJUST {
         $elements     //= [];
@@ -53,8 +53,8 @@ role Object::Types::Role::Core {
     # TODO allow roles to require protected/trusted methods. This should not be part of the API
     method _validate;
 
-    has $non_fatal :param         = 0;
-    has $contains  :param :reader = undef; # does => 'Object::Types::Role::Core',
+    field $non_fatal :param         = 0;
+    field $contains  :param :reader = undef; # does => 'Object::Types::Role::Core',
 
     BUILD {
         unless (@CARP_NOT) {
@@ -149,7 +149,7 @@ class Object::Types::Concrete::Str :does(Object::Types::Role::Core) {
 }
 
 class Object::Types::Concrete::Regex :does(Object::Types::Role::Core) {
-    has $regex :param;
+    field $regex :param;
 
     method _validate ($value, $name) {
         return if !defined $value || ref $value;
@@ -209,7 +209,7 @@ class Object::Types::Concrete::HashRef
   :does(Object::Types::Role::Elements)
 {
     # restricted hashes only allow the keys declared in the types
-    has $restricted : param = 0;
+    field $restricted : param = 0;
 
     method _quote_key($key) {
         my $quoted_key = $key;
@@ -313,7 +313,7 @@ class Object::Types::Concrete::_Coerce :does(Object::Types::Role::Core) {
 
 class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
     require Carp;
-    has $via : param;
+    field $via : param;
 
     BUILD {
         croak("Not a code reference for via") unless 'CODE' eq ref $via;
@@ -325,7 +325,10 @@ class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
         # use the value from the original @_ array to ensure we have an alias
         # to the original variable. This allows the coercion to change the
         # calling data's value
-        $self->_validate( $_[0], $var_name ) && return 1;
+        {
+            no warnings 'experimental::args_array_with_signatures';    # we don't want a warning about @_ right now
+            $self->_validate( $_[0], $var_name ) && return 1;
+        }
         $value //= '<undef>';
         my $type_name = $self->type_name;
         $self->_report_error("Validation for '$var_name' failed for type $type_name with value '$value'");
@@ -334,6 +337,7 @@ class Object::Types::Concrete::Coerce :isa(Object::Types::Concrete::_Coerce) {
     method _validate( $value, $name ) {
         my $success = $self->contains->validate( $value, "$name" );
         if ($success) {
+            no warnings 'experimental::args_array_with_signatures';    # we don't want a warning about @_ right now
             $_[0] = $via->($value);
         }
         return $success;

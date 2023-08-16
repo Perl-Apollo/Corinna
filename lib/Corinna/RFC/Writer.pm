@@ -10,10 +10,10 @@ class Corinna::RFC::Writer :does(Corinna::RFC::Role::File) {
     use Template::Tiny::Strict;
 
     # TODO Replace `has` with `field`
-    has $FILE    :param(file);
-    has $VERBOSE :param(verbose) = 0;
-    has $CONFIG;
-    has @TOC;
+    field $FILE    :param(file);
+    field $VERBOSE :param(verbose) = 0;
+    field $CONFIG;
+    field @TOC;
 
     ADJUST {
         unless ( -e $FILE ) {
