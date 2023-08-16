@@ -64,8 +64,8 @@ field attributes are used to expose them
 
 ```perl
 role SomeRole {
-    has $name :reader; # ->name is provided
-    has $age;          # private to this role
+    field $name :reader; # ->name is provided
+    field $age;          # private to this role
 }
 ```
 
@@ -99,7 +99,7 @@ And to use that in your class:
 
 ```perl
 class Person :does(Role::UUID) {
-    has $name :param :reader;
+    field $name :param :reader;
 }
 ```
 
