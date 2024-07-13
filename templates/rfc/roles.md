@@ -137,6 +137,12 @@ called before parent `DESTRUCT` phasers.
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
 
+# Conflicts
+
+Consuming multiple roles may result in method name conflicts. This is a fatal
+error. If a class consumes a role with a method name that conflicts with a
+role method, the class method wins, but a warning is issued.
+
 # Questions
 
 ## Changing access level of role methods?
