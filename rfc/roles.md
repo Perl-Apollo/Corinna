@@ -145,8 +145,13 @@ called before parent `DESTRUCT` phasers.
 one role is consumed, the order in which its `ADJUST` and `DESTRUCT` phasers
 are called is not guaranteed.
 
-# 8.6 Questions
-## 8.6.1 Changing access level of role methods?
+# 8.6 Conflicts
+Consuming multiple roles may result in method name conflicts. This is a fatal
+error. If a class consumes a role with a method name that conflicts with a
+role method, the class method wins, but a warning is issued.
+
+# 8.7 Questions
+## 8.7.1 Changing access level of role methods?
 No role method marked as `private` should be composed into the consuming class
 or role. However, the consumer may need the behavior, but not want to expose
 it.
